@@ -3,47 +3,61 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using static DLL;
+using static NiceMethods;
 
 public class Orbit : MonoBehaviour
 {
     private Rigidbody2D rig;
-    [SerializeField] private GameObject orbited;
+
+    [SerializeField] private GameObject[] orbiteds;
     public float speedx;
     public float speedy;
+    public bool setRotation;
 
-    // Start is called before the first frame update
+    private int Orbitados;
+    private Vector2 p1;
+    private Vector2[] ps;
+
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         rig.velocity = new Vector2(speedx, speedy);
-        Debug.Log(AppDomain.CurrentDomain.BaseDirectory);
+        Orbitados = orbiteds.Length;
+        p1 = GetComponent<Transform>().position;
+        ps = new Vector2[orbiteds.Length];
+        for (int i = Orbitados - 1; i >= 0; i--)
+        {
+            try { ps[i] = orbiteds[i].transform.position; }
+            catch (UnassignedReferenceException) 
+            {
+                for (int j = i; j < Orbitados - 1; j++)
+                {
+                    ps[j] = ps[j + 1];
+                    orbiteds[j] = orbiteds[j + 1];
+                }
+                Orbitados--;
+            }
+        }
     }
 
-    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q)) InvertSpeed(ref rig);
+        if (Input.GetKey(KeyCode.E)) Stun(ref rig);
+    }
     void FixedUpdate()
     {
-        Vector2 p1 = GetComponent<Transform>().position;
-        Vector2 p2 = orbited.transform.position;
-        rig.AddForce(rig.mass*orbited.GetComponent<Rigidbody2D>().mass*Direction(p1, p2)/
-            Distance(p1.x,p1.y,p2.x,p2.y));
+        p1 = GetComponent<Transform>().position;
+        ps = new Vector2[orbiteds.Length];
+        for (int i = 0; i < Orbitados; i++)
+        {
+            ps[i] = orbiteds[i].transform.position;
+            rig.AddForce(rig.mass * orbiteds[i].GetComponent<Rigidbody2D>().mass * Direction(p1, ps[i]) /
+                DistanceSquared<float>(p1, ps[i]));
+        }
 
-        
+        if(setRotation) rig.rotation = VectorAngle(Direction(p1, ps[0])) + 90;
     }
 
-    Vector2 Direction(Vector2 p1, Vector2 p2)
-    {
-        Vector2 toReturn = new Vector2(p2.x - p1.x, p2.y - p1.y);
-        toReturn.Normalize();
-        return toReturn;
-    }
-
-    t DistanceSquared<t>(Vector2 p1, Vector2 p2)
-    {
-        float result = (p2.x-p1.x)*(p2.x-p1.x)+(p2.y-p1.y)*(p2.y-p1.y);
-        return (t)Convert.ChangeType(result, typeof(t));
-    }
     
-    [DllImport("DLLTeste.dll", CallingConvention = CallingConvention.Cdecl)]
-    public static extern float Distance(float x1, float y1, float x2, float y2);
 }

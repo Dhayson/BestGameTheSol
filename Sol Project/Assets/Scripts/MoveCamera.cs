@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Threading;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using System.Runtime.InteropServices;
-using static DLL;
+using static NiceMethods;
 
 public class MoveCamera : MonoBehaviour
 {
     private Rigidbody2D rig;
-    public float defaultSpeed;
+    private Transform pos;
+    public float Speed;
+    public float AngularSpeed;
+    private int[] buttons;
+
+    enum Directions {horizontal, vertical, clock};
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        pos = GetComponent<Transform>();
+        buttons = new int[Enum.GetValues(typeof(Directions)).Length];
     }
 
     // Update is called once per frame
@@ -23,5 +27,7 @@ public class MoveCamera : MonoBehaviour
             Application.Quit();
             UnityEditor.EditorApplication.isPlaying = false;
         }
+        
+        rig.angularVelocity = AngularSpeed * buttons[(int)Directions.clock];
     }
 }
