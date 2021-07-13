@@ -10,9 +10,11 @@ public class Orbit : MonoBehaviour
     private Rigidbody2D rig;
 
     [SerializeField] private GameObject[] orbiteds;
+    [SerializeField] private LayerMask Gravity;
     public float speedx;
     public float speedy;
     public bool setRotation;
+    public Collider2D Orbiting;
 
     private int Orbitados;
     private Vector2 p1;
@@ -56,7 +58,13 @@ public class Orbit : MonoBehaviour
                 DistanceSquared<float>(p1, ps[i]));
         }
 
-        if(setRotation) rig.rotation = VectorAngle(Direction(p1, ps[0])) + 90;
+        Orbiting = null;
+        Orbiting = Physics2D.OverlapCircle(GetComponent<Transform>().position, 0.5f, Gravity);
+        if (setRotation && !(Orbiting is null))
+        {
+            Orbiting.TryGetComponent(out Transform OrbitP);
+            rig.rotation = VectorAngle(Direction(p1, OrbitP.position)) + 90;
+        }
     }
 
     

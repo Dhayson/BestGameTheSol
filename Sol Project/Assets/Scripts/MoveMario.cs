@@ -16,11 +16,13 @@ public class MoveMario : MonoBehaviour
 
     enum Directions { right, left, vertical, clock };
     private int[] buttons;
-    Rigidbody2D rig;
+    private Rigidbody2D rig;
+    private Orbit orbit;
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        orbit = GetComponent<Orbit>();
         buttons = new int[Enum.GetValues(typeof(Directions)).Length];
     }
 
@@ -33,19 +35,27 @@ public class MoveMario : MonoBehaviour
 
         buttons[(int)Directions.clock] = (Input.GetKey(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
 
-        if (UnRotation(rig.velocity, rig.rotation).x <= speed)
+        if (!(orbit.Orbiting is null))
         {
-            rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.right], 0).normalized * speed, rig.rotation));
+            if (UnRotation(rig.velocity, rig.rotation).x <= speed)
+            {
+                rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.right], 0).normalized * speed, rig.rotation));
+            }
+            if (UnRotation(rig.velocity, rig.rotation).x >= -speed)
+            {
+                rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0).normalized * speed, rig.rotation));
+            }
         }
-        if (UnRotation(rig.velocity, rig.rotation).x >= -speed)
-        {
-            rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0).normalized * speed, rig.rotation));
+        else 
+        { 
+            //TODO:
+            //animation of space drifiting
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD)
         {
             rig.AddForce(Rotation(new Vector2(0, jump),rig.rotation));
-            jumpCD = false;
+            jumpCD = false; count = 0;
         }
     }
 
