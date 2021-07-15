@@ -7,16 +7,20 @@ using static UnityEngine.Mathf;
 
 static public class NiceMethods
 {
-    static public Vector2 Rotation(Vector2 v, float angle)
+    static public unsafe Vector2 Rotation(Vector2 v, float angle)
     {
-        angle = PI * angle / 180;
-        return new Vector2(v.x * Cos(angle) - v.y * Sin(angle), v.x * Sin(angle) + v.y * Cos(angle));
+        float* values = DLL.Rotation(v.x, v.y, angle);
+        Vector2 toReturn =  new Vector2(*values, *(values + 1));
+        DLL.DeleteArray(values);
+        return toReturn;
     }
 
-    static public Vector2 UnRotation(Vector2 v, float angle)
+    static public unsafe Vector2 UnRotation(Vector2 v, float angle)
     {
-        angle = PI * angle / 180;
-        return new Vector2(v.x * Cos(angle) + v.y * Sin(angle), -v.x * Sin(angle) + v.y * Cos(angle));
+        float* values = DLL.UnRotation(v.x, v.y, angle);
+        Vector2 toReturn = new Vector2(*values, *(values + 1));
+        DLL.DeleteArray(values);
+        return toReturn;
     }
 
     static public Vector2 Direction(Vector2 p1, Vector2 p2)
@@ -34,9 +38,6 @@ static public class NiceMethods
         var result = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
         return (t)Convert.ChangeType(result, typeof(t));
     }
-
-    [DllImport(DLL.DLLPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern float Distance(float x1, float y1, float x2, float y2);
 
     static public void InvertSpeed(ref Rigidbody2D r)
     {

@@ -14,7 +14,7 @@ public class Orbit : MonoBehaviour
     public float speedx;
     public float speedy;
     public bool setRotation;
-    public Collider2D Orbiting;
+    public Collider2D[] Orbitings { get; private set; }
 
     private int Orbitados;
     private Vector2 p1;
@@ -58,11 +58,10 @@ public class Orbit : MonoBehaviour
                 DistanceSquared<float>(p1, ps[i]));
         }
 
-        Orbiting = null;
-        Orbiting = Physics2D.OverlapCircle(GetComponent<Transform>().position, 0.5f, Gravity);
-        if (setRotation && !(Orbiting is null))
+        Orbitings = Physics2D.OverlapCircleAll(GetComponent<Transform>().position, 0.5f, Gravity);
+        if (setRotation && Orbitings.Length == 1)
         {
-            Orbiting.TryGetComponent(out Transform OrbitP);
+            Orbitings[0].TryGetComponent(out Transform OrbitP);
             rig.rotation = VectorAngle(Direction(p1, OrbitP.position)) + 90;
         }
     }
