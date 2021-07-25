@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using static NiceMethods;
 
-public class MoveCamera : MonoBehaviour
+public class CameraScript : MonoBehaviour
 {
     private Rigidbody2D rig;
     private bool hasRig = false;
