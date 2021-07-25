@@ -5,6 +5,7 @@ using static NiceMethods;
 public class MoveCamera : MonoBehaviour
 {
     private Rigidbody2D rig;
+    private bool hasRig = false;
     private Transform pos;
     public float Speed;
     public float AngularSpeed;
@@ -14,7 +15,10 @@ public class MoveCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rig = GetComponent<Rigidbody2D>();
+        if(TryGetComponent(out rig))
+        {
+            hasRig = true;
+        }
         pos = GetComponent<Transform>();
         buttons = new int[Enum.GetValues(typeof(Directions)).Length];
     }
@@ -27,7 +31,10 @@ public class MoveCamera : MonoBehaviour
             Application.Quit();
             UnityEditor.EditorApplication.isPlaying = false;
         }
-        
-        rig.angularVelocity = AngularSpeed * buttons[(int)Directions.clock];
+
+        if (hasRig)
+        {
+            rig.angularVelocity = AngularSpeed * buttons[(int)Directions.clock];
+        }
     }
 }

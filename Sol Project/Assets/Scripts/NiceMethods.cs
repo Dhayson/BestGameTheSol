@@ -11,7 +11,7 @@ static public class NiceMethods
     {
         float* values = DLL.Rotation(v.x, v.y, angle);
         Vector2 toReturn =  new Vector2(*values, *(values + 1));
-        DLL.DeleteArray(values);
+        DLL.DeleteArrayF(ref values);
         return toReturn;
     }
 
@@ -19,7 +19,7 @@ static public class NiceMethods
     {
         float* values = DLL.UnRotation(v.x, v.y, angle);
         Vector2 toReturn = new Vector2(*values, *(values + 1));
-        DLL.DeleteArray(values);
+        DLL.DeleteArrayF(ref values);
         return toReturn;
     }
 

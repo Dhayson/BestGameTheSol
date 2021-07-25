@@ -27,7 +27,12 @@ extern "C"
 		return toReturn;
 	}
 
-	Functions void DeleteArray(float* k)
+	Functions void DeleteArrayF(float*& k)
+	{
+		delete[] k;
+	}
+
+	Functions void DeleteArrayI(int*& k)
 	{
 		delete[] k;
 	}
