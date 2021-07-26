@@ -40,7 +40,7 @@ public class MoveMario : MonoBehaviour
 
         buttons[(int)Directions.clock] = (Input.GetKey(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
 
-        Collider2D[] orbitings = orbit.Orbitings;
+        Collider2D[] orbitings = orbit.InGravityField;
         if (orbitings.Length == 1)
         {
             Vector2 princOrbitVelocity = orbitings[0].GetComponentInParent<Rigidbody2D>().velocity;
