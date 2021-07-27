@@ -9,9 +9,13 @@ public class MoveMario : MonoBehaviour
 {
     public Sprite flying;
     public Sprite normal;
+
     private bool jumpCD;
-    public float speed;
+    public float speedx;
+    public float accelerationx;
+    public float decelerationx;
     public float jumpForce;
+
     public Transform jumpCheck;
     public LayerMask level;
 
@@ -28,6 +32,7 @@ public class MoveMario : MonoBehaviour
         orbit = GetComponent<Orbit>();
         render = GetComponent<SpriteRenderer>();
         buttons = new int[Enum.GetValues(typeof(Directions)).Length];
+        if (decelerationx > 0) decelerationx = -decelerationx;
     }
 
     // Update is called once per frame
@@ -36,27 +41,36 @@ public class MoveMario : MonoBehaviour
         buttons[(int)Directions.right] = Input.GetKey(KeyCode.D) ? 1 : 0;
         buttons[(int)Directions.left] = Input.GetKey(KeyCode.A) ? -1 : 0;
         buttons[(int)Directions.stop] = buttons[(int)Directions.right] + buttons[(int)Directions.left];
-        float jump = Input.GetKeyDown(KeyCode.Space) ? jumpForce : 0;
 
         buttons[(int)Directions.clock] = (Input.GetKey(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
 
+        if (Input.GetKeyDown(KeyCode.Space) && OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD)
+        {
+            rig.AddRelativeForce(new Vector2 (0, jumpForce));
+            jumpCD = false; count = 0;
+        }
+    }
+
+    public byte count = 0;
+    void FixedUpdate()
+    {
         Collider2D[] orbitings = orbit.InGravityField;
         if (orbitings.Length == 1)
         {
             Vector2 princOrbitVelocity = orbitings[0].GetComponentInParent<Rigidbody2D>().velocity;
             if (buttons[(int)Directions.stop] == 0)
             {
-                rig.AddForce(-0.5f*Rotation(new Vector2(UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x, 0), rig.rotation));
+                rig.AddForce(Rotation(new Vector2(UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x, 0), rig.rotation) * decelerationx);
             }
             else
             {
-                if (UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x <= speed)
+                if (UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x <= speedx)
                 {
-                    rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.right], 0) * speed, rig.rotation));
+                    rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.right], 0) * accelerationx, rig.rotation));
                 }
-                if (UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x >= -speed)
+                if (UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x >= -speedx)
                 {
-                    rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0) * speed, rig.rotation));
+                    rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0) * accelerationx, rig.rotation));
                 }
             }
             render.sprite = normal;
@@ -68,21 +82,7 @@ public class MoveMario : MonoBehaviour
             render.sprite = flying;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD)
-        {
-            //rig.AddForce(Rotation(new Vector2(0, jump),rig.rotation));
-            rig.AddRelativeForce(new Vector2 (0, jump));
-            jumpCD = false; count = 0;
-        }
-    }
-
-    int count = 0;
-    void FixedUpdate()
-    {
-        count++;
-        if(count % 3 == 0)
-        {
-            jumpCD = true;
-        }
+        if (jumpCD == false) count++;
+        if (count % 5 == 0) jumpCD = true;
     }
 }
