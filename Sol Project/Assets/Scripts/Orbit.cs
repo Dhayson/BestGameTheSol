@@ -41,12 +41,6 @@ public class Orbit : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q)) InvertSpeed(ref rig);
-        if (Input.GetKey(KeyCode.E)) Stun(ref rig);
-    }
-
     void FixedUpdate()
     {
         pThis = GetComponent<Transform>().position;
