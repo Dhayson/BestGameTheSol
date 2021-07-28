@@ -14,6 +14,7 @@ public class MoveMario : MonoBehaviour
     public float speedx;
     public float accelerationx;
     public float decelerationx;
+    public float passiveDecelerationx;
     public float jumpForce;
 
     public Transform jumpCheck;
@@ -32,7 +33,8 @@ public class MoveMario : MonoBehaviour
         orbit = GetComponent<Orbit>();
         render = GetComponent<SpriteRenderer>();
         buttons = new int[Enum.GetValues(typeof(Directions)).Length];
-        if (decelerationx > 0) decelerationx = -decelerationx;
+        if (decelerationx > 0) decelerationx *= -1;
+        if (passiveDecelerationx > 0) passiveDecelerationx *= -1;
     }
 
     // Update is called once per frame
@@ -66,11 +68,20 @@ public class MoveMario : MonoBehaviour
             {
                 if (UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x <= speedx)
                 {
-                    rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.right], 0) * accelerationx, rig.rotation));
+                    rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.right], 0), rig.rotation) * accelerationx);
                 }
+                else
+                {
+                    rig.AddForce(Rotation(new Vector2(UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
+                }
+
                 if (UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x >= -speedx)
                 {
-                    rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0) * accelerationx, rig.rotation));
+                    rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0), rig.rotation) * accelerationx);
+                }
+                else
+                {
+                    rig.AddForce(Rotation(new Vector2(UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
                 }
             }
             render.sprite = normal;

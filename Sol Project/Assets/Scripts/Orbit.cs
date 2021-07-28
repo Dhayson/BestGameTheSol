@@ -39,6 +39,8 @@ public class Orbit : MonoBehaviour
                 OrbitedsLenght--;
             }
         }
+
+        UpPosition();
     }
 
     void FixedUpdate()
@@ -51,10 +53,14 @@ public class Orbit : MonoBehaviour
             rig.AddForce(rig.mass * orbiteds[i].GetComponent<Rigidbody2D>().mass * Direction(pThis, pOrbits[i]) / DistanceSquared<float>(pThis, pOrbits[i]));
         }
 
+        UpPosition();
+    }
+
+    void UpPosition()
+    {
         InGravityField = Physics2D.OverlapCircleAll(pThis, 0.5f, Gravity);
-        if (setRotation && InGravityField.Length == 1)
+        if (setRotation && InGravityField.Length == 1 && InGravityField[0].TryGetComponent(out Transform OrbitP))
         {
-            InGravityField[0].TryGetComponent(out Transform OrbitP);
             rig.rotation = VectorAngle(Direction(pThis, OrbitP.position)) + 90;
         }
     }
