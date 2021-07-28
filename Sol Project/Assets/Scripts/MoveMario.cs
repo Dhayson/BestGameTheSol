@@ -59,29 +59,29 @@ public class MoveMario : MonoBehaviour
         Collider2D[] orbitings = orbit.InGravityField;
         if (orbitings.Length == 1)
         {
-            Vector2 princOrbitVelocity = orbitings[0].GetComponentInParent<Rigidbody2D>().velocity;
+            Vector2 relativeVelocity = rig.velocity - orbitings[0].GetComponentInParent<Rigidbody2D>().velocity;
             if (buttons[(int)Directions.stop] == 0)
             {
-                rig.AddForce(Rotation(new Vector2(UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x, 0), rig.rotation) * decelerationx);
+                rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * decelerationx);
             }
             else
             {
-                if (UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x <= speedx)
+                if (UnRotation(relativeVelocity, rig.rotation).x <= speedx)
                 {
                     rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.right], 0), rig.rotation) * accelerationx);
                 }
                 else
                 {
-                    rig.AddForce(Rotation(new Vector2(UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
+                    rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
                 }
 
-                if (UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x >= -speedx)
+                if (UnRotation(relativeVelocity, rig.rotation).x >= -speedx)
                 {
                     rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0), rig.rotation) * accelerationx);
                 }
                 else
                 {
-                    rig.AddForce(Rotation(new Vector2(UnRotation(rig.velocity - princOrbitVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
+                    rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
                 }
             }
             render.sprite = normal;
