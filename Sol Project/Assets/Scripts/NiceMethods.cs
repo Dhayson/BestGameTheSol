@@ -33,10 +33,10 @@ static public class NiceMethods
         return Atan2(v.y,v.x)*180/PI;
     }
 
-    static public t DistanceSquared<t>(Vector2 p1, Vector2 p2)
+    static public type DistanceSquared<type>(Vector2 p1, Vector2 p2) where type : struct
     {
-        var result = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
-        return (t)Convert.ChangeType(result, typeof(t));
+        float result = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+        return (type)Convert.ChangeType(result, typeof(type));
     }
 
     static public void InvertSpeed(ref Rigidbody2D r)

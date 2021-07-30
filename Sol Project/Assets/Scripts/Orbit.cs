@@ -11,6 +11,8 @@ public class Orbit : MonoBehaviour
 
     [SerializeField] private GameObject[] orbiteds;
     [SerializeField] private LayerMask Gravity;
+    [SerializeField] private float gravityFactor;
+    public byte gravityType;
     public float speedx;
     public float speedy;
     public bool setRotation;
@@ -41,6 +43,7 @@ public class Orbit : MonoBehaviour
         }
 
         UpPosition();
+        if (gravityFactor == 0) gravityFactor = -Physics2D.gravity.y;
     }
 
     void FixedUpdate()
@@ -50,7 +53,15 @@ public class Orbit : MonoBehaviour
         for (int i = 0; i < OrbitedsLenght; i++)
         {
             pOrbits[i] = orbiteds[i].transform.position;
-            rig.AddForce(rig.mass * orbiteds[i].GetComponent<Rigidbody2D>().mass * Direction(pThis, pOrbits[i]) / DistanceSquared<float>(pThis, pOrbits[i]));
+            switch (gravityType)
+            {
+                default:
+                    rig.AddForce(rig.mass * orbiteds[i].GetComponent<Rigidbody2D>().mass * Direction(pThis, pOrbits[i]) / DistanceSquared<float>(pThis, pOrbits[i]));
+                    break;
+                case 1:
+                    rig.AddForce(gravityFactor * rig.mass * Direction(pThis, pOrbits[i]));
+                    break;
+            }
         }
 
         UpPosition();
@@ -59,8 +70,9 @@ public class Orbit : MonoBehaviour
     void UpPosition()
     {
         InGravityField = Physics2D.OverlapCircleAll(pThis, 0.5f, Gravity);
-        if (setRotation && InGravityField.Length == 1 && InGravityField[0].TryGetComponent(out Transform OrbitP))
+        if (setRotation && InGravityField.Length == 1)
         {
+            Transform OrbitP = InGravityField[0].GetComponent<Transform>();
             rig.rotation = VectorAngle(Direction(pThis, OrbitP.position)) + 90;
         }
     }

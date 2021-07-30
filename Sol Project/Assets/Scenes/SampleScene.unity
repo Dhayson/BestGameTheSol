@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 109525412}
   - component: {fileID: 109525411}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Blue Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,13 +198,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109525410}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.54, y: 5.52, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.3956942, w: 0.91838235}
+  m_LocalPosition: {x: -0.29826, y: 0.24118, z: -1}
+  m_LocalScale: {x: 0.29797, y: 0.24148273, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 1428073163}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 46.619}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +466,7 @@ MonoBehaviour:
   speedx: 5
   accelerationx: 15
   decelerationx: 3
-  passiveDecelerationx: 0.2
+  passiveDecelerationx: 0.3
   jumpForce: 500
   jumpCheck: {fileID: 787266730}
   level:
@@ -490,6 +490,8 @@ MonoBehaviour:
   Gravity:
     serializedVersion: 2
     m_Bits: 64
+  gravityFactor: 25
+  gravityType: 1
   speedx: 0
   speedy: 0
   setRotation: 1
@@ -506,6 +508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityModule: 0
+  relativeVelocityModule: 0
 --- !u!1 &1428073158 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4576615822597377305, guid: 4655a7771a7b47d499b1c3fa6244168a, type: 3}
@@ -516,6 +519,40 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4576615822597377306, guid: 4655a7771a7b47d499b1c3fa6244168a, type: 3}
   m_PrefabInstance: {fileID: 1759251431}
   m_PrefabAsset: {fileID: 0}
+--- !u!68 &1428073164
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428073158}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: c5ea135efb9c480498bcded11129f94f, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.5, y: 0}
+  - {x: -0.46072307, y: 0.18455704}
+  - {x: -0.31324667, y: 0.051948853}
+  - {x: -0.1099277, y: 0.26454875}
+  - {x: -0.2502414, y: 0.42101097}
+  - {x: -0.050078902, y: 0.5006367}
+  - {x: 0.2686957, y: 0.4241976}
+  - {x: 0.46407342, y: 0.18481798}
+  - {x: 0.47951248, y: -0.1193301}
+  - {x: 0.31148228, y: -0.38837397}
+  - {x: 0.018842373, y: -0.49490207}
+  - {x: -0.24858674, y: -0.4273974}
+  - {x: -0.44429293, y: -0.21370819}
+  - {x: -0.49047336, y: -0.013989747}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &1728304831
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,6 +656,8 @@ MonoBehaviour:
   Gravity:
     serializedVersion: 2
     m_Bits: 64
+  gravityFactor: 0
+  gravityType: 0
   speedx: 7
   speedy: 0
   setRotation: 1
@@ -650,7 +689,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728304831}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -672,6 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityModule: 0
+  relativeVelocityModule: 0
 --- !u!1001 &1759251431
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -689,7 +729,7 @@ PrefabInstance:
       objectReference: {fileID: 6200000, guid: c5ea135efb9c480498bcded11129f94f, type: 2}
     - target: {fileID: 2438540192405616864, guid: 4655a7771a7b47d499b1c3fa6244168a, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4576615822597377304, guid: 4655a7771a7b47d499b1c3fa6244168a, type: 3}
       propertyPath: speed
@@ -697,7 +737,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4576615822597377304, guid: 4655a7771a7b47d499b1c3fa6244168a, type: 3}
       propertyPath: speedx
-      value: 0
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4576615822597377304, guid: 4655a7771a7b47d499b1c3fa6244168a, type: 3}
       propertyPath: speedy
@@ -761,7 +801,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4576615822597377306, guid: 4655a7771a7b47d499b1c3fa6244168a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4576615822597377306, guid: 4655a7771a7b47d499b1c3fa6244168a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -817,7 +857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4576615822597377309, guid: 4655a7771a7b47d499b1c3fa6244168a, type: 3}
       propertyPath: m_Constraints
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4655a7771a7b47d499b1c3fa6244168a, type: 3}
