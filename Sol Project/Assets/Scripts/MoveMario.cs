@@ -33,6 +33,7 @@ public class MoveMario : MonoBehaviour
         orbit = GetComponent<Orbit>();
         render = GetComponent<SpriteRenderer>();
         buttons = new int[Enum.GetValues(typeof(Directions)).Length];
+
         if (decelerationx > 0) decelerationx *= -1;
         if (passiveDecelerationx > 0) passiveDecelerationx *= -1;
     }
@@ -60,13 +61,14 @@ public class MoveMario : MonoBehaviour
         if (orbitings.Length == 1)
         {
             Vector2 relativeVelocity = rig.velocity - orbitings[0].GetComponentInParent<Rigidbody2D>().velocity;
+            float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
             if (buttons[(int)Directions.stop] == 0)
             {
                 rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * decelerationx);
             }
             else
             {
-                if (UnRotation(relativeVelocity, rig.rotation).x <= speedx)
+                if (relativeVelRotX <= speedx)
                 {
                     rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.right], 0), rig.rotation) * accelerationx);
                 }
@@ -75,7 +77,7 @@ public class MoveMario : MonoBehaviour
                     rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
                 }
 
-                if (UnRotation(relativeVelocity, rig.rotation).x >= -speedx)
+                if (relativeVelRotX >= -speedx)
                 {
                     rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0), rig.rotation) * accelerationx);
                 }
