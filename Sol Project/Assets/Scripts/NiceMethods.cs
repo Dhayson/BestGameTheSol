@@ -23,11 +23,19 @@ static public class NiceMethods
         return toReturn;
     }
 
+    /// <summary>
+    /// Returns the Vector2 that represents the direction between two points in 2D space
+    /// 
+    /// The difference between two Vector2, normalized
+    /// </summary>
     static public Vector2 Direction(Vector2 p1, Vector2 p2)
     {
-        return new Vector2(p2.x - p1.x, p2.y - p1.y).normalized;
+        return (p2 - p1).normalized;
     }
 
+    /// <summary>
+    /// Returns the antitangent of a Vector2 in degrees
+    /// </summary>
     static public float VectorAngle(Vector2 v)
     {
         return Atan2(v.y,v.x)*180/PI;
@@ -47,5 +55,14 @@ static public class NiceMethods
     static public void Stun(ref Rigidbody2D r)
     {
         r.velocity = new Vector2(0, 0);
+    }
+
+    /// <summary>
+    /// Check if a Layer is contained in a LayerMask
+    /// </summary>
+    static public bool CompareLayer(int layer, LayerMask layermask)
+    {
+        //https://answers.unity.com/questions/50279/check-if-layer-is-in-layermask.html
+        return layermask == (layermask | (1 << layer));
     }
 }

@@ -7,6 +7,7 @@ public class MoveEnemy : MonoBehaviour
 {
     private Rigidbody2D rig;
     private Orbit orbit;
+    private Collider2D col;
 
     private bool jumpCD;
     public float speedx;
@@ -17,11 +18,13 @@ public class MoveEnemy : MonoBehaviour
 
     public Transform jumpCheck;
     public LayerMask level;
+    public LayerMask player;
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         orbit = GetComponent<Orbit>();
+        col = GetComponent<Collider2D>();
 
         if (decelerationx > 0) decelerationx *= -1;
         if (passiveDecelerationx > 0) passiveDecelerationx *= -1;
@@ -48,6 +51,17 @@ public class MoveEnemy : MonoBehaviour
             if(Mathf.Abs(relativeVelRotX) > Mathf.Abs(speedx))
             {
                 rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
+            }
+        }
+
+        List<Collider2D> allContacts = new List<Collider2D>();
+        Physics2D.OverlapCollider(col, new ContactFilter2D().NoFilter(), allContacts);
+        foreach(Collider2D c in allContacts)
+        {
+            GameObject playerG = c.gameObject;
+            if (CompareLayer(playerG.layer, player) && playerG.TryGetComponent(out Stats stats))
+            {
+                stats.Damage(10);
             }
         }
     }

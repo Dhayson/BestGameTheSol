@@ -8,6 +8,7 @@ using static NiceMethods;
 public class Orbit : MonoBehaviour
 {
     private Rigidbody2D rig;
+    private Transform transf;
 
     [SerializeField] private GameObject[] orbiteds;
     [SerializeField] private LayerMask Gravity;
@@ -24,6 +25,7 @@ public class Orbit : MonoBehaviour
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        transf = GetComponent<Transform>();
         rig.velocity = new Vector2(speedx, speedy);
         OrbitedsLenght = orbiteds.Length;
         pThis = GetComponent<Transform>().position;
@@ -48,7 +50,7 @@ public class Orbit : MonoBehaviour
 
     void FixedUpdate()
     {
-        pThis = GetComponent<Transform>().position;
+        pThis = transf.position;
         pOrbits = new Vector2[orbiteds.Length];
         for (int i = 0; i < OrbitedsLenght; i++)
         {
@@ -56,7 +58,8 @@ public class Orbit : MonoBehaviour
             switch (gravityType)
             {
                 default:
-                    rig.AddForce(rig.mass * orbiteds[i].GetComponent<Rigidbody2D>().mass * Direction(pThis, pOrbits[i]) / DistanceSquared<float>(pThis, pOrbits[i]));
+                    rig.AddForce(rig.mass * orbiteds[i].GetComponent<Rigidbody2D>().mass * Direction(pThis, pOrbits[i]) 
+                        / DistanceSquared<float>(pThis, pOrbits[i]));
                     break;
                 case 1:
                     rig.AddForce(gravityFactor * rig.mass * Direction(pThis, pOrbits[i]));
