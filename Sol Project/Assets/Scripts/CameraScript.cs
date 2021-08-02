@@ -32,9 +32,14 @@ public class CameraScript : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         }
 
+        buttons[(int)Directions.clock] =
+            (Input.GetKey(KeyCode.LeftArrow) ? -1 : 0) +
+            (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
+
         if (hasRig)
         {
             rig.angularVelocity = AngularSpeed * buttons[(int)Directions.clock];
+            pos.localPosition = new Vector3(0, 0, pos.position.z);
         }
     }
 }

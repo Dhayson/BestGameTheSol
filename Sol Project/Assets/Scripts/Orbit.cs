@@ -34,7 +34,7 @@ public class Orbit : MonoBehaviour
         for (int i = OrbitedsLenght - 1; i >= 0; i--)
         {
             try { pOrbits[i] = orbiteds[i].transform.position; }
-            catch (UnassignedReferenceException) 
+            catch (Exception e) when (e is UnassignedReferenceException || e is NullReferenceException)
             {
                 for (int j = i; j < OrbitedsLenght - 1; j++)
                 {
