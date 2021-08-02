@@ -54,15 +54,6 @@ public class MoveEnemy : MonoBehaviour
             }
         }
 
-        List<Collider2D> allContacts = new List<Collider2D>();
-        Physics2D.OverlapCollider(col, new ContactFilter2D().NoFilter(), allContacts);
-        foreach(Collider2D c in allContacts)
-        {
-            GameObject playerG = c.gameObject;
-            if (CompareLayer(playerG.layer, player) && playerG.TryGetComponent(out Stats stats))
-            {
-                stats.Damage(10);
-            }
-        }
+        DamageOnContact(col, player, 10);
     }
 }

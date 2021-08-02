@@ -65,4 +65,18 @@ static public class NiceMethods
         //https://answers.unity.com/questions/50279/check-if-layer-is-in-layermask.html
         return layermask == (layermask | (1 << layer));
     }
+
+    static public void DamageOnContact(Collider2D col, LayerMask layer, int damage)
+    {
+        List<Collider2D> allContacts = new List<Collider2D>();
+        Physics2D.OverlapCollider(col, new ContactFilter2D().NoFilter(), allContacts);
+        foreach (Collider2D c in allContacts)
+        {
+            GameObject playerG = c.gameObject;
+            if (CompareLayer(playerG.layer, layer) && playerG.TryGetComponent(out Stats stats))
+            {
+                stats.Damage(damage);
+            }
+        }
+    }
 }
