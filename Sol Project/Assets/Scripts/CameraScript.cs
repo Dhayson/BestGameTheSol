@@ -39,7 +39,7 @@ public class CameraScript : MonoBehaviour
         if (hasRig)
         {
             rig.angularVelocity = AngularSpeed * buttons[(int)Directions.clock];
-            pos.localPosition = new Vector3(0, 0, pos.position.z);
+            pos.localPosition = new Vector3(0, 0, pos.localPosition.z);
         }
     }
 }
