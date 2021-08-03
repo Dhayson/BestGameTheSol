@@ -280,9 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22f11ee184c5e848a5497cae72751d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbiteds:
-  - {fileID: 0}
-  - {fileID: 0}
+  orbiteds: []
   Gravity:
     serializedVersion: 2
     m_Bits: 64

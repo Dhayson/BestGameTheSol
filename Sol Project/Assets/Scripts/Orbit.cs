@@ -15,6 +15,7 @@ public class Orbit : MonoBehaviour
     [SerializeField] private LayerMask Gravity;
     [SerializeField] private float gravityFactor;
     public byte gravityType;
+    [SerializeField] public byte gravityTypeStart { get; private set; }
     public float speedx;
     public float speedy;
     public bool setRotation;
@@ -25,11 +26,12 @@ public class Orbit : MonoBehaviour
 
     void Start()
     {
+        gravityTypeStart = gravityType;
         rig = GetComponent<Rigidbody2D>();
         transf = GetComponent<Transform>();
         rig.velocity = new Vector2(speedx, speedy);
         OrbitedsLenght = orbiteds.Length;
-        pThis = GetComponent<Transform>().position;
+        pThis = transf.position;
         pOrbits = new Vector2[orbiteds.Length];
         for (int i = OrbitedsLenght - 1; i >= 0; i--)
         {
@@ -62,14 +64,17 @@ public class Orbit : MonoBehaviour
             {
                 default:
                     GravityFormula0(ref rig, orbiteds[i].GetComponent<Rigidbody2D>(), pThis, pOrbits[i]);
+                    UpPosition();
                     break;
                 case 1:
                     GravityFormula1(ref rig, orbiteds[i], pThis, pOrbits[i]);
+                    UpPosition();
+                    break;
+                case 2:
+                    GravityFormula2(ref rig, orbiteds[i]);
                     break;
             }
         }
-
-        UpPosition();
     }
 
     void UpPosition()
@@ -106,5 +111,21 @@ public class Orbit : MonoBehaviour
     void GravityFormula1(ref Rigidbody2D rig, GameObject target, Vector2 selfPos, Vector2 targetPos)
     {
         GravityFormula1(ref rig, target, selfPos, targetPos, gravityFactor);
+    }
+
+    void GravityFormula2(ref Rigidbody2D rig, GameObject target, float gravFactor)
+    {
+        try
+        {
+            ChangeGravityType Rule = target.GetComponentInChildren<ChangeGravityType>();
+            rig.AddForce(gravFactor * Rule.direction);
+            rig.rotation = Rule.rotation;
+        }
+        catch (NullReferenceException) { }
+    }
+
+    void GravityFormula2(ref Rigidbody2D rig, GameObject target)
+    {
+        GravityFormula2(ref rig, target, gravityFactor);
     }
 }

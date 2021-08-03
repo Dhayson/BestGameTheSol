@@ -278,6 +278,7 @@ MonoBehaviour:
     m_Bits: 64
   gravityFactor: 0
   gravityType: 0
+  gravityTypeStart: 0
   speedx: 0
   speedy: 0
   setRotation: 0
