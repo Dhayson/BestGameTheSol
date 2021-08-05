@@ -52,6 +52,8 @@ public class MoveMario : MonoBehaviour
             rig.AddRelativeForce(new Vector2 (0, jumpForce));
             jumpCD = false; count = 0;
         }
+
+        if (Input.GetKeyDown(KeyCode.E)) LogGravity();
     }
 
     public byte count = 0;
@@ -97,5 +99,13 @@ public class MoveMario : MonoBehaviour
 
         if (jumpCD == false) count++;
         if (count % 5 == 0) jumpCD = true;
+    }
+
+    void LogGravity()
+    {
+        foreach(var c in orbit.InGravityField)
+        {
+            Debug.Log(c);
+        }
     }
 }

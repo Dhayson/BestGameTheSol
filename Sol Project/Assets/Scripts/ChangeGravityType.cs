@@ -12,20 +12,20 @@ public class ChangeGravityType : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject Player = collision.gameObject;
-        if (CompareLayer(Player.layer, player))
+        if (CompareLayer(Player.layer, player) && Player.TryGetComponent(out Orbit playerOrb) && playerOrb.AllowGravityChange)
         {
-            Orbit playerOrb = collision.gameObject.GetComponent<Orbit>();
-            playerOrb.gravityType = 2;
+            /*playerOrb.gravityType = 2;*/
+            playerOrb.IntoColliderAlert(true);
         }
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
         GameObject Player = collision.gameObject;
-        if (CompareLayer(Player.layer, player))
+        if (CompareLayer(Player.layer, player) && Player.TryGetComponent(out Orbit playerOrb) && playerOrb.AllowGravityChange)
         {
-            Orbit playerOrb = collision.gameObject.GetComponent<Orbit>();
-            playerOrb.gravityType = playerOrb.gravityTypeStart;
+            /*playerOrb.gravityType = playerOrb.GravityTypeStart;*/
+            playerOrb.IntoColliderAlert(false);
         }
     }
 }
