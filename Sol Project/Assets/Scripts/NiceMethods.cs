@@ -79,4 +79,18 @@ static public class NiceMethods
             }
         }
     }
+
+    static public bool TryGetComponentInChildren<t>(this GameObject g, out t c) where t : Component
+    {
+        c = g.GetComponentInChildren<t>();
+        if (c is null) return false;
+        return true;
+    }
+
+    static public bool TryGetComponentInParent<t>(this GameObject g, out t c) where t : Component
+    {
+        c = g.GetComponentInParent<t>();
+        if (c is null) return false;
+        return true;
+    }
 }
