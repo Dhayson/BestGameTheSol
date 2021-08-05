@@ -12,7 +12,7 @@ public class BuffJump : MonoBehaviour
         GameObject Player = collision.gameObject;
         if(CompareLayer(Player.layer,player))
         {
-            Player.GetComponent<MoveMario>().jumpForce *= Multiplier;
+            Player.GetComponent<MovePlayer>().jumpForce *= Multiplier;
         }
     }
 
@@ -21,7 +21,7 @@ public class BuffJump : MonoBehaviour
         GameObject Player = collision.gameObject;
         if (CompareLayer(Player.layer, player))
         {
-            Player.GetComponent<MoveMario>().jumpForce /= Multiplier;
+            Player.GetComponent<MovePlayer>().jumpForce /= Multiplier;
         }
     }
 }

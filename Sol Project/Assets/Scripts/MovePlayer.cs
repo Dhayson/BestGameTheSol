@@ -5,7 +5,7 @@ using UnityEngine;
 using static UnityEngine.Physics2D;
 using static NiceMethods;
 
-public class MoveMario : MonoBehaviour
+public class MovePlayer : MonoBehaviour
 {
     public Sprite flying;
     public Sprite normal;
