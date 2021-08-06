@@ -285,10 +285,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   gravityFactor: 25
-  gravityType: 1
+  gravityTypeSet: 1
+  seeGravityType: 0
   speedx: 0
   speedy: 0
   setRotation: 1
+  allowGravityChangeSet: 1
 --- !u!114 &1139965258396255873
 MonoBehaviour:
   m_ObjectHideFlags: 0

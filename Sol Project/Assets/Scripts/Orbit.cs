@@ -15,24 +15,27 @@ public class Orbit : MonoBehaviour
     [SerializeField] private LayerMask Gravity;
     [SerializeField] private float gravityFactor;
 
-    [SerializeField] private byte gravityType;
-    private byte gravityTypeStart;
+    public byte GravityType { get; private set; }
+    public byte GravityTypeStart { get; private set; }
+    [SerializeField] private byte gravityTypeSet, seeGravityType;
 
     public float speedx;
     public float speedy;
     public bool setRotation;
+
     public Collider2D[] InGravityField { get; private set; }
 
     private int OrbitedsLenght;
     private Vector2[] pOrbits;
 
-    [SerializeField] private bool allowGravityChangeStart;
+    [SerializeField] private bool allowGravityChangeSet;
     public bool AllowGravityChange {get; private set;}
 
     void Start()
     {
-        gravityTypeStart = gravityType;
-        AllowGravityChange = allowGravityChangeStart;
+        GravityType = gravityTypeSet;
+        GravityTypeStart = GravityType;
+        AllowGravityChange = allowGravityChangeSet;
 
         rig = GetComponent<Rigidbody2D>();
         transf = GetComponent<Transform>();
@@ -71,7 +74,7 @@ public class Orbit : MonoBehaviour
         for (int i = 0; i < OrbitedsLenght; i++)
         {
             pOrbits[i] = orbiteds[i].transform.position;
-            switch (gravityType)
+            switch (GravityType)
             {
                 default:
                     GravityFormula0(ref rig, orbiteds[i].GetComponent<Rigidbody2D>(), pThis, pOrbits[i]);
@@ -82,10 +85,12 @@ public class Orbit : MonoBehaviour
                     UpPosition();
                     break;
                 case 2:
-                    GravityFormula2(ref rig, orbiteds[i]);
+                    if(GravityFormula2(ref rig, orbiteds[i])) i = 131072; //just a very high int to break out the loop
                     break;
             }
         }
+
+        seeGravityType = GravityType;
     }
 
     void UpPosition()
@@ -124,40 +129,36 @@ public class Orbit : MonoBehaviour
         GravityFormula1(ref rig, target, selfPos, targetPos, gravityFactor);
     }
 
-    void GravityFormula2(ref Rigidbody2D rig, GameObject target, float gravFactor)
+    bool GravityFormula2(ref Rigidbody2D rig, GameObject target, float gravFactor)
     {
         Collider2D[] cols = target.GetComponentsInChildren<Collider2D>(false);
         if (cols.Intersect(InGravityField).Any() && target.TryGetComponentInChildren(out ChangeGravityType Rule))
         {
             rig.AddForce(gravFactor * Rule.direction);
             rig.rotation = Rule.rotation;
+            return true;
         }
+        return false;
     }
 
-    void GravityFormula2(ref Rigidbody2D rig, GameObject target)
+    bool GravityFormula2(ref Rigidbody2D rig, GameObject target)
     {
-        GravityFormula2(ref rig, target, gravityFactor);
+        return GravityFormula2(ref rig, target, gravityFactor);
     }
 
-    //prototype version
-    public void IntoColliderAlert(bool into, byte gravType = 2)
+    //prototype version 2
+    public void IntoCollider(byte gravType)
     {
-        if(into)
+        if (AllowGravityChange) GravityType = gravType;
+    }
+
+    public void OutCollider()
+    {
+        foreach (Collider2D g in InGravityField)
         {
-            gravityType = gravType;
-            return;
+            if (g.gameObject.TryGetComponent<ChangeGravityType>(out _)) return;
         }
-
-        foreach(Collider2D g in InGravityField)
-        {
-            if (g.gameObject.TryGetComponent<ChangeGravityType>(out _))
-            {
-                Debug.Log(g);
-                return;
-            }
-        }
-
-        gravityType = gravityTypeStart;
-
+        //reset to default if there aren't any modifiers
+        GravityType = GravityTypeStart;
     }
 }

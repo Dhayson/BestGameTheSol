@@ -60,7 +60,7 @@ public class MovePlayer : MonoBehaviour
     void FixedUpdate()
     {
         Collider2D[] orbitings = orbit.InGravityField;
-        if (orbitings.Length == 1)
+        if (orbitings.Length == 1 || orbit.GravityType == 2)
         {
             Vector2 relativeVelocity = rig.velocity - orbitings[0].GetComponentInParent<Rigidbody2D>().velocity;
             float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
