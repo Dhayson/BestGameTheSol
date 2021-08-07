@@ -267,7 +267,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7178208868649051502}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c22f11ee184c5e848a5497cae72751d7, type: 3}
   m_Name: 
@@ -277,11 +277,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   gravityFactor: 0
-  gravityType: 0
-  gravityTypeStart: 0
-  speedx: 0
-  speedy: 0
+  gravityTypeSet: 0
+  seeGravityType: 0
   setRotation: 0
+  allowGravityChangeSet: 0
 --- !u!50 &7178208868649051498
 Rigidbody2D:
   serializedVersion: 4
@@ -290,7 +289,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7178208868649051502}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
