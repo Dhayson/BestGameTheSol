@@ -56,7 +56,7 @@ public class MovePlayer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E)) LogGravity();
     }
 
-    public byte count = 0;
+    [NonSerialized] public byte count = 0;
     void FixedUpdate()
     {
         Collider2D[] orbitings = orbit.InGravityField;

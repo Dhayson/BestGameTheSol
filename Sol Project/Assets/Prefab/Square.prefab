@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 4576615822597377304}
   - component: {fileID: 4576615822597377309}
   - component: {fileID: 2438540192405616864}
-  m_Layer: 0
+  - component: {fileID: 3004273712549208424}
+  m_Layer: 3
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 4576615822597377305}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children:
   - {fileID: 2655144234690194405}
   m_Father: {fileID: 0}
@@ -93,7 +94,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4576615822597377305}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c22f11ee184c5e848a5497cae72751d7, type: 3}
   m_Name: 
@@ -102,9 +103,11 @@ MonoBehaviour:
   Gravity:
     serializedVersion: 2
     m_Bits: 64
-  speedx: 0
-  speedy: 0
+  gravityFactor: 0
+  gravityTypeSet: 0
+  seeGravityType: 0
   setRotation: 0
+  allowGravityChangeSet: 0
 --- !u!50 &4576615822597377309
 Rigidbody2D:
   serializedVersion: 4
@@ -113,7 +116,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4576615822597377305}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -142,6 +145,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &3004273712549208424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4576615822597377305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f20c3fe20b8dc04d96d2c1a176b7b95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedx: 5
+  speedy: 0
 --- !u!1 &6020291117362618261
 GameObject:
   m_ObjectHideFlags: 0
