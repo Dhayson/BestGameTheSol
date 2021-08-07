@@ -1071,7 +1071,7 @@ PrefabInstance:
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: orbits.Array.data[8]
       value: 
-      objectReference: {fileID: 1522749256}
+      objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: orbits.Array.data[9]
       value: 

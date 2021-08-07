@@ -12,7 +12,7 @@ public class Orbit : MonoBehaviour
     private Rigidbody2D rig;
     private Transform transf;
 
-    [SerializeField] private GameObject[] orbits;
+    [SerializeField] private List<GameObject> orbits;
     [SerializeField] private LayerMask Gravity;
     [SerializeField] private float gravityFactor;
 
@@ -39,9 +39,9 @@ public class Orbit : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
         transf = GetComponent<Transform>();
 
-        OrbitedsLenght = orbits.Length;
+        OrbitedsLenght = orbits.Count;
         Vector2 pThis = transf.position;
-        pOrbits = new Vector2[orbits.Length];
+        pOrbits = new Vector2[orbits.Count];
         for (int i = OrbitedsLenght - 1; i >= 0; i--)
         {
             try { pOrbits[i] = orbits[i].transform.position; }
@@ -67,7 +67,7 @@ public class Orbit : MonoBehaviour
     {
         Vector2 pThis = transf.position;
         InGravityField = Physics2D.OverlapCircleAll(pThis, 0.5f, Gravity);
-        pOrbits = new Vector2[orbits.Length];
+        pOrbits = new Vector2[orbits.Count];
         for (int i = 0; i < OrbitedsLenght; i++)
         {
             pOrbits[i] = orbits[i].transform.position;
