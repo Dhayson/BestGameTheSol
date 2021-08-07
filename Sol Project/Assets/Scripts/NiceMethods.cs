@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using static UnityEngine.Mathf;
+using System.Linq;
 
 static public class NiceMethods
 {
@@ -80,15 +81,22 @@ static public class NiceMethods
         }
     }
 
-    static public bool TryGetComponentInChildren<t>(this GameObject g, out t c) where t : Component
+    static public bool TryGetComponentInChildren<t>(this GameObject g, out t c, bool includeInactive = false) where t : Component
     {
-        c = g.GetComponentInChildren<t>();
+        c = g.GetComponentInChildren<t>(includeInactive);
         return !(c is null);
     }
 
-    static public bool TryGetComponentInParent<t>(this GameObject g, out t c) where t : Component
+    static public bool TryGetComponentInParent<t>(this GameObject g, out t c, bool includeInactive = false) where t : Component
     {
-        c = g.GetComponentInParent<t>();
+        c = g.GetComponentInParent<t>(includeInactive);
         return !(c is null);
+    }
+
+    static public void TrimList(ref List<GameObject> list)
+    {
+        list = list.Distinct().ToList();
+        //remove nulls, nones and inactives from the list
+        list = list.Where(x => x != null && x.activeSelf).ToList();
     }
 }

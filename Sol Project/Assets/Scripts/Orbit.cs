@@ -38,23 +38,9 @@ public class Orbit : MonoBehaviour
 
         rig = GetComponent<Rigidbody2D>();
         transf = GetComponent<Transform>();
-
-        OrbitedsLenght = orbits.Count;
         Vector2 pThis = transf.position;
-        pOrbits = new Vector2[orbits.Count];
-        for (int i = OrbitedsLenght - 1; i >= 0; i--)
-        {
-            try { pOrbits[i] = orbits[i].transform.position; }
-            catch (Exception e) when (e is UnassignedReferenceException || e is NullReferenceException)
-            {
-                for (int j = i; j < OrbitedsLenght - 1; j++)
-                {
-                    pOrbits[j] = pOrbits[j + 1];
-                    orbits[j] = orbits[j + 1];
-                }
-                OrbitedsLenght--;
-            }
-        }
+
+        TrimList(ref orbits);
 
         if (gravityFactor == 0) gravityFactor = -Physics2D.gravity.y;
 
@@ -65,6 +51,7 @@ public class Orbit : MonoBehaviour
 
     void FixedUpdate()
     {
+        OrbitedsLenght = orbits.Count;
         Vector2 pThis = transf.position;
         InGravityField = Physics2D.OverlapCircleAll(pThis, 0.5f, Gravity);
         pOrbits = new Vector2[orbits.Count];
