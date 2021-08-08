@@ -93,10 +93,12 @@ static public class NiceMethods
         return !(c is null);
     }
 
+    /// <summary>
+    /// Removes nulls, nones, inactives and duplicates from the list
+    /// </summary>
     static public void TrimList(ref List<GameObject> list)
     {
         list = list.Distinct().ToList();
-        //remove nulls, nones and inactives from the list
         list = list.Where(x => x != null && x.activeSelf).ToList();
     }
 }

@@ -13,6 +13,7 @@ public class Orbit : MonoBehaviour
     private Transform transf;
 
     [SerializeField] private List<GameObject> orbits;
+    [SerializeField] private GameObject sticky;
     [SerializeField] private LayerMask Gravity;
     [SerializeField] private float gravityFactor;
 
@@ -25,10 +26,9 @@ public class Orbit : MonoBehaviour
     public Collider2D[] InGravityField { get; private set; }
 
     private int OrbitedsLenght;
-    private Vector2[] pOrbits;
 
     [SerializeField] private bool allowGravityChangeSet;
-    public bool AllowGravityChange {get; private set;}
+    public bool AllowGravityChange { get; private set; }
 
     void Start()
     {
@@ -54,24 +54,23 @@ public class Orbit : MonoBehaviour
         OrbitedsLenght = orbits.Count;
         Vector2 pThis = transf.position;
         InGravityField = Physics2D.OverlapCircleAll(pThis, 0.5f, Gravity);
-        pOrbits = new Vector2[orbits.Count];
-        for (int i = 0; i < OrbitedsLenght; i++)
+        switch (GravityType)
         {
-            pOrbits[i] = orbits[i].transform.position;
-            switch (GravityType)
-            {
-                default:
-                    GravityFormula0(ref rig, orbits[i].GetComponent<Rigidbody2D>(), pThis, pOrbits[i]);
-                    UpPosition();
-                    break;
-                case 1:
-                    GravityFormula1(ref rig, orbits[i], pThis, pOrbits[i]);
-                    UpPosition();
-                    break;
-                case 2:
-                    if(GravityFormula2(ref rig, orbits[i])) i = 131072; //just a very high int to break out the loop
-                    break;
-            }
+            case 1:
+                GravityFormula1(ref rig, orbits, pThis);
+                UpPosition();
+                break;
+            case 2:
+                GravityFormula2(ref rig, sticky);
+                break;
+            case 0:
+                for (int i = 0; i < OrbitedsLenght; i++)
+                {
+                    Vector2 pOrbit = orbits[i].transform.position;
+                    GravityFormula0(ref rig, orbits[i].GetComponent<Rigidbody2D>(), pThis, pOrbit);
+                }
+                UpPosition();
+                break;
         }
 
         seeGravityType = GravityType;
@@ -97,43 +96,46 @@ public class Orbit : MonoBehaviour
     /// <summary>
     /// Simplified gravity formula. Add a constant acceleration if this object is within others gravity field.
     /// </summary>
-    void GravityFormula1(ref Rigidbody2D selfRig, GameObject target, Vector2 selfPos, Vector2 targetPos, float gravFactor)
+    void GravityFormula1(ref Rigidbody2D selfRig, List<GameObject> targets, Vector2 selfPos, float gravFactor)
     {
-        Collider2D[] cols = target.GetComponentsInChildren<Collider2D>(false);
-        if (cols.Intersect(InGravityField).Any())
+        for (int i = 0; i < targets.Count; i++)
         {
-            selfRig.AddForce(gravFactor * selfRig.mass * Direction(selfPos, targetPos));
+            Vector2 targetPos = targets[i].transform.position;
+            Collider2D[] cols = targets[i].GetComponentsInChildren<Collider2D>(false);
+            if (cols.Intersect(InGravityField).Any())
+            {
+                selfRig.AddForce(gravFactor * selfRig.mass * Direction(selfPos, targetPos));
+            }
         }
     }
     /// <summary>
     /// Simplified gravity formula. Add a constant acceleration if this object is within others gravity field.
     /// </summary>
-    void GravityFormula1(ref Rigidbody2D rig, GameObject target, Vector2 selfPos, Vector2 targetPos)
+    void GravityFormula1(ref Rigidbody2D rig, List<GameObject> targets, Vector2 selfPos)
     {
-        GravityFormula1(ref rig, target, selfPos, targetPos, gravityFactor);
+        GravityFormula1(ref rig, targets, selfPos, gravityFactor);
     }
 
-    bool GravityFormula2(ref Rigidbody2D rig, GameObject target, float gravFactor)
+    void GravityFormula2(ref Rigidbody2D rig, GameObject target, float gravFactor)
     {
         Collider2D[] cols = target.GetComponentsInChildren<Collider2D>(false);
         if (cols.Intersect(InGravityField).Any() && target.TryGetComponentInChildren(out ChangeGravityType Rule))
         {
             rig.AddForce(gravFactor * Rule.direction);
-            if(setRotation) rig.rotation = Rule.rotation;
-            return true;
+            if (setRotation) rig.rotation = Rule.rotation;
         }
-        return false;
     }
 
-    bool GravityFormula2(ref Rigidbody2D rig, GameObject target)
+    void GravityFormula2(ref Rigidbody2D rig, GameObject target)
     {
-        return GravityFormula2(ref rig, target, gravityFactor);
+        GravityFormula2(ref rig, target, gravityFactor);
     }
 
     //prototype version 2
-    public void IntoCollider(byte gravType)
+    public void IntoCollider(byte gravType, GameObject intoSticky)
     {
         if (AllowGravityChange) GravityType = gravType;
+        sticky = intoSticky;
     }
 
     public void OutCollider()
