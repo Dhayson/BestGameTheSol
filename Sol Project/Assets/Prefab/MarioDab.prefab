@@ -280,16 +280,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22f11ee184c5e848a5497cae72751d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbiteds: []
+  orbits: []
   Gravity:
     serializedVersion: 2
     m_Bits: 64
   gravityFactor: 25
   gravityTypeSet: 1
   seeGravityType: 0
-  speedx: 0
-  speedy: 0
-  setRotation: 1
+  doesRotateSet: 1
   allowGravityChangeSet: 1
 --- !u!114 &1139965258396255873
 MonoBehaviour:
@@ -314,7 +312,6 @@ MonoBehaviour:
   level:
     serializedVersion: 2
     m_Bits: 8
-  count: 0
 --- !u!114 &1139965258396255887
 MonoBehaviour:
   m_ObjectHideFlags: 0

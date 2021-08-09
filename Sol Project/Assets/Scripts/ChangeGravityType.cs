@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NiceMethods;
 
-public class ChangeGravityType : MonoBehaviour
+abstract public class ChangeGravityType : MonoBehaviour
 {
     [SerializeField] private LayerMask player;
+    abstract public byte GravityType { get; }
     private GameObject parent;
-    public Vector2 direction;
-    public float rotation;
 
     public void Start()
     {
@@ -20,7 +19,7 @@ public class ChangeGravityType : MonoBehaviour
         GameObject Player = collision.gameObject;
         if (CompareLayer(Player.layer, player) && Player.TryGetComponent(out Orbit playerOrb))
         {
-            playerOrb.IntoCollider(2, parent);
+            playerOrb.IntoCollider(GravityType, parent);
         }
     }
 
@@ -29,7 +28,7 @@ public class ChangeGravityType : MonoBehaviour
         GameObject Player = collision.gameObject;
         if (CompareLayer(Player.layer, player) && Player.TryGetComponent(out Orbit playerOrb))
         {
-            playerOrb.OutCollider();
+            playerOrb.OutCollider(GravityType, parent);
         }
     }
 }
