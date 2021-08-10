@@ -272,11 +272,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7178208868649051501, guid: 9c190fa3a9d8d81448b2853c6944a4ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.790001
+      value: -13.040001
       objectReference: {fileID: 0}
     - target: {fileID: 7178208868649051501, guid: 9c190fa3a9d8d81448b2853c6944a4ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.25
+      value: -3.5
       objectReference: {fileID: 0}
     - target: {fileID: 7178208868649051501, guid: 9c190fa3a9d8d81448b2853c6944a4ca, type: 3}
       propertyPath: m_LocalPosition.z
@@ -808,7 +808,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbits:
   - {fileID: 4576615823002912510}
-  seeGravityStack: {fileID: 0}
+  seeGravityStack: []
   Gravity:
     serializedVersion: 2
     m_Bits: 64
@@ -1044,11 +1044,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255874, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -43.1
+      value: -48.85
       objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255874, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 21.7
+      value: -29.3
       objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255874, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1105,6 +1105,10 @@ PrefabInstance:
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: rotationSet
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
+      propertyPath: gravityTypeSet
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: seeGravityType
@@ -1201,6 +1205,10 @@ PrefabInstance:
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: allowGravityChangeStart
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
+      propertyPath: seeGravityStack.Array.size
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
@@ -1335,7 +1343,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7178208868649051501, guid: 9c190fa3a9d8d81448b2853c6944a4ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.75
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 7178208868649051501, guid: 9c190fa3a9d8d81448b2853c6944a4ca, type: 3}
       propertyPath: m_LocalPosition.z
