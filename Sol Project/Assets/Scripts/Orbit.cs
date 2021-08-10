@@ -112,15 +112,17 @@ public class Orbit : MonoBehaviour
     /// </summary>
     void GravityFormula1(ref Rigidbody2D selfRig, List<GameObject> targets, Vector2 selfPos, float gravFactor)
     {
+        Vector2 addedForces = new Vector2(0, 0);
         for (int i = 0; i < targets.Count; i++)
         {
             Vector2 targetPos = targets[i].transform.position;
             Collider2D[] cols = targets[i].GetComponentsInChildren<Collider2D>(false);
             if (cols.Intersect(InGravityField).Any())
             {
-                selfRig.AddForce(gravFactor * selfRig.mass * Direction(selfPos, targetPos));
+                addedForces += gravFactor * selfRig.mass * Direction(selfPos, targetPos);
             }
         }
+        selfRig.AddForce(addedForces);
     }
     /// <summary>
     /// Simplified gravity formula. Add a constant acceleration if this object is within others gravity field.
@@ -155,11 +157,9 @@ public class Orbit : MonoBehaviour
 
     public void OutCollider(byte gravType, GameObject outSticky)
     {
-        LinkedListNode<(GameObject, byte)> Node = gravityStack.First;
-        while(Node != null)
+        for (var Node = gravityStack.First; !(Node is null); Node = Node.Next)
         {
             if (Node.Value.Item1 == outSticky) gravityStack.Remove(Node);
-            Node = Node.Next;
         }
 
         if (AllowGravityChange)
