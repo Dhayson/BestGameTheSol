@@ -261,7 +261,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1139965258396255876}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c5ea135efb9c480498bcded11129f94f, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -289,6 +289,7 @@ MonoBehaviour:
   seeGravityType: 0
   doesRotateSet: 1
   allowGravityChangeSet: 1
+  seeGravityStack: []
 --- !u!114 &1139965258396255873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,7 +307,7 @@ MonoBehaviour:
   speedx: 5
   accelerationx: 15
   decelerationx: 3
-  passiveDecelerationx: 0.3
+  passiveDecelerationx: 0.4
   jumpForce: 550
   jumpCheck: {fileID: 1139965257697147580}
   level:

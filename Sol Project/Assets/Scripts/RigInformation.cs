@@ -5,15 +5,17 @@ using UnityEngine;
 public class RigInformation : MonoBehaviour
 {
     Rigidbody2D rig;
+    Transform transf;
     Orbit orb;
     bool hasOrbit;
     [SerializeField] private float velocityModule;
     [SerializeField] private float relativeVelocityModule;
-    private Vector2 relativeVelocity;
+    [SerializeField] private float relativeVelocityRotation;
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        transf = GetComponent<Transform>();
         hasOrbit = TryGetComponent(out orb);
     }
 
@@ -25,8 +27,14 @@ public class RigInformation : MonoBehaviour
             velocityModule = rig.velocity.magnitude;
             if (hasOrbit)
             {
-                if (orb.InGravityField.Length == 1) relativeVelocity = rig.velocity - orb.InGravityField[0].GetComponentInParent<Rigidbody2D>().velocity;
-                relativeVelocityModule = relativeVelocity.magnitude;
+                if (orb.InGravityField.Length == 1)
+                {
+                    Rigidbody2D target = orb.InGravityField[0].GetComponentInParent<Rigidbody2D>();
+                    Vector2 relativeVelocity = rig.velocity - target.velocity;
+                    relativeVelocityModule = relativeVelocity.magnitude;
+                    Vector2 relativeVelocityRotationV = relativeVelocity - target.angularVelocity.ToLinearVelocity(transf.position, target.position);
+                    relativeVelocityRotation = relativeVelocityRotationV.magnitude;
+                }
             }
         }
     }
