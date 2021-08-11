@@ -20,11 +20,14 @@ public class RigInformation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        velocityModule = rig.velocity.magnitude;
-        if (hasOrbit)
+        if (NiceMethods.debug)
         {
-            if (orb.InGravityField.Length == 1) relativeVelocity = rig.velocity - orb.InGravityField[0].GetComponentInParent<Rigidbody2D>().velocity;
-            relativeVelocityModule = relativeVelocity.magnitude;
+            velocityModule = rig.velocity.magnitude;
+            if (hasOrbit)
+            {
+                if (orb.InGravityField.Length == 1) relativeVelocity = rig.velocity - orb.InGravityField[0].GetComponentInParent<Rigidbody2D>().velocity;
+                relativeVelocityModule = relativeVelocity.magnitude;
+            }
         }
     }
 }

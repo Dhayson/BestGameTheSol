@@ -17,7 +17,7 @@ public class Orbit : MonoBehaviour
 
     //used on ChangeGravityType methods and Gravity Type 2
     private LinkedList<(GameObject,byte)> gravityStack;
-    [SerializeField] private GameObject[] seeGravityStack;
+    [SerializeField] private List<GameObject> seeGravityStack;
 
     [SerializeField] private LayerMask Gravity;
 
@@ -69,18 +69,25 @@ public class Orbit : MonoBehaviour
         InGravityField = Physics2D.OverlapCircleAll(pThis, 1f, Gravity);
 
         GravitySwitch(pThis, GravityType);
-
-        seeGravityType = GravityType;
-
-        var Node = gravityStack.Last;
-        for (int i = 0; i < seeGravityStack.Length; i++)
+        if (debug)
         {
-            try 
+            seeGravityType = GravityType;
+
+            var Node = gravityStack.Last;
+            for (int i = 0; i < seeGravityStack.Count; i++)
             {
-                seeGravityStack[i] = Node.Value.Item1;
+                try
+                {
+                    seeGravityStack[i] = Node.Value.Item1;
+                    Node = Node.Previous;
+                }
+                catch (NullReferenceException) { seeGravityStack[i] = null; }
+            }
+            while(Node is object)
+            {
+                seeGravityStack.Add(Node.Value.Item1);
                 Node = Node.Previous;
             }
-            catch (NullReferenceException) { seeGravityStack[i] = null; }
         }
     }
 

@@ -8,6 +8,9 @@ using System.Linq;
 
 static public class NiceMethods
 {
+    //put this on config file or smth
+    static readonly public bool debug = true;
+
     static public unsafe Vector2 Rotation(Vector2 v, float angle)
     {
         float* values = DLL.Rotation(v.x, v.y, angle);
