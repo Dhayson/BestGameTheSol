@@ -58,8 +58,8 @@ public class Orbit : MonoBehaviour
 
     void FixedUpdate()
     {
-
         GravitySwitch(PosThis, GravityType);
+
         if (debug)
         {
             seeGravityType = GravityType;
@@ -96,6 +96,9 @@ public class Orbit : MonoBehaviour
             case 0:
                 GravityFormula0(ref rig, orbits, pThis);
                 UpPosition();
+                break;
+            case 3:
+                GravityFormula3(ref rig, pThis, gravityStack.LastOrDefault().Item1.transform.position);
                 break;
         }
     }
@@ -171,6 +174,12 @@ public class Orbit : MonoBehaviour
     void GravityFormula2(ref Rigidbody2D rig, GameObject target)
     {
         GravityFormula2(ref rig, target, gravityFactor);
+    }
+
+    void GravityFormula3(ref Rigidbody2D selfRig, Vector2 selfPos, Vector2 targetPos)
+    {
+        selfRig.AddForce(gravityFactor * selfRig.mass * Direction(selfPos, targetPos));
+        selfRig.rotation = VectorAngle(Direction(selfPos, targetPos)) + 90;
     }
 
     //prototype version 6
