@@ -11,14 +11,14 @@ public class MovePlayer : MonoBehaviour
     public Sprite normal;
 
     private bool jumpCD;
-    public float speedx;
-    public float accelerationx;
-    public float decelerationx;
-    public float passiveDecelerationx;
+    [SerializeField] private float speedx;
+    [SerializeField] private float accelerationx;
+    [SerializeField] private float decelerationx;
+    [SerializeField] private float passiveDecelerationx;
     public float jumpForce;
 
-    public Transform jumpCheck;
-    public LayerMask level;
+    [SerializeField] private Transform jumpCheck;
+    [SerializeField] private LayerMask level;
 
     enum Directions { right, left, stop, vertical, clock };
     private int[] buttons;
