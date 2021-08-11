@@ -58,7 +58,7 @@ public class Orbit : MonoBehaviour
 
     void FixedUpdate()
     {
-        GravitySwitch(PosThis, GravityType);
+        GravitySwitch(PosThis, GravityType, gravityStack.LastOrDefault().Item1);
 
         if (debug)
         {
@@ -82,7 +82,7 @@ public class Orbit : MonoBehaviour
         }
     }
 
-    void GravitySwitch(Vector2 pThis, byte gravityType)
+    void GravitySwitch(Vector2 pThis, byte gravityType, GameObject target)
     {
         switch (gravityType)
         {
@@ -91,14 +91,14 @@ public class Orbit : MonoBehaviour
                 UpPosition();
                 break;
             case 2:
-                GravityFormula2(ref rig, gravityStack.LastOrDefault().Item1);
+                GravityFormula2(ref rig, target);
                 break;
             case 0:
                 GravityFormula0(ref rig, orbits, pThis);
                 UpPosition();
                 break;
             case 3:
-                GravityFormula3(ref rig, pThis, gravityStack.LastOrDefault().Item1.transform.position);
+                GravityFormula3(ref rig, pThis, target.transform.position);
                 break;
         }
     }
