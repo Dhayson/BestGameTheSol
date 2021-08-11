@@ -104,4 +104,11 @@ static public class NiceMethods
         list = list.Distinct().ToList();
         list = list.Where(x => x != null && x.activeSelf).ToList();
     }
+
+    static public Vector2 ToLinearVelocity(this float angularVelocity, Vector2 pThis, Vector2 pTarget)
+    {
+        Vector2 down = Direction(pThis, pTarget);
+        float linearVelocity = Deg2Rad * angularVelocity * Sqrt(DistanceSquared<float>(pThis, pTarget));
+        return Rotation(down, -90) * linearVelocity;
+    }
 }

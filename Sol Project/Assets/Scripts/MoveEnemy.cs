@@ -6,6 +6,7 @@ using static NiceMethods;
 public class MoveEnemy : MonoBehaviour
 {
     private Rigidbody2D rig;
+    private Transform transf;
     private Orbit orbit;
     private Collider2D col;
 
@@ -23,6 +24,7 @@ public class MoveEnemy : MonoBehaviour
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        transf = GetComponent<Transform>();
         orbit = GetComponent<Orbit>();
         col = GetComponent<Collider2D>();
 
@@ -30,13 +32,21 @@ public class MoveEnemy : MonoBehaviour
         if (passiveDecelerationx > 0) passiveDecelerationx *= -1;
     }
 
-    // Update is called once per frame
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            rig.AddRelativeForce(new Vector2(0, jumpForce));
+        }
+    }
+
     void FixedUpdate()
     {
         Collider2D[] orbitings = orbit.InGravityField;
         if(orbitings.Length == 1)
         {
-            Vector2 relativeVelocity = rig.velocity - orbitings[0].GetComponentInParent<Rigidbody2D>().velocity;
+            Rigidbody2D target = orbitings[0].GetComponentInParent<Rigidbody2D>();
+            Vector2 relativeVelocity = rig.velocity - target.velocity - target.angularVelocity.ToLinearVelocity(transf.position,target.position);
             float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
             if (relativeVelRotX <= speedx && speedx > 0)
             {
