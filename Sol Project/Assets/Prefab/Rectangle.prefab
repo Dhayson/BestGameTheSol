@@ -197,7 +197,6 @@ GameObject:
   - component: {fileID: 1593191972766529389}
   - component: {fileID: 1860289081651719736}
   - component: {fileID: 725801776947043039}
-  - component: {fileID: 1239769481453161683}
   m_Layer: 0
   m_Name: JumpBuff
   m_TagString: Untagged
@@ -261,20 +260,3 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   Multiplier: 0
---- !u!114 &1239769481453161683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7792384426428351414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd5c1c074da30d84a98cba53f64f55ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player:
-    serializedVersion: 2
-    m_Bits: 0
-  direction: {x: 0, y: 0}
-  rotation: 0

@@ -11,37 +11,34 @@ public class Orbit : MonoBehaviour
 {
     private Rigidbody2D rig;
     private Transform transf;
+    private Vector2 PosThis { get { return transf.position; } }
+    public Collider2D[] InGravityField { get { return Physics2D.OverlapCircleAll(PosThis, 1f, Gravity); } }
 
     //list of objects this object will orbit. Needs manual set
     [SerializeField] private List<GameObject> orbits;
-
-    //used on ChangeGravityType methods and Gravity Type 2
-    private LinkedList<(GameObject,byte)> gravityStack;
-    [SerializeField] private List<GameObject> seeGravityStack;
-
     [SerializeField] private LayerMask Gravity;
-
     [SerializeField] private float gravityFactor;
 
     [SerializeField] private byte gravityTypeSet;
     public byte GravityType { get; private set; }
-    public byte GravityTypeStart { get; private set; }
+    public byte GravityTypeStart { get { return gravityTypeSet; } }
     [SerializeField] private byte seeGravityType;
 
     [SerializeField] private bool doesRotateSet;
     public bool DoesRotate { get; private set; }
 
-    public Collider2D[] InGravityField { get; private set; }
-
-    private int OrbitedsLenght;
-
     [SerializeField] private bool allowGravityChangeSet;
     public bool AllowGravityChange { get; private set; }
 
+    //used on ChangeGravityType methods and Gravity Type 2
+    private LinkedList<(GameObject,byte)> gravityStack;
+    [SerializeField] private List<GameObject> seeGravityStack;
+
+
+
     void Start()
     {
-        GravityType = gravityTypeSet;
-        GravityTypeStart = GravityType;
+        GravityType = GravityTypeStart;
         AllowGravityChange = allowGravityChangeSet;
 
         gravityStack = new LinkedList<(GameObject,byte)>();
@@ -51,24 +48,18 @@ public class Orbit : MonoBehaviour
 
         rig = GetComponent<Rigidbody2D>();
         transf = GetComponent<Transform>();
-        Vector2 pThis = transf.position;
 
         TrimList(ref orbits);
 
         if (gravityFactor == 0) gravityFactor = -Physics2D.gravity.y;
-
-        InGravityField = Physics2D.OverlapCircleAll(pThis, 0.5f, Gravity);
 
         UpPosition();
     }
 
     void FixedUpdate()
     {
-        OrbitedsLenght = orbits.Count;
-        Vector2 pThis = transf.position;
-        InGravityField = Physics2D.OverlapCircleAll(pThis, 1f, Gravity);
 
-        GravitySwitch(pThis, GravityType);
+        GravitySwitch(PosThis, GravityType);
         if (debug)
         {
             seeGravityType = GravityType;
@@ -103,11 +94,7 @@ public class Orbit : MonoBehaviour
                 GravityFormula2(ref rig, gravityStack.LastOrDefault().Item1);
                 break;
             case 0:
-                for (int i = 0; i < OrbitedsLenght; i++)
-                {
-                    Vector2 pOrbit = orbits[i].transform.position;
-                    GravityFormula0(ref rig, orbits[i].GetComponent<Rigidbody2D>(), pThis, pOrbit);
-                }
+                GravityFormula0(ref rig, orbits, pThis);
                 UpPosition();
                 break;
         }
@@ -128,6 +115,21 @@ public class Orbit : MonoBehaviour
     void GravityFormula0(ref Rigidbody2D selfRig, Rigidbody2D targetRig, Vector2 selfPos, Vector2 targetPos, float gravFactor = 1)
     {
         selfRig.AddForce(gravFactor * selfRig.mass * targetRig.mass * Direction(selfPos, targetPos) / DistanceSquared<float>(selfPos, targetPos));
+    }
+
+    /// <summary>
+    /// Newton gravity formula. Uses both rigidbodies masses, their distance squared and a gravitational constant (defaults to 1).
+    /// </summary>
+    void GravityFormula0(ref Rigidbody2D selfRig, List<GameObject> targets, Vector2 selfPos, float gravFactor = 1)
+    {
+        Vector2 addedForces = new Vector2(0, 0);
+        for(int i = 0; i < targets.Count; i++)
+        {
+            Vector2 targetPos = targets[i].transform.position;
+            Rigidbody2D targetRig = targets[i].GetComponent<Rigidbody2D>();
+            addedForces += gravFactor * selfRig.mass * targetRig.mass * Direction(selfPos, targetPos) / DistanceSquared<float>(selfPos, targetPos);
+        }
+        selfRig.AddForce(addedForces);
     }
 
     /// <summary>
