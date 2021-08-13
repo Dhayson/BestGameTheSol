@@ -45,10 +45,9 @@ static public class NiceMethods
         return Atan2(v.y,v.x)*180/PI;
     }
 
-    static public type DistanceSquared<type>(Vector2 p1, Vector2 p2) where type : struct
+    static public float DistanceSquared(Vector2 p1, Vector2 p2)
     {
-        float result = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
-        return (type)Convert.ChangeType(result, typeof(type));
+        return  (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
     }
 
     static public void InvertSpeed(ref Rigidbody2D r)
@@ -107,8 +106,6 @@ static public class NiceMethods
 
     static public Vector2 ToLinearVelocity(this float angularVelocity, Vector2 pThis, Vector2 pTarget)
     {
-        Vector2 down = Direction(pThis, pTarget);
-        float linearVelocity = Deg2Rad * angularVelocity * Sqrt(DistanceSquared<float>(pThis, pTarget));
-        return Rotation(down, -90) * linearVelocity;
+        return Rotation(Deg2Rad * angularVelocity * (pTarget - pThis), -90);
     }
 }

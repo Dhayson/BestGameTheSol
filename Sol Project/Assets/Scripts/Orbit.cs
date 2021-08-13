@@ -117,7 +117,7 @@ public class Orbit : MonoBehaviour
     /// </summary>
     void GravityFormula0(ref Rigidbody2D selfRig, Rigidbody2D targetRig, Vector2 selfPos, Vector2 targetPos, float gravFactor = 1)
     {
-        selfRig.AddForce(gravFactor * selfRig.mass * targetRig.mass * Direction(selfPos, targetPos) / DistanceSquared<float>(selfPos, targetPos));
+        selfRig.AddForce(gravFactor * selfRig.mass * targetRig.mass * Direction(selfPos, targetPos) / DistanceSquared(selfPos, targetPos));
     }
 
     /// <summary>
@@ -130,7 +130,7 @@ public class Orbit : MonoBehaviour
         {
             Vector2 targetPos = targets[i].transform.position;
             Rigidbody2D targetRig = targets[i].GetComponent<Rigidbody2D>();
-            addedForces += gravFactor * selfRig.mass * targetRig.mass * Direction(selfPos, targetPos) / DistanceSquared<float>(selfPos, targetPos);
+            addedForces += gravFactor * selfRig.mass * targetRig.mass * Direction(selfPos, targetPos) / DistanceSquared(selfPos, targetPos);
         }
         selfRig.AddForce(addedForces);
     }

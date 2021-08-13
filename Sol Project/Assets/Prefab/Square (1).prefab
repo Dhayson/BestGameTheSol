@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8702518697372763026}
   - component: {fileID: 4334213004295296020}
-  - component: {fileID: 1676661069279232388}
+  - component: {fileID: 3047116633675210467}
   m_Layer: 6
   m_Name: GravityField
   m_TagString: Untagged
@@ -48,7 +48,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.9
---- !u!114 &1676661069279232388
+--- !u!114 &3047116633675210467
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,12 +57,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1121721656472860642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1348bd4716d1104780c0d6c335af389, type: 3}
+  m_Script: {fileID: 11500000, guid: 7374246914a95634dbe1342faf178d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player:
     serializedVersion: 2
     m_Bits: 128
+  gravityTypeSet: 1
 --- !u!1 &6637594711506868786
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +290,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbits: []
-  seeGravityStack: []
   Gravity:
     serializedVersion: 2
     m_Bits: 64
@@ -298,6 +298,7 @@ MonoBehaviour:
   seeGravityType: 0
   doesRotateSet: 0
   allowGravityChangeSet: 0
+  seeGravityStack: []
 --- !u!50 &7178208868649051498
 Rigidbody2D:
   serializedVersion: 4

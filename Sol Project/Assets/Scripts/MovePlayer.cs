@@ -16,6 +16,7 @@ public class MovePlayer : MonoBehaviour
     [SerializeField] private float decelerationx;
     [SerializeField] private float passiveDecelerationx;
     public float jumpForce;
+    [SerializeField] private bool followRotation;
 
     [SerializeField] private Transform jumpCheck;
     [SerializeField] private LayerMask level;
@@ -24,12 +25,14 @@ public class MovePlayer : MonoBehaviour
     private int[] buttons;
 
     private Rigidbody2D rig;
+    private Transform transf;
     private Orbit orbit;
     private SpriteRenderer render;
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        transf = GetComponent<Transform>();
         orbit = GetComponent<Orbit>();
         render = GetComponent<SpriteRenderer>();
         buttons = new int[Enum.GetValues(typeof(Directions)).Length];
@@ -62,7 +65,9 @@ public class MovePlayer : MonoBehaviour
         Collider2D[] orbitings = orbit.InGravityField;
         if (orbitings.Length == 1 || orbit.GravityType == 2 && orbitings.Length > 0)
         {
-            Vector2 relativeVelocity = rig.velocity - orbitings[0].GetComponentInParent<Rigidbody2D>().velocity;
+            Rigidbody2D rigTarget = orbitings[0].GetComponentInParent<Rigidbody2D>();
+            Vector2 rotationVelocity = followRotation ? rigTarget.angularVelocity.ToLinearVelocity(transf.position, rigTarget.position) : Vector2.zero;
+            Vector2 relativeVelocity = rig.velocity - rigTarget.velocity - rotationVelocity;
             float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
             if (buttons[(int)Directions.stop] == 0)
             {

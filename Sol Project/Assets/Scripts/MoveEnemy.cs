@@ -46,7 +46,7 @@ public class MoveEnemy : MonoBehaviour
         if(orbitings.Length == 1)
         {
             Rigidbody2D target = orbitings[0].GetComponentInParent<Rigidbody2D>();
-            Vector2 relativeVelocity = rig.velocity - target.velocity - target.angularVelocity.ToLinearVelocity(transf.position,target.position);
+            Vector2 relativeVelocity = rig.velocity - target.velocity - target.angularVelocity.ToLinearVelocity(transf.position, target.position);
             float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
             if (relativeVelRotX <= speedx && speedx > 0)
             {
