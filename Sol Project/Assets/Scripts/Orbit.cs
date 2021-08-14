@@ -9,6 +9,9 @@ using static NiceMethods;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Orbit : MonoBehaviour
 {
+    [SerializeField] private float gravMassSet;
+    public float GravMass { get { return gravMassSet; } }
+
     private Rigidbody2D rig;
     private Transform transf;
     private Vector2 PosThis { get { return transf.position; } }
@@ -52,6 +55,8 @@ public class Orbit : MonoBehaviour
         TrimList(ref orbits);
 
         if (gravityFactor == 0) gravityFactor = -Physics2D.gravity.y;
+
+        if (!rig.isKinematic) gravMassSet = rig.mass; //Einstein
 
         UpPosition();
     }
@@ -129,10 +134,12 @@ public class Orbit : MonoBehaviour
         for(int i = 0; i < targets.Count; i++)
         {
             Vector2 targetPos = targets[i].transform.position;
-            Rigidbody2D targetRig = targets[i].GetComponent<Rigidbody2D>();
-            addedForces += gravFactor * selfRig.mass * targetRig.mass * Direction(selfPos, targetPos) / DistanceSquared(selfPos, targetPos);
+            //Rigidbody2D targetRig = targets[i].GetComponent<Rigidbody2D>();
+            Orbit targetOrb = targets[i].GetComponent<Orbit>();
+            addedForces += gravFactor * targetOrb.GravMass * Direction(selfPos, targetPos) / DistanceSquared(selfPos, targetPos);
         }
-        selfRig.AddForce(addedForces);
+        if (!rig.isKinematic) selfRig.AddForce(addedForces * selfRig.mass);
+        else rig.velocity += addedForces * Time.fixedDeltaTime;
     }
 
     /// <summary>
@@ -150,7 +157,8 @@ public class Orbit : MonoBehaviour
                 addedForces += gravFactor * selfRig.mass * Direction(selfPos, targetPos);
             }
         }
-        selfRig.AddForce(addedForces);
+        if (!rig.isKinematic) selfRig.AddForce(addedForces);
+        else Debug.Log("look here");
     }
     /// <summary>
     /// Simplified gravity formula. Add a constant acceleration if this object is within others gravity field.
@@ -164,9 +172,10 @@ public class Orbit : MonoBehaviour
     {
         if (target is null) return;
         Collider2D[] cols = target.GetComponentsInChildren<Collider2D>(false);
-        if (cols.Intersect(InGravityField).Any() && target.TryGetComponentInChildren(out ChangeGravityType2 Rule))
+        if (target.TryGetComponentInChildren(out ChangeGravityType2 Rule) && cols.Intersect(InGravityField).Any())
         {
-            rig.AddForce(gravFactor * Rule.direction);
+            if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
+            else Debug.Log("look here");
             if (DoesRotate) rig.rotation = Rule.rotation;
         }
     }
@@ -178,7 +187,8 @@ public class Orbit : MonoBehaviour
 
     void GravityFormula3(ref Rigidbody2D selfRig, Vector2 selfPos, Vector2 targetPos)
     {
-        selfRig.AddForce(gravityFactor * selfRig.mass * Direction(selfPos, targetPos));
+        if (!rig.isKinematic) selfRig.AddForce(gravityFactor * selfRig.mass * Direction(selfPos, targetPos));
+        else Debug.Log("look here");
         selfRig.rotation = VectorAngle(Direction(selfPos, targetPos)) + 90;
     }
 
