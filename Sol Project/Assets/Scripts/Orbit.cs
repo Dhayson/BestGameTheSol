@@ -20,7 +20,9 @@ public class Orbit : MonoBehaviour
     //list of objects this object will orbit. Needs manual set
     [SerializeField] private List<GameObject> orbits;
     [SerializeField] private LayerMask Gravity;
+
     [SerializeField] private float gravityFactor;
+    [SerializeField] private float gravityFactor0;
 
     [SerializeField] private byte gravityTypeSet;
     public byte GravityType { get; private set; }
@@ -55,6 +57,7 @@ public class Orbit : MonoBehaviour
         TrimList(ref orbits);
 
         if (gravityFactor == 0) gravityFactor = -Physics2D.gravity.y;
+        if (gravityFactor0 == 0) gravityFactor0 = 1;
 
         if (!rig.isKinematic) gravMassSet = rig.mass; //Einstein
 
@@ -99,7 +102,7 @@ public class Orbit : MonoBehaviour
                 GravityFormula2(ref rig, target);
                 break;
             case 0:
-                GravityFormula0(ref rig, orbits, pThis);
+                GravityFormula0(ref rig, orbits, pThis, gravityFactor0);
                 UpPosition();
                 break;
             case 3:
@@ -119,6 +122,8 @@ public class Orbit : MonoBehaviour
 
     /// <summary>
     /// Newton gravity formula. Uses both rigidbodies masses, their distance squared and a gravitational constant (defaults to 1).
+    /// 
+    /// Obsolete version
     /// </summary>
     void GravityFormula0(ref Rigidbody2D selfRig, Rigidbody2D targetRig, Vector2 selfPos, Vector2 targetPos, float gravFactor = 1)
     {
@@ -128,7 +133,7 @@ public class Orbit : MonoBehaviour
     /// <summary>
     /// Newton gravity formula. Uses both rigidbodies masses, their distance squared and a gravitational constant (defaults to 1).
     /// </summary>
-    void GravityFormula0(ref Rigidbody2D selfRig, List<GameObject> targets, Vector2 selfPos, float gravFactor = 1)
+    void GravityFormula0(ref Rigidbody2D selfRig, List<GameObject> targets, Vector2 selfPos, float gravFactor)
     {
         Vector2 addedForces = new Vector2(0, 0);
         for(int i = 0; i < targets.Count; i++)
