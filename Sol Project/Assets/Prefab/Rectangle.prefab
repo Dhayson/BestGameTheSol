@@ -184,6 +184,7 @@ MonoBehaviour:
   player:
     serializedVersion: 2
     m_Bits: 128
+  order: 1
   direction: {x: 0, y: 1}
   rotation: 180
 --- !u!1 &7792384426428351414

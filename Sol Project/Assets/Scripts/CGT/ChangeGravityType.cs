@@ -5,13 +5,18 @@ using static NiceMethods;
 
 abstract public class ChangeGravityType : MonoBehaviour
 {
+    enum TargetOption { parent, self}
+
     [SerializeField] private LayerMask player;
+    [SerializeField] private Order order;
+    [SerializeField] private TargetOption targetSelect;
     abstract public byte GravityType { get; }
-    private GameObject parent;
+    private GameObject target;
 
     public void Start()
     {
-        parent = GetComponent<Transform>().parent.gameObject;
+        if (targetSelect == TargetOption.parent) target = GetComponent<Transform>().parent.gameObject;
+        else if (targetSelect == TargetOption.self) target = gameObject;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -19,7 +24,7 @@ abstract public class ChangeGravityType : MonoBehaviour
         GameObject Player = collision.gameObject;
         if (CompareLayer(Player.layer, player) && Player.TryGetComponent(out Orbit playerOrb))
         {
-            playerOrb.IntoCollider(GravityType, parent);
+            playerOrb.IntoCollider(GravityType, target, order);
         }
     }
 
@@ -28,7 +33,7 @@ abstract public class ChangeGravityType : MonoBehaviour
         GameObject Player = collision.gameObject;
         if (CompareLayer(Player.layer, player) && Player.TryGetComponent(out Orbit playerOrb))
         {
-            playerOrb.OutCollider(GravityType, parent);
+            playerOrb.OutCollider(target);
         }
     }
 }

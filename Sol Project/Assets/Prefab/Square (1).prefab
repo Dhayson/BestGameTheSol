@@ -63,7 +63,8 @@ MonoBehaviour:
   player:
     serializedVersion: 2
     m_Bits: 128
-  gravityTypeSet: 1
+  order: 1
+  gravityTypeSet: 3
 --- !u!1 &6637594711506868786
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,11 +290,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22f11ee184c5e848a5497cae72751d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravMassSet: 0
   orbits: []
   Gravity:
     serializedVersion: 2
     m_Bits: 64
   gravityFactor: 0
+  gravityFactor0: 0
   gravityTypeSet: 0
   seeGravityType: 0
   doesRotateSet: 0

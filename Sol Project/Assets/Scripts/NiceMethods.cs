@@ -108,4 +108,6 @@ static public class NiceMethods
     {
         return Rotation(Deg2Rad * angularVelocity * (pTarget - pThis), -90);
     }
+
+    public enum Order { First, Last }
 }

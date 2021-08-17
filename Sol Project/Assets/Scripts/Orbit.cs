@@ -36,7 +36,7 @@ public class Orbit : MonoBehaviour
     public bool AllowGravityChange { get; private set; }
 
     //used on ChangeGravityType methods and Gravity Type 2
-    private LinkedList<(GameObject,byte)> gravityStack;
+    private LinkedList<(GameObject target, byte gravType)> gravityStack;
     [SerializeField] private List<GameObject> seeGravityStack;
 
 
@@ -66,7 +66,7 @@ public class Orbit : MonoBehaviour
 
     void FixedUpdate()
     {
-        GravitySwitch(PosThis, GravityType, gravityStack.LastOrDefault().Item1);
+        GravitySwitch(PosThis, GravityType, gravityStack.LastOrDefault().target);
 
         if (debug)
         {
@@ -77,14 +77,14 @@ public class Orbit : MonoBehaviour
             {
                 try
                 {
-                    seeGravityStack[i] = Node.Value.Item1;
+                    seeGravityStack[i] = Node.Value.target;
                     Node = Node.Previous;
                 }
                 catch (NullReferenceException) { seeGravityStack[i] = null; }
             }
             while(Node is object)
             {
-                seeGravityStack.Add(Node.Value.Item1);
+                seeGravityStack.Add(Node.Value.target);
                 Node = Node.Previous;
             }
         }
@@ -122,29 +122,22 @@ public class Orbit : MonoBehaviour
 
     /// <summary>
     /// Newton gravity formula. Uses both rigidbodies masses, their distance squared and a gravitational constant (defaults to 1).
-    /// 
-    /// Obsolete version
-    /// </summary>
-    void GravityFormula0(ref Rigidbody2D selfRig, Rigidbody2D targetRig, Vector2 selfPos, Vector2 targetPos, float gravFactor = 1)
-    {
-        selfRig.AddForce(gravFactor * selfRig.mass * targetRig.mass * Direction(selfPos, targetPos) / DistanceSquared(selfPos, targetPos));
-    }
-
-    /// <summary>
-    /// Newton gravity formula. Uses both rigidbodies masses, their distance squared and a gravitational constant (defaults to 1).
     /// </summary>
     void GravityFormula0(ref Rigidbody2D selfRig, List<GameObject> targets, Vector2 selfPos, float gravFactor)
     {
         Vector2 addedForces = new Vector2(0, 0);
         for(int i = 0; i < targets.Count; i++)
         {
+            float targetMass = 0;
             Vector2 targetPos = targets[i].transform.position;
-            //Rigidbody2D targetRig = targets[i].GetComponent<Rigidbody2D>();
-            Orbit targetOrb = targets[i].GetComponent<Orbit>();
-            addedForces += gravFactor * targetOrb.GravMass * Direction(selfPos, targetPos) / DistanceSquared(selfPos, targetPos);
+
+            if (targets[i].TryGetComponent(out Orbit targetOrb)) targetMass = targetOrb.GravMass;
+            else if (targets[i].TryGetComponent(out Rigidbody2D targetRig) && !targetRig.isKinematic) targetMass = targetRig.mass;
+
+            addedForces += gravFactor * targetMass * Direction(selfPos, targetPos) / DistanceSquared(selfPos, targetPos);
         }
         if (!rig.isKinematic) selfRig.AddForce(addedForces * selfRig.mass);
-        else rig.velocity += addedForces * Time.fixedDeltaTime;
+        else rig.velocity += addedForces * Time.fixedDeltaTime; //addAcceleration
     }
 
     /// <summary>
@@ -177,7 +170,7 @@ public class Orbit : MonoBehaviour
     {
         if (target is null) return;
         Collider2D[] cols = target.GetComponentsInChildren<Collider2D>(false);
-        if (target.TryGetComponentInChildren(out ChangeGravityType2 Rule) && cols.Intersect(InGravityField).Any())
+        if ((target.TryGetComponent(out ChangeGravityType2 Rule) || target.TryGetComponentInChildren(out Rule)) && cols.Intersect(InGravityField).Any())
         {
             if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
             else Debug.Log("look here");
@@ -198,22 +191,24 @@ public class Orbit : MonoBehaviour
     }
 
     //prototype version 6
-    public void IntoCollider(byte gravType, GameObject intoSticky)
+    public void IntoCollider(byte gravType, GameObject intoSticky, Order order)
     {
-        if (AllowGravityChange) GravityType = gravType;
-        gravityStack.AddLast((intoSticky, gravType));
+        if (order == Order.Last) gravityStack.AddLast((intoSticky, gravType));
+        else if (order == Order.First) gravityStack.AddFirst((intoSticky, gravType));
+
+        if (AllowGravityChange) GravityType = gravityStack.LastOrDefault().gravType;
     }
 
-    public void OutCollider(byte gravType, GameObject outSticky)
+    public void OutCollider(GameObject outSticky)
     {
         for (var Node = gravityStack.First; !(Node is null); Node = Node.Next)
         {
-            if (Node.Value.Item1 == outSticky) gravityStack.Remove(Node);
+            if (Node.Value.target == outSticky) gravityStack.Remove(Node);
         }
 
         if (AllowGravityChange)
         {
-            if (gravityStack.Count != 0) GravityType = gravityStack.Last().Item2;
+            if (gravityStack.Count != 0) GravityType = gravityStack.Last().gravType;
             else GravityType = GravityTypeStart;
         }
     }
