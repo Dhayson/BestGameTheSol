@@ -108,6 +108,7 @@ public class Orbit : MonoBehaviour
             case 3:
                 GravityFormula3(ref rig, pThis, target.transform.position);
                 break;
+            case 4: break;
         }
     }
 
@@ -169,8 +170,7 @@ public class Orbit : MonoBehaviour
     void GravityFormula2(ref Rigidbody2D rig, GameObject target, float gravFactor)
     {
         if (target is null) return;
-        Collider2D[] cols = target.GetComponentsInChildren<Collider2D>(false);
-        if ((target.TryGetComponent(out ChangeGravityType2 Rule) || target.TryGetComponentInChildren(out Rule)) && cols.Intersect(InGravityField).Any())
+        if (target.TryGetComponent(out ChangeGravityType2 Rule) || target.TryGetComponentInChildren(out Rule))
         {
             if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
             else Debug.Log("look here");

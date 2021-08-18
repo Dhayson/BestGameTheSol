@@ -63,7 +63,7 @@ public class MovePlayer : MonoBehaviour
     void FixedUpdate()
     {
         Collider2D[] orbitings = orbit.InGravityField;
-        if (orbitings.Length == 1 || orbit.GravityType == 2 && orbitings.Length > 0)
+        if (orbitings.Length == 1 || (orbit.GravityType == 2 || orbit.GravityType == 3) && orbitings.Length > 0)
         {
             Rigidbody2D rigTarget = orbitings[0].GetComponentInParent<Rigidbody2D>();
             Vector2 rotationVelocity = followRotation ? rigTarget.angularVelocity.ToLinearVelocity(transf.position, rigTarget.position) : Vector2.zero;

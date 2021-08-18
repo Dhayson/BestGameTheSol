@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NiceMethods;
 
+
+[RequireComponent(typeof(Collider2D))]
 abstract public class ChangeGravityType : MonoBehaviour
 {
     enum TargetOption { parent, self}
