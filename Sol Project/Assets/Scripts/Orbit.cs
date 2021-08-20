@@ -65,7 +65,7 @@ public class Orbit : MonoBehaviour
 
     void FixedUpdate()
     {
-        GravitySwitch(PosThis, GravityType, gravityStack.LastOrDefault().target);
+        GravitySwitch(PosThis, GravityType, gravityStack.LastOrDefault());
 
         if (debug)
         {
@@ -89,8 +89,10 @@ public class Orbit : MonoBehaviour
         }
     }
 
-    void GravitySwitch(Vector2 pThis, byte gravityType, GameObject target)
+    void GravitySwitch(Vector2 pThis, byte gravityType, (GameObject target, GravityContext gravityCTX) orbit)
     {
+        var target = orbit.target;
+        var gravCTX = orbit.gravityCTX;
         switch (gravityType)
         {
             case 1:
@@ -98,7 +100,7 @@ public class Orbit : MonoBehaviour
                 UpPosition();
                 break;
             case 2:
-                GravityFormula2(ref rig, target);
+                GravityFormula2(ref rig, target, gravCTX);
                 break;
             case 0:
                 GravityFormula0(ref rig, orbits, pThis, gravityFactor0);
@@ -166,20 +168,20 @@ public class Orbit : MonoBehaviour
         GravityFormula1(ref rig, targets, selfPos, gravityFactor);
     }
 
-    void GravityFormula2(ref Rigidbody2D rig, GameObject target, float gravFactor)
+    void GravityFormula2(ref Rigidbody2D rig, GameObject target, GravityContext gravCTX, float gravFactor)
     {
-        if (target is null) return;
-        if (target.TryGetComponent(out GravityContext2 Rule) || target.TryGetComponentInChildren(out Rule))
-        {
-            if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
-            else Debug.Log("look here");
-            if (DoesRotate) rig.rotation = Rule.rotation;
-        }
+        GravityContext2 Rule = gravCTX as GravityContext2;
+        if (target is null || Rule is null) { Debug.LogWarning("missing object/correct script"); return; }
+
+        if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
+        else Debug.Log("look here");
+        if (DoesRotate) rig.rotation = Rule.rotation;
+
     }
 
-    void GravityFormula2(ref Rigidbody2D rig, GameObject target)
+    void GravityFormula2(ref Rigidbody2D rig, GameObject target, GravityContext gravCTX)
     {
-        GravityFormula2(ref rig, target, gravityFactor);
+        GravityFormula2(ref rig, target, gravCTX, gravityFactor);
     }
 
     void GravityFormula3(ref Rigidbody2D selfRig, Vector2 selfPos, Vector2 targetPos)
@@ -190,10 +192,10 @@ public class Orbit : MonoBehaviour
     }
 
     //prototype version 6
-    public void IntoCollider(GravityContext gravType, GameObject intoSticky, Order order)
+    public void IntoCollider(GravityContext gravCTX, GameObject intoSticky, Order order)
     {
-        if (order == Order.Last) gravityStack.AddLast((intoSticky, gravType));
-        else if (order == Order.First) gravityStack.AddFirst((intoSticky, gravType));
+        if (order == Order.Last) gravityStack.AddLast((intoSticky, gravCTX));
+        else if (order == Order.First) gravityStack.AddFirst((intoSticky, gravCTX));
 
         if (AllowGravityChange) GravityType = gravityStack.Last.Value.gravityCTX.GravityType;
     }
