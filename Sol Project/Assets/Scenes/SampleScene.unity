@@ -630,6 +630,10 @@ PrefabInstance:
       propertyPath: player.m_Bits
       value: 128
       objectReference: {fileID: 0}
+    - target: {fileID: 3047116633675210467, guid: 9c190fa3a9d8d81448b2853c6944a4ca, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7178208868649051501, guid: 9c190fa3a9d8d81448b2853c6944a4ca, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -1749,7 +1753,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255874, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.70000076
+      value: -1.7999992
       objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255874, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1825,7 +1829,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: orbits.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: orbiteds.Array.size
@@ -1834,7 +1838,7 @@ PrefabInstance:
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: orbits.Array.data[0]
       value: 
-      objectReference: {fileID: 4480110302455266442}
+      objectReference: {fileID: 4576615823002912510}
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: orbits.Array.data[1]
       value: 

@@ -170,8 +170,7 @@ public class Orbit : MonoBehaviour
 
     void GravityFormula2(ref Rigidbody2D rig, GameObject target, GravityContext gravCTX, float gravFactor)
     {
-        GravityContext2 Rule = gravCTX as GravityContext2;
-        if (target is null || Rule is null) { Debug.LogWarning("missing object/correct script"); return; }
+        if (target == null || !(gravCTX is GravityContext2 Rule)) { Debug.LogWarning("missing object/incorrect script"); return; }
 
         if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
         else Debug.Log("look here");
