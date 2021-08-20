@@ -29,11 +29,6 @@ abstract public class GravityContext : MonoBehaviour
         OnStart();
     }
 
-    public void OnEnable()
-    {
-        if (started) TriggerAll(OnTriggerEnter2D);
-    }
-
     public void OnDisable()
     {
         if (started) TriggerAll(OnTriggerExit2D);
@@ -41,7 +36,7 @@ abstract public class GravityContext : MonoBehaviour
 
     private void TriggerAll(Action<Collider2D> Trigger)
     {
-        var thisCol = GetComponent<Collider2D>();
+        Collider2D thisCol = GetComponent<Collider2D>();
         List<Collider2D> Colliders = new List<Collider2D>();
         thisCol.OverlapCollider(new ContactFilter2D().NoFilter(), Colliders);
         foreach (var Collider in Colliders)

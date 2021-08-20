@@ -98,10 +98,11 @@ static public class NiceMethods
     /// <summary>
     /// Removes nulls, nones, inactives and duplicates from the list
     /// </summary>
-    static public void TrimList(ref List<GameObject> list)
+    static public IList<GameObject> TrimList(IList<GameObject> list)
     {
         list = list.Distinct().ToList();
         list = list.Where(x => x != null && x.activeSelf).ToList();
+        return list;
     }
 
     static public Vector2 ToLinearVelocity(this float angularVelocity, Vector2 pThis, Vector2 pTarget)

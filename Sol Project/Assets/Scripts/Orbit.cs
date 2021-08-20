@@ -53,7 +53,7 @@ public class Orbit : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
         transf = GetComponent<Transform>();
 
-        TrimList(ref orbits);
+        orbits = (List<GameObject>)TrimList(orbits);
 
         if (gravityFactor == 0) gravityFactor = -Physics2D.gravity.y;
         if (gravityFactor0 == 0) gravityFactor0 = 1;
@@ -66,6 +66,16 @@ public class Orbit : MonoBehaviour
     void FixedUpdate()
     {
         GravitySwitch(PosThis, GravityType, gravityStack.LastOrDefault());
+
+        if (gravityStack.Count != 0 && (gravityStack.Last.Value.target == null || !gravityStack.Last.Value.target.activeSelf))
+        {
+            gravityStack.Remove(gravityStack.Last);
+            if (AllowGravityChange)
+            {
+                if (gravityStack.Count != 0) GravityType = gravityStack.Last.Value.gravityCTX.GravityType;
+                else GravityType = GravityTypeStart;
+            }
+        }
 
         if (debug)
         {
@@ -81,7 +91,7 @@ public class Orbit : MonoBehaviour
                 }
                 catch (NullReferenceException) { seeGravityStack[i] = null; }
             }
-            while(Node is object)
+            while (Node is object)
             {
                 seeGravityStack.Add(Node.Value.target);
                 Node = Node.Previous;
@@ -107,7 +117,7 @@ public class Orbit : MonoBehaviour
                 UpPosition();
                 break;
             case 3:
-                GravityFormula3(ref rig, pThis, target.transform.position);
+                GravityFormula3(ref rig, pThis, target);
                 break;
             case 4: break;
         }
@@ -128,8 +138,9 @@ public class Orbit : MonoBehaviour
     void GravityFormula0(ref Rigidbody2D selfRig, List<GameObject> targets, Vector2 selfPos, float gravFactor)
     {
         Vector2 addedForces = new Vector2(0, 0);
-        for(int i = 0; i < targets.Count; i++)
+        for (int i = 0; i < targets.Count; i++)
         {
+            if (targets[i] == null || !targets[i].activeSelf) { Debug.LogWarning("missing object"); continue; }
             float targetMass = 0;
             Vector2 targetPos = targets[i].transform.position;
 
@@ -150,6 +161,7 @@ public class Orbit : MonoBehaviour
         Vector2 addedForces = new Vector2(0, 0);
         for (int i = 0; i < targets.Count; i++)
         {
+            if (targets[i] == null || !targets[i].activeSelf) { Debug.LogWarning("missing object"); continue; }
             Vector2 targetPos = targets[i].transform.position;
             Collider2D[] cols = targets[i].GetComponentsInChildren<Collider2D>(false);
             if (cols.Intersect(InGravityField).Any())
@@ -170,7 +182,7 @@ public class Orbit : MonoBehaviour
 
     void GravityFormula2(ref Rigidbody2D rig, GameObject target, GravityContext gravCTX, float gravFactor)
     {
-        if (target == null || !(gravCTX is GravityContext2 Rule)) { Debug.LogWarning("missing object/incorrect script"); return; }
+        if (target == null || !target.activeSelf || !(gravCTX is GravityContext2 Rule)) { Debug.LogWarning("missing object/incorrect script"); return; }
 
         if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
         else Debug.Log("look here");
@@ -183,8 +195,10 @@ public class Orbit : MonoBehaviour
         GravityFormula2(ref rig, target, gravCTX, gravityFactor);
     }
 
-    void GravityFormula3(ref Rigidbody2D selfRig, Vector2 selfPos, Vector2 targetPos)
+    void GravityFormula3(ref Rigidbody2D selfRig, Vector2 selfPos, GameObject target)
     {
+        if (target == null || !target.activeSelf) { Debug.LogWarning("missing object"); return; }
+        var targetPos = target.transform.position;
         if (!rig.isKinematic) selfRig.AddForce(gravityFactor * selfRig.mass * Direction(selfPos, targetPos));
         else Debug.Log("look here");
         selfRig.rotation = VectorAngle(Direction(selfPos, targetPos)) + 90;
