@@ -36,7 +36,7 @@ public class Orbit : MonoBehaviour
     public bool AllowGravityChange { get; private set; }
 
     //used on ChangeGravityType methods and Gravity Type 2
-    private LinkedList<(GameObject target, ChangeGravityType gravityCTX)> gravityStack;
+    private LinkedList<(GameObject target, GravityContext gravityCTX)> gravityStack;
     [SerializeField] private List<GameObject> seeGravityStack;
 
 
@@ -46,7 +46,7 @@ public class Orbit : MonoBehaviour
         GravityType = GravityTypeStart;
         AllowGravityChange = allowGravityChangeSet;
 
-        gravityStack = new LinkedList<(GameObject, ChangeGravityType)>();
+        gravityStack = new LinkedList<(GameObject, GravityContext)>();
 
         DoesRotate = doesRotateSet;
 
@@ -169,7 +169,7 @@ public class Orbit : MonoBehaviour
     void GravityFormula2(ref Rigidbody2D rig, GameObject target, float gravFactor)
     {
         if (target is null) return;
-        if (target.TryGetComponent(out ChangeGravityType2 Rule) || target.TryGetComponentInChildren(out Rule))
+        if (target.TryGetComponent(out GravityContext2 Rule) || target.TryGetComponentInChildren(out Rule))
         {
             if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
             else Debug.Log("look here");
@@ -190,7 +190,7 @@ public class Orbit : MonoBehaviour
     }
 
     //prototype version 6
-    public void IntoCollider(ChangeGravityType gravType, GameObject intoSticky, Order order)
+    public void IntoCollider(GravityContext gravType, GameObject intoSticky, Order order)
     {
         if (order == Order.Last) gravityStack.AddLast((intoSticky, gravType));
         else if (order == Order.First) gravityStack.AddFirst((intoSticky, gravType));

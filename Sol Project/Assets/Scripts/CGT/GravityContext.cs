@@ -5,7 +5,7 @@ using static NiceMethods;
 
 
 [RequireComponent(typeof(Collider2D))]
-abstract public class ChangeGravityType : MonoBehaviour
+abstract public class GravityContext : MonoBehaviour
 {
     enum TargetOption { parent, self}
 
