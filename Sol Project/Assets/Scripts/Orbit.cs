@@ -36,7 +36,7 @@ public class Orbit : MonoBehaviour
     public bool AllowGravityChange { get; private set; }
 
     //used on ChangeGravityType methods and Gravity Type 2
-    private LinkedList<(GameObject target, byte gravType)> gravityStack;
+    private LinkedList<(GameObject target, ChangeGravityType gravityCTX)> gravityStack;
     [SerializeField] private List<GameObject> seeGravityStack;
 
 
@@ -46,8 +46,7 @@ public class Orbit : MonoBehaviour
         GravityType = GravityTypeStart;
         AllowGravityChange = allowGravityChangeSet;
 
-        gravityStack = new LinkedList<(GameObject,byte)>();
-        gravityStack.DefaultIfEmpty((null, GravityTypeStart));
+        gravityStack = new LinkedList<(GameObject, ChangeGravityType)>();
 
         DoesRotate = doesRotateSet;
 
@@ -191,12 +190,12 @@ public class Orbit : MonoBehaviour
     }
 
     //prototype version 6
-    public void IntoCollider(byte gravType, GameObject intoSticky, Order order)
+    public void IntoCollider(ChangeGravityType gravType, GameObject intoSticky, Order order)
     {
         if (order == Order.Last) gravityStack.AddLast((intoSticky, gravType));
         else if (order == Order.First) gravityStack.AddFirst((intoSticky, gravType));
 
-        if (AllowGravityChange) GravityType = gravityStack.LastOrDefault().gravType;
+        if (AllowGravityChange) GravityType = gravityStack.Last.Value.gravityCTX.GravityType;
     }
 
     public void OutCollider(GameObject outSticky)
@@ -208,7 +207,7 @@ public class Orbit : MonoBehaviour
 
         if (AllowGravityChange)
         {
-            if (gravityStack.Count != 0) GravityType = gravityStack.Last().gravType;
+            if (gravityStack.Count != 0) GravityType = gravityStack.Last.Value.gravityCTX.GravityType;
             else GravityType = GravityTypeStart;
         }
     }

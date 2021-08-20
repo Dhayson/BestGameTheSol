@@ -26,7 +26,7 @@ abstract public class ChangeGravityType : MonoBehaviour
         GameObject Player = collision.gameObject;
         if (CompareLayer(Player.layer, player) && Player.TryGetComponent(out Orbit playerOrb))
         {
-            playerOrb.IntoCollider(GravityType, target, order);
+            playerOrb.IntoCollider(this, target, order);
         }
     }
 

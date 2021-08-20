@@ -308,7 +308,7 @@ MonoBehaviour:
   normal: {fileID: 21300000, guid: 7c9a9fecea45c25418a00384353c2ff0, type: 3}
   speedx: 5
   accelerationx: 15
-  decelerationx: 5
+  decelerationx: 7
   passiveDecelerationx: 0.7
   jumpForce: 550
   followRotation: 1
