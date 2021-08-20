@@ -34,7 +34,7 @@ public class MoveEnemy : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
+        if(Input.GetKeyDown(KeyCode.K) && Physics2D.OverlapCircle(jumpCheck.position, 0.1f, level))
         {
             rig.AddRelativeForce(new Vector2(0, jumpForce));
         }
