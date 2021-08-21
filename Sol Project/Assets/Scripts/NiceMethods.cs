@@ -107,7 +107,7 @@ static public class NiceMethods
 
     static public Vector2 ToLinearVelocity(this float angularVelocity, Vector2 pThis, Vector2 pTarget)
     {
-        return Rotation(Deg2Rad * angularVelocity * (pTarget - pThis), -90);
+        return Rotation(Deg2Rad * angularVelocity * (pTarget - pThis), 270);
     }
 
     public enum Order { First, Last }
