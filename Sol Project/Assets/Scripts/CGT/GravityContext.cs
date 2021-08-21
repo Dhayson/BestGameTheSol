@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NiceMethods;
 
-
+[DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
 abstract public class GravityContext : MonoBehaviour
 {
@@ -15,13 +15,11 @@ abstract public class GravityContext : MonoBehaviour
     [SerializeField] private TargetOption targetSelect;
     abstract public byte GravityType { get; }
     private GameObject target;
-    private bool started = false;
 
     public void OnStart()
     {
         if (targetSelect == TargetOption.parent) target = GetComponent<Transform>().parent.gameObject;
         else if (targetSelect == TargetOption.self) target = gameObject;
-        started = true;
     }
 
     public void Start()
@@ -31,7 +29,7 @@ abstract public class GravityContext : MonoBehaviour
 
     public void OnDisable()
     {
-        if (started) TriggerAll(OnTriggerExit2D);
+        TriggerAll(OnTriggerExit2D);
     }
 
     private void TriggerAll(Action<Collider2D> Trigger)

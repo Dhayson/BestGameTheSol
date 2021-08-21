@@ -67,7 +67,7 @@ public class Orbit : MonoBehaviour
     {
         GravitySwitch(PosThis, GravityType, gravityStack.LastOrDefault());
 
-        if (gravityStack.Count != 0 && (gravityStack.Last.Value.target == null || !gravityStack.Last.Value.target.activeSelf))
+        /*if (gravityStack.Count != 0 && gravityStack.Last.Value.target == null)
         {
             gravityStack.Remove(gravityStack.Last);
             if (AllowGravityChange)
@@ -75,7 +75,7 @@ public class Orbit : MonoBehaviour
                 if (gravityStack.Count != 0) GravityType = gravityStack.Last.Value.gravityCTX.GravityType;
                 else GravityType = GravityTypeStart;
             }
-        }
+        }*/
 
         if (debug)
         {
@@ -125,7 +125,7 @@ public class Orbit : MonoBehaviour
 
     void UpPosition()
     {
-        if (DoesRotate && InGravityField.Length == 1)
+        if (DoesRotate && InGravityField.Length > 0)
         {
             Transform OrbitP = InGravityField[0].GetComponent<Transform>();
             rig.rotation = VectorAngle(Direction(transf.position, OrbitP.position)) + 90;
@@ -140,7 +140,7 @@ public class Orbit : MonoBehaviour
         Vector2 addedForces = new Vector2(0, 0);
         for (int i = 0; i < targets.Count; i++)
         {
-            if (targets[i] == null || !targets[i].activeSelf) { Debug.LogWarning("missing object"); continue; }
+            if (targets[i] == null || !targets[i].activeSelf) { Debug.LogWarning("missing object", gameObject); continue; }
             float targetMass = 0;
             Vector2 targetPos = targets[i].transform.position;
 
@@ -161,7 +161,7 @@ public class Orbit : MonoBehaviour
         Vector2 addedForces = new Vector2(0, 0);
         for (int i = 0; i < targets.Count; i++)
         {
-            if (targets[i] == null || !targets[i].activeSelf) { Debug.LogWarning("missing object"); continue; }
+            if (targets[i] == null || !targets[i].activeSelf) { Debug.LogWarning("missing object", gameObject); continue; }
             Vector2 targetPos = targets[i].transform.position;
             Collider2D[] cols = targets[i].GetComponentsInChildren<Collider2D>(false);
             if (cols.Intersect(InGravityField).Any())
@@ -182,7 +182,7 @@ public class Orbit : MonoBehaviour
 
     void GravityFormula2(ref Rigidbody2D rig, GameObject target, GravityContext gravCTX, float gravFactor)
     {
-        if (target == null || !target.activeSelf || !(gravCTX is GravityContext2 Rule)) { Debug.LogWarning("missing object/incorrect script"); return; }
+        if (target == null || !target.activeSelf || !(gravCTX is GravityContext2 Rule)) { Debug.LogWarning("missing object/incorrect script", gameObject); return; }
 
         if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
         else Debug.Log("look here");
@@ -197,7 +197,7 @@ public class Orbit : MonoBehaviour
 
     void GravityFormula3(ref Rigidbody2D selfRig, Vector2 selfPos, GameObject target)
     {
-        if (target == null || !target.activeSelf) { Debug.LogWarning("missing object"); return; }
+        if (target == null || !target.activeSelf) { Debug.LogWarning("missing object", gameObject); return; }
         var targetPos = target.transform.position;
         if (!rig.isKinematic) selfRig.AddForce(gravityFactor * selfRig.mass * Direction(selfPos, targetPos));
         else Debug.Log("look here");
@@ -215,9 +215,18 @@ public class Orbit : MonoBehaviour
 
     public void OutCollider(GameObject outSticky)
     {
-        for (var Node = gravityStack.First; !(Node is null); Node = Node.Next)
+        bool end = false;
+        LinkedListNode<(GameObject target, GravityContext gravityCTX)> Node = gravityStack.First;
+        LinkedListNode<(GameObject target, GravityContext gravityCTX)> nextNode = null;
+        while (!end)
         {
-            if (Node.Value.target == outSticky) gravityStack.Remove(Node);
+            if (Node == gravityStack.Last)
+            {
+                end = true;
+            }
+            else nextNode = Node.Next;
+            if (!Node.Value.target.activeSelf || Node.Value.target == null || Node.Value.target == outSticky) gravityStack.Remove(Node);
+            Node = nextNode;
         }
 
         if (AllowGravityChange)
