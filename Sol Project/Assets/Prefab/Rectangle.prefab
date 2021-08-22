@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4284455200433367566}
   - component: {fileID: 7337872007168397215}
   - component: {fileID: 691005853252759343}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Rectangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,8 +185,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   order: 1
+  targetSelect: 0
+  isInverted: 0
   direction: {x: 0, y: 1}
   rotation: 180
+  follow: {fileID: 0}
+  DoesRotate: 1
 --- !u!1 &7792384426428351414
 GameObject:
   m_ObjectHideFlags: 0

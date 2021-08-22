@@ -6,8 +6,8 @@ using UnityEngine;
 public class Invert : MonoBehaviour
 {
     private GravityContext2 GC2;
-    [SerializeField] Collider2D colNormal;
-    [SerializeField] Collider2D colInverted;
+    [SerializeField] private Collider2D colNormal;
+    [SerializeField] private Collider2D colInverted;
 
     // Start is called before the first frame update
     void Start()

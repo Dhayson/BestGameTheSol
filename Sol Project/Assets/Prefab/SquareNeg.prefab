@@ -64,6 +64,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   order: 1
+  targetSelect: 0
+  isInverted: 1
   gravityTypeSet: 3
 --- !u!1 &6637594711506868786
 GameObject:

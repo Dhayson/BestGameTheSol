@@ -21,8 +21,9 @@ public class Orbit : MonoBehaviour
     [SerializeField] private List<GameObject> orbits;
     [SerializeField] private LayerMask Gravity;
 
-    [SerializeField] private float gravityFactor;
-    [SerializeField] private float gravityFactor0;
+    public float gravityFactor;
+    public float GravityFactorStart { get; private set; }
+    public float gravityFactor0;
 
     [SerializeField] private byte gravityTypeSet;
     public byte GravityType { get; private set; }
@@ -46,6 +47,8 @@ public class Orbit : MonoBehaviour
         GravityType = GravityTypeStart;
         AllowGravityChange = allowGravityChangeSet;
 
+        GravityFactorStart = gravityFactor;
+
         gravityStack = new LinkedList<(GameObject, GravityContext)>();
 
         DoesRotate = doesRotateSet;
@@ -67,7 +70,7 @@ public class Orbit : MonoBehaviour
     {
         GravitySwitch(PosThis, GravityType, gravityStack.LastOrDefault());
 
-        /*if (gravityStack.Count != 0 && gravityStack.Last.Value.target == null)
+        if (gravityStack.Count != 0 && gravityStack.Last.Value.target == null)
         {
             gravityStack.Remove(gravityStack.Last);
             if (AllowGravityChange)
@@ -75,7 +78,7 @@ public class Orbit : MonoBehaviour
                 if (gravityStack.Count != 0) GravityType = gravityStack.Last.Value.gravityCTX.GravityType;
                 else GravityType = GravityTypeStart;
             }
-        }*/
+        }
 
         if (debug)
         {
@@ -117,7 +120,7 @@ public class Orbit : MonoBehaviour
                 UpPosition();
                 break;
             case 3:
-                GravityFormula3(ref rig, pThis, target);
+                GravityFormula3(ref rig, pThis, target, gravCTX);
                 break;
             case 4: break;
         }
@@ -128,7 +131,7 @@ public class Orbit : MonoBehaviour
         if (DoesRotate && InGravityField.Length > 0)
         {
             Transform OrbitP = InGravityField[0].GetComponent<Transform>();
-            rig.rotation = VectorAngle(Direction(transf.position, OrbitP.position)) + 90;
+            rig.rotation = VectorAngle(Direction(transf.position, OrbitP.position)) + (gravityFactor > 0 ? 90 : -90);
         }
     }
 
@@ -195,16 +198,16 @@ public class Orbit : MonoBehaviour
         GravityFormula2(ref rig, target, gravCTX, gravityFactor);
     }
 
-    void GravityFormula3(ref Rigidbody2D selfRig, Vector2 selfPos, GameObject target)
+    void GravityFormula3(ref Rigidbody2D selfRig, Vector2 selfPos, GameObject target, GravityContext gravCTX)
     {
         if (target == null || !target.activeSelf) { Debug.LogWarning("missing object", gameObject); return; }
         var targetPos = target.transform.position;
-        if (!rig.isKinematic) selfRig.AddForce(gravityFactor * selfRig.mass * Direction(selfPos, targetPos));
+        if (!rig.isKinematic) selfRig.AddForce((gravCTX.isInverted ? -1 : 1) * gravityFactor * selfRig.mass * Direction(selfPos, targetPos));
         else Debug.Log("look here");
-        selfRig.rotation = VectorAngle(Direction(selfPos, targetPos)) + 90;
+        selfRig.rotation = VectorAngle(Direction(selfPos, targetPos)) + (gravCTX.isInverted ? -90 : 90);
     }
 
-    //prototype version 6
+    //prototype version 7
     public void IntoCollider(GravityContext gravCTX, GameObject intoSticky, Order order)
     {
         if (order == Order.Last) gravityStack.AddLast((intoSticky, gravCTX));

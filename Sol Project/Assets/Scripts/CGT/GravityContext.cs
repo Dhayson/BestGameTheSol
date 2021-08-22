@@ -10,9 +10,10 @@ abstract public class GravityContext : MonoBehaviour
 {
     enum TargetOption { parent, self }
 
-    [SerializeField] private LayerMask player;
+    public LayerMask player;
     [SerializeField] private Order order;
     [SerializeField] private TargetOption targetSelect;
+    public bool isInverted;
     abstract public byte GravityType { get; }
     private GameObject target;
 
