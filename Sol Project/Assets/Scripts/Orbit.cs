@@ -186,7 +186,7 @@ public class Orbit : MonoBehaviour
 
         if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
         else Debug.Log("look here");
-        if (DoesRotate) rig.rotation = Rule.rotation;
+        if (DoesRotate && Rule.DoesRotate) rig.rotation = Rule.rotation;
 
     }
 
