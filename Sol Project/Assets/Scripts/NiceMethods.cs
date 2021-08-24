@@ -95,6 +95,12 @@ static public class NiceMethods
         return !(c is null);
     }
 
+    static public bool TryGetComponentInParent<t>(this Component g, out t c) where t : Component
+    {
+        c = g.GetComponentInParent<t>();
+        return !(c is null);
+    }
+
     /// <summary>
     /// Removes nulls, nones, inactives and duplicates from the list
     /// </summary>
