@@ -27,9 +27,8 @@ public class RigInformation : MonoBehaviour
             velocityModule = rig.velocity.magnitude;
             if (hasOrbit)
             {
-                if (orb.InGravityField.Length == 1)
+                if (orb.InGravityField.Length == 1 && orb.InGravityField[0].TryGetComponentInParent(out Rigidbody2D target))
                 {
-                    Rigidbody2D target = orb.InGravityField[0].GetComponentInParent<Rigidbody2D>();
                     Vector2 relativeVelocity = rig.velocity - target.velocity;
                     relativeVelocityModule = relativeVelocity.magnitude;
                     Vector2 relativeVelocityRotationV = relativeVelocity - target.angularVelocity.ToLinearVelocity(transf.position, target.position);

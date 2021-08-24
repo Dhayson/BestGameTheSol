@@ -65,9 +65,17 @@ public class MovePlayer : MonoBehaviour
         Collider2D[] orbitings = orbit.InGravityField;
         if ((orbitings.Length == 1 || (orbit.GravityType == 2 || orbit.GravityType == 3) && orbitings.Length > 0) && orbit.GravityType != 4)
         {
-            Rigidbody2D rigTarget = orbitings[0].GetComponentInParent<Rigidbody2D>();
-            Vector2 rotationVelocity = followRotation ? rigTarget.angularVelocity.ToLinearVelocity(transf.position, rigTarget.position) : Vector2.zero;
-            Vector2 relativeVelocity = rig.velocity - rigTarget.velocity - rotationVelocity;
+            Vector2 relativeVelocity;
+            if (orbitings[0].TryGetComponentInParent(out Rigidbody2D rigTarget))
+            {
+                Vector2 rotationVelocity = followRotation ? rigTarget.angularVelocity.ToLinearVelocity(transf.position, rigTarget.position) : Vector2.zero;
+                relativeVelocity = rig.velocity - rigTarget.velocity - rotationVelocity;
+            }
+            else
+            {
+                relativeVelocity = rig.velocity;
+            }
+
             float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
             if (buttons[(int)Directions.stop] == 0)
             {
