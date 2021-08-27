@@ -187,9 +187,9 @@ public class Orbit : MonoBehaviour
     {
         if (target == null || !target.activeSelf || !(gravCTX is GravityContext2 Rule)) { Debug.LogWarning("missing object/incorrect script", gameObject); return; }
 
-        if (!rig.isKinematic) rig.AddForce(rig.mass * gravFactor * Rule.direction);
+        if (!rig.isKinematic) rig.AddForce((Rule.isInverted ? -1 : 1) * rig.mass * gravFactor * Rule.direction);
         else Debug.Log("look here");
-        if (DoesRotate && Rule.DoesRotate) rig.rotation = Rule.rotation;
+        if (DoesRotate && Rule.DoesRotate) rig.rotation = Rule.rotation + (Rule.isInverted ? 180 : 0);
 
     }
 
@@ -218,10 +218,9 @@ public class Orbit : MonoBehaviour
 
     public void OutCollider(GameObject outSticky)
     {
-        bool end = false;
         LinkedListNode<(GameObject target, GravityContext gravityCTX)> Node = gravityStack.First;
         LinkedListNode<(GameObject target, GravityContext gravityCTX)> nextNode = null;
-        while (!end)
+        for (bool end = false; !end; Node = nextNode)
         {
             if (Node == gravityStack.Last)
             {
@@ -229,7 +228,6 @@ public class Orbit : MonoBehaviour
             }
             else nextNode = Node.Next;
             if (!Node.Value.target.activeSelf || Node.Value.target == null || Node.Value.target == outSticky) gravityStack.Remove(Node);
-            Node = nextNode;
         }
 
         if (AllowGravityChange)
