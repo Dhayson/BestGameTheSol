@@ -20,7 +20,7 @@ public class SlowArea : MonoBehaviour
             if (colGameObj.TryGetComponent(out Stats stats))
             {
                 stats.speedFactor *= slowRatio;
-                stats.jumpFactor *= Mathf.Sqrt(slowRatio);
+                stats.MultiplyJumpFactor = slowRatio;
             }
         }
     }
@@ -39,7 +39,7 @@ public class SlowArea : MonoBehaviour
             if (colGameObj.TryGetComponent(out Stats stats))
             {
                 stats.speedFactor /= slowRatio;
-                stats.jumpFactor /= Mathf.Sqrt(slowRatio);
+                stats.MultiplyJumpFactor = 1 / slowRatio;
             }
         }
     }

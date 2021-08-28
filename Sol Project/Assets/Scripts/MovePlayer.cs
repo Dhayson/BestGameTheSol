@@ -54,7 +54,7 @@ public class MovePlayer : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD)
         {
-            float jumpForce = this.jumpForce * stats.jumpFactor;
+            float jumpForce = this.jumpForce * stats.JumpFactor;
             rig.AddRelativeForce(new Vector2 (0, jumpForce));
             jumpCD = false; count = 0;
         }

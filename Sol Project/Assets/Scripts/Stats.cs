@@ -9,7 +9,9 @@ public class Stats : MonoBehaviour
     public float InvulnerableTime;
     [SerializeField] private float InvulnerableTimeCD;
     public float speedFactor = 1;
-    public float jumpFactor = 1;
+    [SerializeField] private float jumpFactor = 1;
+    public float JumpFactor { get { return jumpFactor; } }
+    public float MultiplyJumpFactor { set { jumpFactor *= Mathf.Sqrt(value); } }
     // Start is called before the first frame update
     void Start()
     {
