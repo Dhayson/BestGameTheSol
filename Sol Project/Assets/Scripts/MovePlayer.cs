@@ -28,6 +28,7 @@ public class MovePlayer : MonoBehaviour
     private Transform transf;
     private Orbit orbit;
     private SpriteRenderer render;
+    private Stats stats;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +36,7 @@ public class MovePlayer : MonoBehaviour
         transf = GetComponent<Transform>();
         orbit = GetComponent<Orbit>();
         render = GetComponent<SpriteRenderer>();
+        stats = GetComponent<Stats>();
         buttons = new int[Enum.GetValues(typeof(Directions)).Length];
 
         if (decelerationx > 0) decelerationx *= -1;
@@ -52,6 +54,7 @@ public class MovePlayer : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD)
         {
+            float jumpForce = this.jumpForce * stats.jumpFactor;
             rig.AddRelativeForce(new Vector2 (0, jumpForce));
             jumpCD = false; count = 0;
         }
@@ -62,6 +65,8 @@ public class MovePlayer : MonoBehaviour
     [NonSerialized] public byte count = 0;
     void FixedUpdate()
     {
+        float speedx = this.speedx * stats.speedFactor;
+
         Collider2D[] orbitings = orbit.InGravityField;
         if ((orbitings.Length == 1 || (orbit.GravityType == 2 || orbit.GravityType == 3) && orbitings.Length > 0) && orbit.GravityType != 4)
         {

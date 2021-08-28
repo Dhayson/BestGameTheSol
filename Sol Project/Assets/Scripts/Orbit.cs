@@ -80,6 +80,12 @@ public class Orbit : MonoBehaviour
             }
         }
 
+        if (float.IsNaN(gravityFactor) || float.IsInfinity(gravityFactor))
+        {
+            Debug.LogWarning($"gravityFactor cannot be NaN or Inf");
+            gravityFactor = GravityFactorStart;
+        }
+
         if (debug)
         {
             seeGravityType = GravityType;
@@ -131,7 +137,7 @@ public class Orbit : MonoBehaviour
         if (DoesRotate && InGravityField.Length > 0)
         {
             Transform OrbitP = InGravityField[0].GetComponent<Transform>();
-            rig.rotation = VectorAngle(Direction(transf.position, OrbitP.position)) + (gravityFactor > 0 ? 90 : -90);
+            rig.rotation = VectorAngle(Direction(transf.position, OrbitP.position)) + (gravityFactor >= 0 ? 90 : -90);
         }
     }
 

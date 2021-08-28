@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class Stats : MonoBehaviour
     public float Health;
     public float InvulnerableTime;
     [SerializeField] private float InvulnerableTimeCD;
+    public float speedFactor = 1;
+    public float jumpFactor = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,15 @@ public class Stats : MonoBehaviour
         {
             Debug.Log("kill");
             Health = float.NaN;
+        }
+
+        if (float.IsNaN(speedFactor))
+        {
+            speedFactor = 1f;
+        }
+        if (float.IsNaN(jumpFactor))
+        {
+            jumpFactor = 1f;
         }
     }
 

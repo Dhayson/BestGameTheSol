@@ -9,6 +9,7 @@ public class MoveEnemy : MonoBehaviour
     private Transform transf;
     private Orbit orbit;
     private Collider2D col;
+    private Stats stats;
 
     private bool jumpCD;
     public float speedx;
@@ -27,6 +28,7 @@ public class MoveEnemy : MonoBehaviour
         transf = GetComponent<Transform>();
         orbit = GetComponent<Orbit>();
         col = GetComponent<Collider2D>();
+        stats = GetComponent<Stats>();
 
         if (decelerationx > 0) decelerationx *= -1;
         if (passiveDecelerationx > 0) passiveDecelerationx *= -1;
@@ -45,6 +47,7 @@ public class MoveEnemy : MonoBehaviour
         Collider2D[] orbitings = orbit.InGravityField;
         if(orbitings.Length == 1)
         {
+            float speedx = this.speedx * stats.speedFactor;
             Rigidbody2D target = orbitings[0].GetComponentInParent<Rigidbody2D>();
             Vector2 relativeVelocity = rig.velocity - target.velocity - target.angularVelocity.ToLinearVelocity(transf.position, target.position);
             float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
