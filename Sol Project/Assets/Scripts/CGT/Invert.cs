@@ -17,15 +17,18 @@ public class Invert : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.IsTouching(colNormal))
+        if (NiceMethods.CompareLayer(collision.gameObject.layer, GC2.player))
         {
-            GC2.direction = GC2.StartDirection;
-            GC2.rotation = GC2.StartRotation;
-        }
-        else if(collision.IsTouching(colInverted))
-        {
-            GC2.direction = -GC2.StartDirection;
-            GC2.rotation = -GC2.StartRotation;
+            if (collision.IsTouching(colNormal))
+            {
+                GC2.direction = GC2.StartDirection;
+                GC2.rotation = GC2.StartRotation;
+            }
+            else if (collision.IsTouching(colInverted))
+            {
+                GC2.direction = -GC2.StartDirection;
+                GC2.rotation = -GC2.StartRotation;
+            }
         }
     }
 }
