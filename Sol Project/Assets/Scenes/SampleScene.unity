@@ -2266,7 +2266,19 @@ PrefabInstance:
       value: Slow area
       objectReference: {fileID: 0}
     - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
+      propertyPath: jumpRatio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
       propertyPath: slowRatio
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
+      propertyPath: speedRatio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
+      propertyPath: gravityRatio
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
