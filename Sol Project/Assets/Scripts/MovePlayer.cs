@@ -7,6 +7,8 @@ using static NiceMethods;
 
 public class MovePlayer : MonoBehaviour
 {
+    private Player player;
+
     public Sprite flying;
     public Sprite normal;
 
@@ -29,6 +31,34 @@ public class MovePlayer : MonoBehaviour
     private Orbit orbit;
     private SpriteRenderer render;
     private Stats stats;
+
+    public void Awake()
+    {
+        player = new Player();
+        player.Gameplay.Jump.started += ctx => Jump();
+        player.Gameplay.RunRight.started += ctx => Run(Directions.right, true);
+        player.Gameplay.RunRight.canceled += ctx => Run(Directions.right, false);
+        player.Gameplay.RunLeft.started += ctx => Run(Directions.left, true);
+        player.Gameplay.RunLeft.canceled += ctx => Run(Directions.left, false);
+    }
+
+    void Run(Directions dir, bool set)
+    {
+        if (dir == Directions.right) buttons[(int)Directions.right] = set ? 1 : 0;
+        if (dir == Directions.left) buttons[(int)Directions.left] = set ? -1 : 0;
+        buttons[(int)Directions.stop] = buttons[(int)Directions.right] + buttons[(int)Directions.left];
+    }
+
+    void Jump()
+    {
+        if (OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD)
+        {
+            float jumpForce = this.jumpForce * stats.JumpFactor;
+            rig.AddRelativeForce(new Vector2(0, jumpForce));
+            jumpCD = false; count = 0;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,26 +71,12 @@ public class MovePlayer : MonoBehaviour
 
         if (decelerationx > 0) decelerationx *= -1;
         if (passiveDecelerationx > 0) passiveDecelerationx *= -1;
+
+        player.Gameplay.Enable();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        buttons[(int)Directions.right] = Input.GetKey(KeyCode.D) ? 1 : 0;
-        buttons[(int)Directions.left] = Input.GetKey(KeyCode.A) ? -1 : 0;
-        buttons[(int)Directions.stop] = buttons[(int)Directions.right] + buttons[(int)Directions.left];
-
-        buttons[(int)Directions.clock] = (Input.GetKey(KeyCode.RightArrow) ? 1 : 0) - (Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
-
-        if (Input.GetKeyDown(KeyCode.Space) && OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD)
-        {
-            float jumpForce = this.jumpForce * stats.JumpFactor;
-            rig.AddRelativeForce(new Vector2 (0, jumpForce));
-            jumpCD = false; count = 0;
-        }
-
-        if (Input.GetKeyDown(KeyCode.E)) LogGravity();
-    }
+    //void Update() { }
 
     [NonSerialized] public byte count = 0;
     void FixedUpdate()

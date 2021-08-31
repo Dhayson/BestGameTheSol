@@ -11,11 +11,13 @@ public class SelfDestruct : MonoBehaviour
             enabled = false;
         }
     }
+    /*
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if(Input.GetKeyDown(KeyCode.Alpha1)false)
         {
-            Destroy(gameObject, 0);
+            
         }
     }
+    */
 }

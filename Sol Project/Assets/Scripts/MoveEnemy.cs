@@ -34,6 +34,7 @@ public class MoveEnemy : MonoBehaviour
         if (passiveDecelerationx > 0) passiveDecelerationx *= -1;
     }
 
+    /*
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.K) && Physics2D.OverlapCircle(jumpCheck.position, 0.1f, level))
@@ -41,6 +42,7 @@ public class MoveEnemy : MonoBehaviour
             rig.AddRelativeForce(new Vector2(0, jumpForce * stats.JumpFactor));
         }
     }
+    */
 
     void FixedUpdate()
     {

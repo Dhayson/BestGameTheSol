@@ -1,0 +1,33 @@
+{
+    "name": "Debug",
+    "maps": [
+        {
+            "name": "debug",
+            "id": "5161ff61-1fa5-44db-84cb-2c5feb49e5f3",
+            "actions": [
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "76b62ec5-46f5-4ea2-81ef-84718d1df686",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8379dab1-3480-45f2-892c-8a67f1fd545b",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
