@@ -1,7 +1,0 @@
-﻿[*.cs]
-
-# IDE0051: Remover membros privados não utilizados
-dotnet_diagnostic.IDE0051.severity = none
-
-# IDE0044: Adicionar modificador somente leitura
-dotnet_diagnostic.IDE0044.severity = none
