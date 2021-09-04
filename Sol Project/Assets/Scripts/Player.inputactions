@@ -28,6 +28,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Run Any",
+                    "type": "Value",
+                    "id": "557f08b1-e8e6-4974-a078-da21cd898eb4",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -94,6 +102,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Run Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f5d512c8-f8d3-4ede-80b8-cf1f5955dcc4",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run Any",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -41,6 +41,14 @@ public class @Player : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Run Any"",
+                    ""type"": ""Value"",
+                    ""id"": ""557f08b1-e8e6-4974-a078-da21cd898eb4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -109,6 +117,17 @@ public class @Player : IInputActionCollection, IDisposable
                     ""action"": ""Run Right"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5d512c8-f8d3-4ede-80b8-cf1f5955dcc4"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run Any"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -120,6 +139,7 @@ public class @Player : IInputActionCollection, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_RunLeft = m_Gameplay.FindAction("Run Left", throwIfNotFound: true);
         m_Gameplay_RunRight = m_Gameplay.FindAction("Run Right", throwIfNotFound: true);
+        m_Gameplay_RunAny = m_Gameplay.FindAction("Run Any", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -172,6 +192,7 @@ public class @Player : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_RunLeft;
     private readonly InputAction m_Gameplay_RunRight;
+    private readonly InputAction m_Gameplay_RunAny;
     public struct GameplayActions
     {
         private @Player m_Wrapper;
@@ -179,6 +200,7 @@ public class @Player : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @RunLeft => m_Wrapper.m_Gameplay_RunLeft;
         public InputAction @RunRight => m_Wrapper.m_Gameplay_RunRight;
+        public InputAction @RunAny => m_Wrapper.m_Gameplay_RunAny;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -197,6 +219,9 @@ public class @Player : IInputActionCollection, IDisposable
                 @RunRight.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRunRight;
                 @RunRight.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRunRight;
                 @RunRight.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRunRight;
+                @RunAny.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRunAny;
+                @RunAny.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRunAny;
+                @RunAny.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRunAny;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -210,6 +235,9 @@ public class @Player : IInputActionCollection, IDisposable
                 @RunRight.started += instance.OnRunRight;
                 @RunRight.performed += instance.OnRunRight;
                 @RunRight.canceled += instance.OnRunRight;
+                @RunAny.started += instance.OnRunAny;
+                @RunAny.performed += instance.OnRunAny;
+                @RunAny.canceled += instance.OnRunAny;
             }
         }
     }
@@ -219,5 +247,6 @@ public class @Player : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnRunLeft(InputAction.CallbackContext context);
         void OnRunRight(InputAction.CallbackContext context);
+        void OnRunAny(InputAction.CallbackContext context);
     }
 }

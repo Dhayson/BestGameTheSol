@@ -2,13 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.Physics2D;
 using static NiceMethods;
 
 public class MovePlayer : MonoBehaviour
 {
     private Player player;
-
+    enum ControlType { Type1, Type2 }
+    [SerializeField] ControlType controlType;
     public Sprite flying;
     public Sprite normal;
 
@@ -82,6 +84,8 @@ public class MovePlayer : MonoBehaviour
     void FixedUpdate()
     {
         float speedx = this.speedx * stats.speedFactor;
+        float passiveDecelerationx = this.passiveDecelerationx * stats.speedFactor;
+        float accelerationx = this.accelerationx * stats.speedFactor;
 
         Collider2D[] orbitings = orbit.InGravityField;
         if ((orbitings.Length == 1 || (orbit.GravityType == 2 || orbit.GravityType == 3) && orbitings.Length > 0) && orbit.GravityType != 4)
@@ -89,7 +93,8 @@ public class MovePlayer : MonoBehaviour
             Vector2 relativeVelocity;
             if (orbitings[0].TryGetComponentInParent(out Rigidbody2D rigTarget))
             {
-                Vector2 rotationVelocity = followRotation ? rigTarget.angularVelocity.ToLinearVelocity(transf.position, rigTarget.position) : Vector2.zero;
+                Vector2 rotationVelocity = followRotation ?
+                rigTarget.angularVelocity.ToLinearVelocity(transf.position, rigTarget.position) : Vector2.zero;
                 relativeVelocity = rig.velocity - rigTarget.velocity - rotationVelocity;
             }
             else
@@ -97,34 +102,60 @@ public class MovePlayer : MonoBehaviour
                 relativeVelocity = rig.velocity;
             }
 
-            float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
-            if (buttons[(int)Directions.stop] == 0)
+            if (controlType == ControlType.Type2)
             {
-                rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * decelerationx);
-            }
-            else
-            {
-                if (relativeVelRotX <= speedx)
-                {
-                    rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.right], 0), rig.rotation) * accelerationx);
-                }
-                else
-                {
-                    rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
-                }
+                Vector2 playerVector = player.Gameplay.RunAny.ReadValue<Vector2>().normalized;
+                playerVector = Rotation(new Vector2(UnRotation(playerVector, rig.rotation).x, 0), rig.rotation);
 
-                if (relativeVelRotX >= -speedx)
+                float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
+                if (playerVector.magnitude <= 0.4f)
                 {
-                    rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0), rig.rotation) * accelerationx);
+                    rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * decelerationx);
                 }
                 else
                 {
-                    rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
+                    if (Mathf.Abs(relativeVelRotX) <= speedx)
+                    {
+                        rig.AddForce(playerVector.normalized * accelerationx);
+                    }
+                    else
+                    {
+                        rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
+                    }
+                }
+            }
+
+            else if (controlType == ControlType.Type1)
+            {
+                float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
+                if (buttons[(int)Directions.stop] == 0)
+                {
+                    rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * decelerationx);
+                }
+                else
+                {
+                    if (relativeVelRotX <= speedx)
+                    {
+                        rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.right], 0), rig.rotation) * accelerationx);
+                    }
+                    else
+                    {
+                        rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
+                    }
+
+                    if (relativeVelRotX >= -speedx)
+                    {
+                        rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0), rig.rotation) * accelerationx);
+                    }
+                    else
+                    {
+                        rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
+                    }
                 }
             }
             render.sprite = normal;
         }
-        else 
+        else
         {
             //TODO:
             //animation of space drifiting
@@ -137,7 +168,7 @@ public class MovePlayer : MonoBehaviour
 
     void LogGravity()
     {
-        foreach(var c in orbit.InGravityField)
+        foreach (var c in orbit.InGravityField)
         {
             Debug.Log(c);
         }
