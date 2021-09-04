@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static NiceMethods;
 
 public class CameraScript : MonoBehaviour

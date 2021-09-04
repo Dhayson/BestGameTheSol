@@ -100,7 +100,7 @@ public class Orbit : MonoBehaviour
                 }
                 catch (NullReferenceException) { seeGravityStack[i] = null; }
             }
-            while (Node is object)
+            while (!(Node is null))
             {
                 seeGravityStack.Add(Node.Value.target);
                 Node = Node.Previous;
