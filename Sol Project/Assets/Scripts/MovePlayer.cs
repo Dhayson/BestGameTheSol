@@ -11,6 +11,7 @@ public class MovePlayer : MonoBehaviour
     private Player player;
     enum ControlType { Type1, Type2 }
     [SerializeField] ControlType controlType;
+    private ControlType gamepadControlType;
     public Sprite flying;
     public Sprite normal;
 
@@ -42,6 +43,22 @@ public class MovePlayer : MonoBehaviour
         player.Gameplay.RunRight.canceled += ctx => Run(Directions.right, false);
         player.Gameplay.RunLeft.started += ctx => Run(Directions.left, true);
         player.Gameplay.RunLeft.canceled += ctx => Run(Directions.left, false);
+
+        player.ChangeController.Keyboard.started += ctx => controlType = ControlType.Type1;
+        player.ChangeController.Gamepad.started += ctx => controlType = gamepadControlType;
+        player.ChangeController.ChangeGamepad.started += ctx => 
+        {
+            if(gamepadControlType == ControlType.Type1)
+            {
+                gamepadControlType = ControlType.Type2;
+                controlType = ControlType.Type2;
+            }
+            else
+            {
+                gamepadControlType = ControlType.Type1;
+                controlType = ControlType.Type1;
+            }
+        };
     }
 
     void Run(Directions dir, bool set)
@@ -64,6 +81,8 @@ public class MovePlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gamepadControlType = controlType;
+
         rig = GetComponent<Rigidbody2D>();
         transf = GetComponent<Transform>();
         orbit = GetComponent<Orbit>();
@@ -75,6 +94,7 @@ public class MovePlayer : MonoBehaviour
         if (passiveDecelerationx > 0) passiveDecelerationx *= -1;
 
         player.Gameplay.Enable();
+        player.ChangeController.Enable();
     }
 
     // Update is called once per frame

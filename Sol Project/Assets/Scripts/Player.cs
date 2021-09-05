@@ -130,6 +130,148 @@ public class @Player : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Change Controller"",
+            ""id"": ""dd09a60f-9ab1-41c4-8be3-5fb14701dea5"",
+            ""actions"": [
+                {
+                    ""name"": ""Keyboard"",
+                    ""type"": ""Button"",
+                    ""id"": ""53cb2678-d9da-45af-b905-79fb2e9427a7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c6ed620-6eec-4c6e-ad1d-929d9f2a3c10"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Change Gamepad"",
+                    ""type"": ""Button"",
+                    ""id"": ""91b1d495-95e6-446c-912d-a27896d848ca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3c83b764-86b4-4ec1-bee1-b21fd15314ba"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Keyboard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4551b70d-f094-4abf-85dd-0c44748e3a22"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Gamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b27668e-4549-4e5e-9d93-731a0d9898da"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Gamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a05f1c6a-18b5-4b3c-9e3b-d397431476d0"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Gamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13371442-9596-4fc5-8e55-e3fa70bf8899"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Gamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1cdd978-94b0-483e-b5d4-38d08c5f5ee9"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Gamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f707a4af-d22c-4f7d-9aa9-cca429cedcbd"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Gamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""82ddec37-9098-4e20-b714-bb180c2f7a76"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Gamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c9b8df82-16c4-4df1-b7b4-8971a1014ae1"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Gamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4be5d08b-6a70-43da-b417-b4dfba562bfa"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change Gamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -140,6 +282,11 @@ public class @Player : IInputActionCollection, IDisposable
         m_Gameplay_RunLeft = m_Gameplay.FindAction("Run Left", throwIfNotFound: true);
         m_Gameplay_RunRight = m_Gameplay.FindAction("Run Right", throwIfNotFound: true);
         m_Gameplay_RunAny = m_Gameplay.FindAction("Run Any", throwIfNotFound: true);
+        // Change Controller
+        m_ChangeController = asset.FindActionMap("Change Controller", throwIfNotFound: true);
+        m_ChangeController_Keyboard = m_ChangeController.FindAction("Keyboard", throwIfNotFound: true);
+        m_ChangeController_Gamepad = m_ChangeController.FindAction("Gamepad", throwIfNotFound: true);
+        m_ChangeController_ChangeGamepad = m_ChangeController.FindAction("Change Gamepad", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -242,11 +389,66 @@ public class @Player : IInputActionCollection, IDisposable
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // Change Controller
+    private readonly InputActionMap m_ChangeController;
+    private IChangeControllerActions m_ChangeControllerActionsCallbackInterface;
+    private readonly InputAction m_ChangeController_Keyboard;
+    private readonly InputAction m_ChangeController_Gamepad;
+    private readonly InputAction m_ChangeController_ChangeGamepad;
+    public struct ChangeControllerActions
+    {
+        private @Player m_Wrapper;
+        public ChangeControllerActions(@Player wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Keyboard => m_Wrapper.m_ChangeController_Keyboard;
+        public InputAction @Gamepad => m_Wrapper.m_ChangeController_Gamepad;
+        public InputAction @ChangeGamepad => m_Wrapper.m_ChangeController_ChangeGamepad;
+        public InputActionMap Get() { return m_Wrapper.m_ChangeController; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ChangeControllerActions set) { return set.Get(); }
+        public void SetCallbacks(IChangeControllerActions instance)
+        {
+            if (m_Wrapper.m_ChangeControllerActionsCallbackInterface != null)
+            {
+                @Keyboard.started -= m_Wrapper.m_ChangeControllerActionsCallbackInterface.OnKeyboard;
+                @Keyboard.performed -= m_Wrapper.m_ChangeControllerActionsCallbackInterface.OnKeyboard;
+                @Keyboard.canceled -= m_Wrapper.m_ChangeControllerActionsCallbackInterface.OnKeyboard;
+                @Gamepad.started -= m_Wrapper.m_ChangeControllerActionsCallbackInterface.OnGamepad;
+                @Gamepad.performed -= m_Wrapper.m_ChangeControllerActionsCallbackInterface.OnGamepad;
+                @Gamepad.canceled -= m_Wrapper.m_ChangeControllerActionsCallbackInterface.OnGamepad;
+                @ChangeGamepad.started -= m_Wrapper.m_ChangeControllerActionsCallbackInterface.OnChangeGamepad;
+                @ChangeGamepad.performed -= m_Wrapper.m_ChangeControllerActionsCallbackInterface.OnChangeGamepad;
+                @ChangeGamepad.canceled -= m_Wrapper.m_ChangeControllerActionsCallbackInterface.OnChangeGamepad;
+            }
+            m_Wrapper.m_ChangeControllerActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Keyboard.started += instance.OnKeyboard;
+                @Keyboard.performed += instance.OnKeyboard;
+                @Keyboard.canceled += instance.OnKeyboard;
+                @Gamepad.started += instance.OnGamepad;
+                @Gamepad.performed += instance.OnGamepad;
+                @Gamepad.canceled += instance.OnGamepad;
+                @ChangeGamepad.started += instance.OnChangeGamepad;
+                @ChangeGamepad.performed += instance.OnChangeGamepad;
+                @ChangeGamepad.canceled += instance.OnChangeGamepad;
+            }
+        }
+    }
+    public ChangeControllerActions @ChangeController => new ChangeControllerActions(this);
     public interface IGameplayActions
     {
         void OnJump(InputAction.CallbackContext context);
         void OnRunLeft(InputAction.CallbackContext context);
         void OnRunRight(InputAction.CallbackContext context);
         void OnRunAny(InputAction.CallbackContext context);
+    }
+    public interface IChangeControllerActions
+    {
+        void OnKeyboard(InputAction.CallbackContext context);
+        void OnGamepad(InputAction.CallbackContext context);
+        void OnChangeGamepad(InputAction.CallbackContext context);
     }
 }
