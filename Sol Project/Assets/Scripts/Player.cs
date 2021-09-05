@@ -272,6 +272,44 @@ public class @Player : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Meta"",
+            ""id"": ""64802365-5103-4bdf-9a3d-8cdeec73d502"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""b9526b0d-2bff-4848-aa84-dc3d8e9ed2b9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""06d94dff-32ec-4773-9f77-bf5d4c68c105"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a833aa03-f642-4424-80b0-6bb4cd327b37"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -287,6 +325,9 @@ public class @Player : IInputActionCollection, IDisposable
         m_ChangeController_Keyboard = m_ChangeController.FindAction("Keyboard", throwIfNotFound: true);
         m_ChangeController_Gamepad = m_ChangeController.FindAction("Gamepad", throwIfNotFound: true);
         m_ChangeController_ChangeGamepad = m_ChangeController.FindAction("Change Gamepad", throwIfNotFound: true);
+        // Meta
+        m_Meta = asset.FindActionMap("Meta", throwIfNotFound: true);
+        m_Meta_Pause = m_Meta.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -438,6 +479,39 @@ public class @Player : IInputActionCollection, IDisposable
         }
     }
     public ChangeControllerActions @ChangeController => new ChangeControllerActions(this);
+
+    // Meta
+    private readonly InputActionMap m_Meta;
+    private IMetaActions m_MetaActionsCallbackInterface;
+    private readonly InputAction m_Meta_Pause;
+    public struct MetaActions
+    {
+        private @Player m_Wrapper;
+        public MetaActions(@Player wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_Meta_Pause;
+        public InputActionMap Get() { return m_Wrapper.m_Meta; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MetaActions set) { return set.Get(); }
+        public void SetCallbacks(IMetaActions instance)
+        {
+            if (m_Wrapper.m_MetaActionsCallbackInterface != null)
+            {
+                @Pause.started -= m_Wrapper.m_MetaActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_MetaActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_MetaActionsCallbackInterface.OnPause;
+            }
+            m_Wrapper.m_MetaActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+            }
+        }
+    }
+    public MetaActions @Meta => new MetaActions(this);
     public interface IGameplayActions
     {
         void OnJump(InputAction.CallbackContext context);
@@ -450,5 +524,9 @@ public class @Player : IInputActionCollection, IDisposable
         void OnKeyboard(InputAction.CallbackContext context);
         void OnGamepad(InputAction.CallbackContext context);
         void OnChangeGamepad(InputAction.CallbackContext context);
+    }
+    public interface IMetaActions
+    {
+        void OnPause(InputAction.CallbackContext context);
     }
 }

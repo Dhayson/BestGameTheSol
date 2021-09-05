@@ -59,6 +59,8 @@ public class MovePlayer : MonoBehaviour
                 controlType = ControlType.Type1;
             }
         };
+
+        player.Meta.Pause.started += ctx => Pause(); 
     }
 
     void Run(Directions dir, bool set)
@@ -70,11 +72,26 @@ public class MovePlayer : MonoBehaviour
 
     void Jump()
     {
-        if (OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD)
+        if (OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD && isPlaying)
         {
             float jumpForce = this.jumpForce * stats.JumpFactor;
             rig.AddRelativeForce(new Vector2(0, jumpForce));
             jumpCD = false; count = 0;
+        }
+    }
+
+    private bool isPlaying = true;
+    void Pause()
+    {
+        if(isPlaying)
+        {
+            Time.timeScale = 0;
+            isPlaying = false;
+        }
+        else
+        {
+            Time.timeScale = 1;
+            isPlaying = true;
         }
     }
 
@@ -95,6 +112,7 @@ public class MovePlayer : MonoBehaviour
 
         player.Gameplay.Enable();
         player.ChangeController.Enable();
+        player.Meta.Enable();
     }
 
     // Update is called once per frame
