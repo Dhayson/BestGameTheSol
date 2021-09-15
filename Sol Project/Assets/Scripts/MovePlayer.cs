@@ -35,6 +35,8 @@ public class MovePlayer : MonoBehaviour
     private SpriteRenderer render;
     private Stats stats;
 
+    [SerializeField] private SaveGame saveGame;
+
     public void Awake()
     {
         player = new Player();
@@ -46,9 +48,9 @@ public class MovePlayer : MonoBehaviour
 
         player.ChangeController.Keyboard.started += ctx => controlType = ControlType.Type1;
         player.ChangeController.Gamepad.started += ctx => controlType = gamepadControlType;
-        player.ChangeController.ChangeGamepad.started += ctx => 
+        player.ChangeController.ChangeGamepad.started += ctx =>
         {
-            if(gamepadControlType == ControlType.Type1)
+            if (gamepadControlType == ControlType.Type1)
             {
                 gamepadControlType = ControlType.Type2;
                 controlType = ControlType.Type2;
@@ -60,7 +62,7 @@ public class MovePlayer : MonoBehaviour
             }
         };
 
-        player.Meta.Pause.started += ctx => Pause(); 
+        player.Meta.Pause.started += ctx => Pause();
     }
 
     void Run(Directions dir, bool set)
@@ -83,7 +85,7 @@ public class MovePlayer : MonoBehaviour
     private bool isPlaying = true;
     void Pause()
     {
-        if(isPlaying)
+        if (isPlaying)
         {
             Time.timeScale = 0;
             isPlaying = false;
@@ -113,6 +115,10 @@ public class MovePlayer : MonoBehaviour
         player.Gameplay.Enable();
         player.ChangeController.Enable();
         player.Meta.Enable();
+
+        saveGame.data.playerPos = (transf.position.x, transf.position.y, transf.position.z);
+        saveGame.Load();
+        transf.position = new Vector3(saveGame.data.playerPos.x, saveGame.data.playerPos.y, saveGame.data.playerPos.z);
     }
 
     // Update is called once per frame
@@ -192,6 +198,9 @@ public class MovePlayer : MonoBehaviour
                 }
             }
             render.sprite = normal;
+
+            saveGame.data.playerPos = (transf.position.x, transf.position.y, transf.position.z);
+            saveGame.Save();
         }
         else
         {
