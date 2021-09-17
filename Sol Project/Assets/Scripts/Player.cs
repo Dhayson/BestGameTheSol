@@ -284,6 +284,22 @@ public class @Player : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Save"",
+                    ""type"": ""Button"",
+                    ""id"": ""40b132c4-682c-41a0-8eee-1614b7eff99a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DeleteSave"",
+                    ""type"": ""Button"",
+                    ""id"": ""e9cc63df-8754-4e57-804d-1450425e09c1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -308,6 +324,28 @@ public class @Player : IInputActionCollection, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ac9a90ef-aa3d-4ffa-b65a-2eaf012382fe"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Save"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f195da8-7f0b-4e24-9095-6b95b11cd019"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DeleteSave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -328,6 +366,8 @@ public class @Player : IInputActionCollection, IDisposable
         // Meta
         m_Meta = asset.FindActionMap("Meta", throwIfNotFound: true);
         m_Meta_Pause = m_Meta.FindAction("Pause", throwIfNotFound: true);
+        m_Meta_Save = m_Meta.FindAction("Save", throwIfNotFound: true);
+        m_Meta_DeleteSave = m_Meta.FindAction("DeleteSave", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -484,11 +524,15 @@ public class @Player : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Meta;
     private IMetaActions m_MetaActionsCallbackInterface;
     private readonly InputAction m_Meta_Pause;
+    private readonly InputAction m_Meta_Save;
+    private readonly InputAction m_Meta_DeleteSave;
     public struct MetaActions
     {
         private @Player m_Wrapper;
         public MetaActions(@Player wrapper) { m_Wrapper = wrapper; }
         public InputAction @Pause => m_Wrapper.m_Meta_Pause;
+        public InputAction @Save => m_Wrapper.m_Meta_Save;
+        public InputAction @DeleteSave => m_Wrapper.m_Meta_DeleteSave;
         public InputActionMap Get() { return m_Wrapper.m_Meta; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -501,6 +545,12 @@ public class @Player : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_MetaActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_MetaActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_MetaActionsCallbackInterface.OnPause;
+                @Save.started -= m_Wrapper.m_MetaActionsCallbackInterface.OnSave;
+                @Save.performed -= m_Wrapper.m_MetaActionsCallbackInterface.OnSave;
+                @Save.canceled -= m_Wrapper.m_MetaActionsCallbackInterface.OnSave;
+                @DeleteSave.started -= m_Wrapper.m_MetaActionsCallbackInterface.OnDeleteSave;
+                @DeleteSave.performed -= m_Wrapper.m_MetaActionsCallbackInterface.OnDeleteSave;
+                @DeleteSave.canceled -= m_Wrapper.m_MetaActionsCallbackInterface.OnDeleteSave;
             }
             m_Wrapper.m_MetaActionsCallbackInterface = instance;
             if (instance != null)
@@ -508,6 +558,12 @@ public class @Player : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @Save.started += instance.OnSave;
+                @Save.performed += instance.OnSave;
+                @Save.canceled += instance.OnSave;
+                @DeleteSave.started += instance.OnDeleteSave;
+                @DeleteSave.performed += instance.OnDeleteSave;
+                @DeleteSave.canceled += instance.OnDeleteSave;
             }
         }
     }
@@ -528,5 +584,7 @@ public class @Player : IInputActionCollection, IDisposable
     public interface IMetaActions
     {
         void OnPause(InputAction.CallbackContext context);
+        void OnSave(InputAction.CallbackContext context);
+        void OnDeleteSave(InputAction.CallbackContext context);
     }
 }

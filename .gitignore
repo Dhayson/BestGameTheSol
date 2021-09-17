@@ -502,4 +502,4 @@ Sol Project/NuGet/Microsoft.Unity.Analyzers.dll
 Sol Project/omnisharp.json
 .editorconfig
 *.editorconfig
-Data.json
+*.Data.json

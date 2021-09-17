@@ -14,7 +14,7 @@ static public class NiceMethods
     static public unsafe Vector2 Rotation(Vector2 v, float angle)
     {
         float* values = DLL.Rotation(v.x, v.y, angle);
-        Vector2 toReturn =  new Vector2(*values, *(values + 1));
+        Vector2 toReturn = new Vector2(*values, *(values + 1));
         DLL.DeleteArrayF(ref values);
         return toReturn;
     }
@@ -42,12 +42,12 @@ static public class NiceMethods
     /// </summary>
     static public float VectorAngle(Vector2 v)
     {
-        return Atan2(v.y,v.x)*180/PI;
+        return Atan2(v.y, v.x) * 180 / PI;
     }
 
     static public float DistanceSquared(Vector2 p1, Vector2 p2)
     {
-        return  (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+        return (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
     }
 
     static public void InvertSpeed(ref Rigidbody2D r)

@@ -63,6 +63,9 @@ public class MovePlayer : MonoBehaviour
         };
 
         player.Meta.Pause.started += ctx => Pause();
+
+        player.Meta.Save.started += ctx => saveGame.Save();
+        player.Meta.DeleteSave.started += ctx => saveGame.DeleteSave();
     }
 
     void Run(Directions dir, bool set)
@@ -116,9 +119,10 @@ public class MovePlayer : MonoBehaviour
         player.ChangeController.Enable();
         player.Meta.Enable();
 
-        saveGame.data.playerPos = (transf.position.x, transf.position.y, transf.position.z);
-        saveGame.Load();
-        transf.position = new Vector3(saveGame.data.playerPos.x, saveGame.data.playerPos.y, saveGame.data.playerPos.z);
+        if (saveGame.data.exists)
+        {
+            transf.position = saveGame.data.PlayerPos;
+        }
     }
 
     // Update is called once per frame
@@ -199,8 +203,7 @@ public class MovePlayer : MonoBehaviour
             }
             render.sprite = normal;
 
-            saveGame.data.playerPos = (transf.position.x, transf.position.y, transf.position.z);
-            saveGame.Save();
+            saveGame.data.PlayerPos = transf.position;
         }
         else
         {
