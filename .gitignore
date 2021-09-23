@@ -503,3 +503,10 @@ Sol Project/omnisharp.json
 .editorconfig
 *.editorconfig
 *.Data.json
+.vscode
+Sol Project/Logs/shadercompiler-UnityShaderCompiler.exe0.log
+DLLTESTE/DLLTESTE.vcxproj.filters
+DLLTESTE/DLLTESTE.vcxproj
+DLLTeste/Functions.o
+DLLTeste/Functions.so
+Sol Project/Functions.so
