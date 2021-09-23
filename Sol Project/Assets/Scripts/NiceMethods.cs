@@ -13,18 +13,42 @@ static public class NiceMethods
 
     static public unsafe Vector2 Rotation(Vector2 v, float angle)
     {
-        float* values = DLL.Rotation(v.x, v.y, angle);
-        Vector2 toReturn = new Vector2(*values, *(values + 1));
-        DLL.DeleteArrayF(ref values);
-        return toReturn;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            float* values = DLL.Rotation(v.x, v.y, angle);
+            Vector2 toReturn = new Vector2(*values, *(values + 1));
+            DLL.DeleteArrayF(ref values);
+            return toReturn;
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            float* values = SO.Rotation(v.x, v.y, angle);
+            Vector2 toReturn = new Vector2(*values, *(values + 1));
+            SO.DeleteArrayF(ref values);
+            return toReturn;
+        }
+
+        throw new NotImplementedException();
     }
 
     static public unsafe Vector2 UnRotation(Vector2 v, float angle)
     {
-        float* values = DLL.UnRotation(v.x, v.y, angle);
-        Vector2 toReturn = new Vector2(*values, *(values + 1));
-        DLL.DeleteArrayF(ref values);
-        return toReturn;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            float* values = DLL.UnRotation(v.x, v.y, angle);
+            Vector2 toReturn = new Vector2(*values, *(values + 1));
+            DLL.DeleteArrayF(ref values);
+            return toReturn;
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            float* values = SO.UnRotation(v.x, v.y, angle);
+            Vector2 toReturn = new Vector2(*values, *(values + 1));
+            SO.DeleteArrayF(ref values);
+            return toReturn;
+        }
+
+        throw new NotImplementedException();
     }
 
     /// <summary>
