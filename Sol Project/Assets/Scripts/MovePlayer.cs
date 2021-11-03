@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Physics2D;
 using static NiceMethods;
+using Tasks = System.Threading.Tasks;
 
 public class MovePlayer : MonoBehaviour
 {
@@ -64,8 +65,8 @@ public class MovePlayer : MonoBehaviour
 
         player.Meta.Pause.started += ctx => Pause();
 
-        player.Meta.Save.started += ctx => saveGame.Save();
-        player.Meta.DeleteSave.started += ctx => saveGame.DeleteSave();
+        player.Meta.Save.started += ctx => Tasks.Task.Run(() => saveGame.Save());
+        player.Meta.DeleteSave.started += ctx => Tasks.Task.Run(() => saveGame.DeleteSave());
     }
 
     void Run(Directions dir, bool set)
