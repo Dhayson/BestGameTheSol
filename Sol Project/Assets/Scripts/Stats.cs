@@ -9,9 +9,8 @@ public class Stats : MonoBehaviour
     public float InvulnerableTime;
     [SerializeField] private float InvulnerableTimeCD;
     public float speedFactor = 1;
-    [SerializeField] private float jumpFactor = 1;
-    public float JumpFactor { get { return jumpFactor; } }
-    public float MultiplyJumpFactor { set { jumpFactor *= Mathf.Sqrt(value); } }
+    [SerializeField] public JumpFactor jumpFactor;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +20,7 @@ public class Stats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Health <= 0.0f)
+        if (Health <= 0.0f)
         {
             Debug.Log("kill");
             Health = float.NaN;
@@ -31,9 +30,9 @@ public class Stats : MonoBehaviour
         {
             speedFactor = 1f;
         }
-        if (float.IsNaN(jumpFactor))
+        if (float.IsNaN(jumpFactor.value))
         {
-            jumpFactor = 1f;
+            jumpFactor.value = 1f;
         }
     }
 

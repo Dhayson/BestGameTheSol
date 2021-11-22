@@ -510,3 +510,6 @@ DLLTESTE/DLLTESTE.vcxproj
 DLLTeste/Functions.o
 DLLTeste/Functions.so
 Sol Project/Functions.so
+
+.prettierrc
+package-lock.json

@@ -304,6 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ac0ea07a99151438fd3f5753c77ce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlType: 0
   flying: {fileID: 21300000, guid: 1d74bad7d5ec83540b68dee32f887f37, type: 3}
   normal: {fileID: 21300000, guid: 7c9a9fecea45c25418a00384353c2ff0, type: 3}
   speedx: 5
@@ -316,6 +317,7 @@ MonoBehaviour:
   level:
     serializedVersion: 2
     m_Bits: 8
+  saveGame: {fileID: 0}
 --- !u!114 &1139965258396255887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,3 +348,6 @@ MonoBehaviour:
   Health: 30
   InvulnerableTime: 1.2
   InvulnerableTimeCD: 0
+  speedFactor: 1
+  JumpFactor:
+    value: 1

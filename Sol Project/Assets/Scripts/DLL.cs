@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 public static class DLL
 {
 
-#if (UNITY_EDITOR_LINUX)||(UNITY_STANDALONE_LINUX)
+#if UNITY_EDITOR_LINUX||UNITY_STANDALONE_LINUX
     //COMPILE FROM Functions.cpp
     public const string DLLPath = "Functions.so";
 #elif UNITY_STANDALONE_WIN

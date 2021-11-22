@@ -2045,7 +2045,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &1728304836
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2117,7 +2117,8 @@ MonoBehaviour:
   InvulnerableTime: 0
   InvulnerableTimeCD: 0
   speedFactor: 1
-  jumpFactor: 1
+  JumpFactor:
+    value: 0
 --- !u!1 &1818489050 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3029052725483828255, guid: 1f4b0f7d8c765c24f8433080c4216b1c, type: 3}
@@ -2304,7 +2305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
       propertyPath: jumpRatio
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
       propertyPath: slowRatio
@@ -2312,11 +2313,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
       propertyPath: speedRatio
-      value: 1
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
+      propertyPath: allSlowRatio
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
       propertyPath: gravityRatio
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2535099199212228607, guid: e978062771847e94880fdc1a9b701ac0, type: 3}
       propertyPath: target.m_Bits
@@ -2591,6 +2596,10 @@ PrefabInstance:
     - target: {fileID: 1139965258396255876, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: m_Name
       value: MarioDab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1139965258396255884, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
+      propertyPath: JumpFactor
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: sticky

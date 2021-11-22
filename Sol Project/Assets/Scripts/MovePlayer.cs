@@ -80,7 +80,7 @@ public class MovePlayer : MonoBehaviour
     {
         if (OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD && isPlaying)
         {
-            float jumpForce = this.jumpForce * stats.JumpFactor;
+            float jumpForce = this.jumpForce * stats.jumpFactor.value;
             rig.AddRelativeForce(new Vector2(0, jumpForce));
             jumpCD = false; count = 0;
         }

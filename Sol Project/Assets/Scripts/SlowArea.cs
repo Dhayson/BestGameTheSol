@@ -12,7 +12,7 @@ public class SlowArea : MonoBehaviour
 
     public void Start()
     {
-        if(allSlowRatio != 0)
+        if (allSlowRatio != 0)
         {
             speedRatio = jumpRatio = gravityRatio = allSlowRatio;
         }
@@ -31,7 +31,7 @@ public class SlowArea : MonoBehaviour
             if (colGameObj.TryGetComponent(out Stats stats))
             {
                 stats.speedFactor *= speedRatio;
-                stats.MultiplyJumpFactor = jumpRatio;
+                stats.jumpFactor *= jumpRatio;
             }
         }
     }
@@ -49,7 +49,7 @@ public class SlowArea : MonoBehaviour
             if (colGameObj.TryGetComponent(out Stats stats))
             {
                 stats.speedFactor /= speedRatio;
-                stats.MultiplyJumpFactor = 1 / jumpRatio;
+                stats.jumpFactor /= jumpRatio;
             }
         }
     }
