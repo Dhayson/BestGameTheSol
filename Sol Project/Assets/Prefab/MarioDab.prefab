@@ -349,5 +349,5 @@ MonoBehaviour:
   InvulnerableTime: 1.2
   InvulnerableTimeCD: 0
   speedFactor: 1
-  JumpFactor:
+  jumpFactor:
     value: 1

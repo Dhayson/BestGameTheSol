@@ -2,22 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlowArea : MonoBehaviour
+[RequireComponent(typeof(Collider2D))]
+public class SpeedArea : SpeedEffect
 {
-    [SerializeField] private float allSlowRatio;
-    [SerializeField] private float speedRatio;
-    [SerializeField] private float jumpRatio;
-    [SerializeField] private float gravityRatio;
-    [SerializeField] private LayerMask target;
-
-    public void Start()
-    {
-        if (allSlowRatio != 0)
-        {
-            speedRatio = jumpRatio = gravityRatio = allSlowRatio;
-        }
-    }
-
     public void OnTriggerEnter2D(Collider2D collision)
     {
         var colGameObj = collision.gameObject;
