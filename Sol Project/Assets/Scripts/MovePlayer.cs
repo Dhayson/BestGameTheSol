@@ -71,9 +71,8 @@ public class MovePlayer : MonoBehaviour
 
     void Run(Directions dir, bool set)
     {
-        if (dir == Directions.right) buttons[(int)Directions.right] = set ? 1 : 0;
-        if (dir == Directions.left) buttons[(int)Directions.left] = set ? -1 : 0;
-        buttons[(int)Directions.stop] = buttons[(int)Directions.right] + buttons[(int)Directions.left];
+        buttons[(int)dir] = set ? 1 : 0;
+        buttons[(int)Directions.stop] = buttons[(int)Directions.right] - buttons[(int)Directions.left];
     }
 
     void Jump()
@@ -144,6 +143,7 @@ public class MovePlayer : MonoBehaviour
             {
                 Vector2 rotationVelocity = followRotation ?
                 rigTarget.angularVelocity.ToLinearVelocity(transf.position, rigTarget.position) : Vector2.zero;
+
                 relativeVelocity = rig.velocity - rigTarget.velocity - rotationVelocity;
             }
             else
@@ -173,7 +173,6 @@ public class MovePlayer : MonoBehaviour
                     }
                 }
             }
-
             else if (controlType == ControlType.Type1)
             {
                 float relativeVelRotX = UnRotation(relativeVelocity, rig.rotation).x;
@@ -194,7 +193,7 @@ public class MovePlayer : MonoBehaviour
 
                     if (relativeVelRotX >= -speedx)
                     {
-                        rig.AddForce(Rotation(new Vector2(buttons[(int)Directions.left], 0), rig.rotation) * accelerationx);
+                        rig.AddForce(Rotation(new Vector2(-buttons[(int)Directions.left], 0), rig.rotation) * accelerationx);
                     }
                     else
                     {
@@ -202,8 +201,8 @@ public class MovePlayer : MonoBehaviour
                     }
                 }
             }
-            render.sprite = normal;
 
+            render.sprite = normal;
             saveGame.data.PlayerPos = transf.position;
         }
         else

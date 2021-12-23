@@ -23,26 +23,28 @@ public class SpeedObject : SpeedEffect
         var colGameObj = collision.gameObject;
         if (NiceMethods.CompareLayer(colGameObj.layer, target))
         {
-            if (colGameObj.TryGetComponent(out Orbit orb))
-            {
-                orb.gravityFactor *= gravityRatio;
-            }
-
-            if (colGameObj.TryGetComponent(out Stats stats))
-            {
-                stats.speedFactor *= speedRatio;
-                stats.jumpFactor *= jumpRatio;
-            }
-
-            StartCoroutine(TimerEnd(orb, stats));
+            StartCoroutine(Effect(colGameObj));
             col.enabled = false;
             sprite.enabled = false;
         }
     }
 
-    public IEnumerator TimerEnd(Orbit orb, Stats stats)
+    protected IEnumerator Effect(GameObject colGameObj)
     {
+        //Part 1
+        if (colGameObj.TryGetComponent(out Orbit orb))
+        {
+            orb.gravityFactor *= gravityRatio;
+        }
+        if (colGameObj.TryGetComponent(out Stats stats))
+        {
+            stats.speedFactor *= speedRatio;
+            stats.jumpFactor *= jumpRatio;
+        }
+
         yield return new WaitForSeconds(timer);
+
+        //Part 2
         if (orb != null) orb.gravityFactor /= gravityRatio;
         if (stats != null)
         {

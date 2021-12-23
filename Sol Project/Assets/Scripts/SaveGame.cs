@@ -33,17 +33,17 @@ public class SaveGame : MonoBehaviour
 
     public void Save()
     {
-        data.exists = true;
         string path = Path.GetFullPath("Level0.Data.json");
         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
         File.WriteAllText(path, json);
+        data.exists = true;
     }
 
     public void DeleteSave()
     {
-        data.exists = false;
         string path = Path.GetFullPath("Level0.Data.json");
         File.Delete(path);
+        data.exists = false;
     }
 }
 
@@ -79,4 +79,7 @@ public class Data
     }
 }
 
-public class InexistentDataException : Exception { }
+[Serializable]
+public class InexistentDataException : Exception
+{
+}
