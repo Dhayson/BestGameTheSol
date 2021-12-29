@@ -10,21 +10,22 @@ public class GravityContext2 : GravityContext
     public Vector2 direction;
     public float StartRotation { get; private set; }
     public float rotation;
-    [SerializeField] Transform follow;
+    [SerializeField] private Transform follow;
     public bool DoesRotate = true;
 
     new public void Start()
     {
-        OnStart();
+        base.Start();
         try { var foo = follow.rotation; }
-        catch(UnassignedReferenceException) { follow = null; }
+        catch (UnassignedReferenceException) { follow = null; }
         StartDirection = direction;
         StartRotation = rotation;
     }
 
     public void FixedUpdate()
     {
-        if(!(follow is null))
+        //this only matters if the parent object moves or rotates.
+        if (!(follow is null))
         {
             direction = NiceMethods.Rotation(StartDirection, follow.rotation.eulerAngles.z);
             rotation = StartRotation + follow.rotation.eulerAngles.z;

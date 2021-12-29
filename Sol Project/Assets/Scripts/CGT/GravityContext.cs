@@ -9,7 +9,6 @@ using static NiceMethods;
 abstract public class GravityContext : MonoBehaviour
 {
     enum TargetOption { parent, self }
-
     public LayerMask player;
     [SerializeField] private Order order;
     [SerializeField] private TargetOption targetSelect;
@@ -17,15 +16,10 @@ abstract public class GravityContext : MonoBehaviour
     abstract public byte GravityType { get; }
     private GameObject target;
 
-    public void OnStart()
+    public virtual void Start()
     {
         if (targetSelect == TargetOption.parent) target = GetComponent<Transform>().parent.gameObject;
         else if (targetSelect == TargetOption.self) target = gameObject;
-    }
-
-    public void Start()
-    {
-        OnStart();
     }
 
     public void OnDisable()
@@ -38,7 +32,7 @@ abstract public class GravityContext : MonoBehaviour
         Collider2D thisCol = GetComponent<Collider2D>();
         List<Collider2D> Colliders = new List<Collider2D>();
         thisCol.OverlapCollider(new ContactFilter2D().NoFilter(), Colliders);
-        foreach (var Collider in Colliders)
+        foreach (Collider2D Collider in Colliders)
         {
             Trigger(Collider);
         }

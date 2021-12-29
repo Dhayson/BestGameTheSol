@@ -9,8 +9,8 @@ public class GravityContextDynamic : GravityContext
 
     new public void Start()
     {
-        OnStart();
-        if(gravityTypeSet == 2)
+        base.Start();
+        if (gravityTypeSet == 2)
         {
             enabled = false;
             Debug.LogWarning("invalid gravity type");
