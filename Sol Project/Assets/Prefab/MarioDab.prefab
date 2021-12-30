@@ -286,7 +286,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   gravityFactor: 25
-  gravityFactor0: 0
+  gravityFactor0: 1
   gravityTypeSet: 1
   seeGravityType: 0
   doesRotateSet: 1
