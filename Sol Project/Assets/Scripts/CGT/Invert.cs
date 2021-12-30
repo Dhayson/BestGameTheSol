@@ -21,13 +21,13 @@ public class Invert : MonoBehaviour
         {
             if (collision.IsTouching(colNormal))
             {
-                GC2.direction = GC2.StartDirection;
-                GC2.rotation = GC2.StartRotation;
+                GC2.BaseDirection = GC2.StartDirection;
+                GC2.BaseRotation = GC2.StartRotation;
             }
             else if (collision.IsTouching(colInverted))
             {
-                GC2.direction = -GC2.StartDirection;
-                GC2.rotation = -GC2.StartRotation;
+                GC2.BaseDirection = -GC2.StartDirection;
+                GC2.BaseRotation = -GC2.StartRotation;
             }
         }
     }

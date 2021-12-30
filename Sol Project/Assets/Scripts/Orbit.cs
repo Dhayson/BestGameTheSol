@@ -10,7 +10,7 @@ using static NiceMethods;
 public class Orbit : MonoBehaviour
 {
     [SerializeField] private float gravMassSet;
-    public float GravMass { get { return gravMassSet; } }
+    public float GravMass => gravMassSet;
 
     private Rigidbody2D rig;
     private Transform transf;
@@ -198,7 +198,7 @@ public class Orbit : MonoBehaviour
 
         if (!rig.isKinematic) rig.AddForce((Rule.isInverted ? -1 : 1) * rig.mass * gravFactor * Rule.direction);
         else Debug.Log("look here");
-        if (DoesRotate && Rule.DoesRotate) rig.rotation = Rule.rotation + (Rule.isInverted ? 180 : 0);
+        if (DoesRotate && Rule.DoesRotateTarget) rig.rotation = Rule.rotation + (Rule.isInverted ? 180 : 0);
 
     }
 

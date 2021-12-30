@@ -14,7 +14,7 @@ abstract public class GravityContext : MonoBehaviour
     [SerializeField] private TargetOption targetSelect;
     public bool isInverted;
     abstract public byte GravityType { get; }
-    private GameObject target;
+    protected GameObject target;
 
     public virtual void Start()
     {
