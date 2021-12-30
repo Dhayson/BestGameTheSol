@@ -70,6 +70,7 @@ public class Orbit : MonoBehaviour
     {
         GravitySwitch(PosThis, GravityType, gravityStack.LastOrDefault());
 
+        //Null target prevention
         if (gravityStack.Count != 0 && gravityStack.Last.Value.target == null)
         {
             gravityStack.Remove(gravityStack.Last);
@@ -182,13 +183,15 @@ public class Orbit : MonoBehaviour
         else Debug.Log("look here");
     }
     /// <summary>
-    /// Simplified gravity formula. Add a constant acceleration if this object is within others gravity field.
+    /// Simplified gravity formula. Constant acceleration if this object is within others gravity field.
     /// </summary>
     void GravityFormula1(ref Rigidbody2D rig, List<GameObject> targets, Vector2 selfPos)
     {
         GravityFormula1(ref rig, targets, selfPos, gravityFactor);
     }
-
+    /// <summary>
+    /// Constant acceleration in a straight direction.
+    /// </summary>
     void GravityFormula2(ref Rigidbody2D rig, GameObject target, GravityContext gravCTX, float gravFactor)
     {
         if (target == null || !target.activeSelf || !(gravCTX is GravityContext2 Rule)) { Debug.LogWarning("missing object/incorrect script", gameObject); return; }
@@ -212,17 +215,20 @@ public class Orbit : MonoBehaviour
         else Debug.Log("look here");
         selfRig.rotation = VectorAngle(Direction(selfPos, targetPos)) + (gravCTX.isInverted ? -90 : 90);
     }
-
-    //prototype version 7
-    public void IntoCollider(GravityContext gravCTX, GameObject intoSticky, Order order)
+    /// <summary>
+    /// Used to add gameObjects into the stack (with GravityContext).
+    /// </summary>
+    public void IntoCollider(GravityContext gravCTX, GameObject gameObject, Order order)
     {
-        if (order == Order.Last) gravityStack.AddLast((intoSticky, gravCTX));
-        else if (order == Order.First) gravityStack.AddFirst((intoSticky, gravCTX));
+        if (order == Order.Last) gravityStack.AddLast((gameObject, gravCTX));
+        else if (order == Order.First) gravityStack.AddFirst((gameObject, gravCTX));
 
         if (AllowGravityChange) GravityType = gravityStack.Last.Value.gravityCTX.GravityType;
     }
-
-    public void OutCollider(GameObject outSticky)
+    /// <summary>
+    /// Used to remove gameObjects from the stack (with GravityContext).
+    /// </summary>
+    public void OutCollider(GameObject gameObject)
     {
         LinkedListNode<(GameObject target, GravityContext gravityCTX)> Node = gravityStack.First;
         LinkedListNode<(GameObject target, GravityContext gravityCTX)> nextNode = null;
@@ -233,7 +239,10 @@ public class Orbit : MonoBehaviour
                 end = true;
             }
             else nextNode = Node.Next;
-            if (!Node.Value.target.activeSelf || Node.Value.target == null || Node.Value.target == outSticky) gravityStack.Remove(Node);
+            if (!Node.Value.target.activeSelf || Node.Value.target == null || Node.Value.target == gameObject)
+            {
+                gravityStack.Remove(Node);
+            }
         }
 
         if (AllowGravityChange)
