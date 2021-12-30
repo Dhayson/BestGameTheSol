@@ -1150,7 +1150,8 @@ MonoBehaviour:
   isInverted: 0
   direction: {x: 0, y: 1}
   rotation: 180
-  DoesRotate: 1
+  DoesRotateTarget: 1
+  DoesRotateSelf: 1
 --- !u!61 &810037387
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1298,7 +1299,8 @@ MonoBehaviour:
   isInverted: 0
   direction: {x: 0, y: -1}
   rotation: 0
-  DoesRotate: 1
+  DoesRotateTarget: 1
+  DoesRotateSelf: 1
 --- !u!61 &1021051734
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1631,7 +1633,8 @@ MonoBehaviour:
   isInverted: 0
   direction: {x: 1, y: 0}
   rotation: 90
-  DoesRotate: 0
+  DoesRotateTarget: 1
+  DoesRotateSelf: 1
 --- !u!61 &1584230134
 BoxCollider2D:
   m_ObjectHideFlags: 0
