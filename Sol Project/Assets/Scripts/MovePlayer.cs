@@ -37,6 +37,7 @@ public class MovePlayer : MonoBehaviour
     private Stats stats;
 
     [SerializeField] private SaveGame saveGame;
+    [SerializeField] private GameObject pauseText;
 
     public void Awake()
     {
@@ -92,11 +93,13 @@ public class MovePlayer : MonoBehaviour
         {
             Time.timeScale = 0;
             isPlaying = false;
+            pauseText.SetActive(true);
         }
         else
         {
             Time.timeScale = 1;
             isPlaying = true;
+            pauseText.SetActive(false);
         }
     }
 
