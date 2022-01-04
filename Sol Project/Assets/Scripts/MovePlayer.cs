@@ -37,7 +37,7 @@ public class MovePlayer : MonoBehaviour
     private Stats stats;
 
     [SerializeField] private SaveGame saveGame;
-    [SerializeField] private GameObject pauseText;
+    [SerializeField] private PauseController pause;
 
     public void Awake()
     {
@@ -64,7 +64,7 @@ public class MovePlayer : MonoBehaviour
             }
         };
 
-        player.Meta.Pause.started += ctx => Pause();
+        player.Meta.Pause.started += ctx => pause.Pause();
 
         player.Meta.Save.started += ctx => Tasks.Task.Run(() => saveGame.Save());
         player.Meta.DeleteSave.started += ctx => Tasks.Task.Run(() => saveGame.DeleteSave());
@@ -78,28 +78,11 @@ public class MovePlayer : MonoBehaviour
 
     void Jump()
     {
-        if (OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD && isPlaying)
+        if (OverlapCircle(jumpCheck.position, 0.1f, level) && jumpCD && pause.isPlaying)
         {
             float jumpForce = this.jumpForce * stats.jumpFactor.value;
             rig.AddRelativeForce(new Vector2(0, jumpForce));
             jumpCD = false; count = 0;
-        }
-    }
-
-    private bool isPlaying = true;
-    void Pause()
-    {
-        if (isPlaying)
-        {
-            Time.timeScale = 0;
-            isPlaying = false;
-            pauseText.SetActive(true);
-        }
-        else
-        {
-            Time.timeScale = 1;
-            isPlaying = true;
-            pauseText.SetActive(false);
         }
     }
 
