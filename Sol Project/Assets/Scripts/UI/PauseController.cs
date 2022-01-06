@@ -6,7 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Canvas))]
 public class PauseController : MonoBehaviour
 {
-    public bool isPlaying = true;
+    public bool IsPlaying { get; private set; } = true;
     private Text[] display;
     // Start is called before the first frame update
     void Start()
@@ -17,16 +17,16 @@ public class PauseController : MonoBehaviour
 
     public void Pause()
     {
-        if (isPlaying)
+        if (IsPlaying)
         {
             Time.timeScale = 0;
-            isPlaying = false;
+            IsPlaying = false;
             EnableText(true);
         }
         else
         {
             Time.timeScale = 1;
-            isPlaying = true;
+            IsPlaying = true;
             EnableText(false);
         }
     }
@@ -37,5 +37,6 @@ public class PauseController : MonoBehaviour
         {
             text.enabled = enable;
         }
+        Cursor.visible = enable;
     }
 }
