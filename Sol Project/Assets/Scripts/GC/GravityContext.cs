@@ -55,4 +55,6 @@ abstract public class GravityContext : MonoBehaviour
             playerOrb.OutCollider(target);
         }
     }
+
+    abstract public void GravityFormula(ref Rigidbody2D rig, Vector2 position, GameObject target, Orbit orbit);
 }

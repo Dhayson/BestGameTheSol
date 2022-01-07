@@ -34,4 +34,10 @@ public class GravityContext2 : GravityContext
             rotation = BaseRotation + target.transform.rotation.eulerAngles.z;
         }
     }
+
+    public override void GravityFormula(ref Rigidbody2D rig, Vector2 position, GameObject target, Orbit orbit)
+    {
+        //This should never be called
+        throw new NotImplementedException();
+    }
 }
