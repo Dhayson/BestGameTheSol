@@ -16,6 +16,6 @@ public class SideGravity : CustomGravity
             rig.AddForce((gravCTX.isInverted ? -1 : 1) * orbit.gravityFactor * rig.mass * direction);
         }
         else Debug.Log("look here");
-        rig.rotation = VectorAngle(Direction(position, targetPos)) + (gravCTX.isInverted ? 180 : 180);
+        rig.rotation = VectorAngle(Direction(position, targetPos)) + (gravCTX.isInverted ? 0 : 180);
     }
 }
