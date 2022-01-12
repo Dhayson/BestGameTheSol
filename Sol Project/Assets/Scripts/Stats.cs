@@ -22,7 +22,7 @@ public class Stats : MonoBehaviour
     {
         if (Health <= 0.0f)
         {
-            Debug.Log("kill");
+            Kill();
             Health = float.NaN;
         }
 
@@ -39,6 +39,7 @@ public class Stats : MonoBehaviour
     public void FixedUpdate()
     {
         if (InvulnerableTimeCD > 0) InvulnerableTimeCD -= Time.fixedDeltaTime;
+        SpaceDrift();
     }
 
     public void Damage(int damage)
@@ -48,5 +49,31 @@ public class Stats : MonoBehaviour
             Health -= damage;
             InvulnerableTimeCD = InvulnerableTime;
         }
+    }
+    public bool IsSpaceDrifting = false;
+    [SerializeField] private float spaceDriftMaxTime = 4;
+    private float spaceDriftTime;
+
+    public void SpaceDrift()
+    {
+        if (IsSpaceDrifting)
+        {
+            spaceDriftTime += Time.fixedDeltaTime;
+        }
+        else
+        {
+            spaceDriftTime = 0;
+        }
+
+        if (spaceDriftTime >= spaceDriftMaxTime)
+        {
+            Kill();
+            spaceDriftTime = float.NaN;
+        }
+    }
+
+    void Kill()
+    {
+        Debug.Log($"kill {gameObject}");
     }
 }

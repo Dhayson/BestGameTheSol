@@ -122,7 +122,7 @@ public class MovePlayer : MonoBehaviour
         float accelerationx = this.accelerationx * stats.speedFactor;
 
         Collider2D[] orbitings = orbit.InGravityField;
-        if ((orbitings.Length == 1 || (orbit.GravityType == 2 || orbit.GravityType == 3) && orbitings.Length > 0) && orbit.GravityType != 4)
+        if ((orbitings.Length == 1 || ((orbit.GravityType == 2 || orbit.GravityType == 3 || orbit.GravityType == 5) && orbitings.Length > 0)) && orbit.GravityType != 4)
         {
             Vector2 relativeVelocity;
             if (orbitings[0].TryGetComponentInParent(out Rigidbody2D rigTarget))
@@ -200,7 +200,17 @@ public class MovePlayer : MonoBehaviour
 
         if (jumpCD == false) count++;
         if (count % 5 == 0) jumpCD = true;
+
+        if (orbit.GravityType == 4)
+        {
+            stats.IsSpaceDrifting = true;
+        }
+        else
+        {
+            stats.IsSpaceDrifting = false;
+        }
     }
+
 
     void LogGravity()
     {

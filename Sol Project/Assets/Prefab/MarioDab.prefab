@@ -287,7 +287,7 @@ MonoBehaviour:
     m_Bits: 64
   gravityFactor: 25
   gravityFactor0: 1
-  gravityTypeSet: 1
+  gravityTypeSet: 4
   seeGravityType: 0
   doesRotateSet: 1
   allowGravityChangeSet: 1
@@ -318,7 +318,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   saveGame: {fileID: 0}
-  pauseText: {fileID: 0}
+  pause: {fileID: 0}
 --- !u!114 &1139965258396255887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,3 +352,4 @@ MonoBehaviour:
   speedFactor: 1
   jumpFactor:
     value: 1
+  spaceDriftMaxTime: 4

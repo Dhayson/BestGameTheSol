@@ -2372,6 +2372,8 @@ MonoBehaviour:
   speedFactor: 1
   jumpFactor:
     value: 0
+  IsSpaceDrifting: 0
+  spaceDriftMaxTime: 4
 --- !u!1 &1818489050 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3029052725483828255, guid: 1f4b0f7d8c765c24f8433080c4216b1c, type: 3}
@@ -2869,10 +2871,6 @@ PrefabInstance:
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: rotationSet
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
-      propertyPath: gravityTypeSet
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1139965258396255886, guid: 95b050aee56b1df47b403c93852ab7a1, type: 3}
       propertyPath: gravityTypeStart
