@@ -1,12 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static NiceMethods;
 
 public class CameraScript : MonoBehaviour
 {
-    private DebugKeys debugKeys;
-
     private Rigidbody2D rig;
     private bool hasRig = false;
     private Transform pos;
@@ -14,34 +11,18 @@ public class CameraScript : MonoBehaviour
     public float AngularSpeed;
     private int[] buttons;
 
-    enum Directions {horizontal, vertical, clock};
+    enum Directions { horizontal, vertical, clock };
 
-    public void Awake()
-    {
-        debugKeys = new DebugKeys();
-        debugKeys.debug.Quit.started += ctx => Quit();
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        if(TryGetComponent(out rig))
+        if (TryGetComponent(out rig))
         {
             hasRig = true;
         }
         pos = GetComponent<Transform>();
         buttons = new int[Enum.GetValues(typeof(Directions)).Length];
-
-        if(debug)
-        {
-            debugKeys.Enable();
-        }
     }
 
     // Update is called once per frame
