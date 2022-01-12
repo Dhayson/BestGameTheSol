@@ -2,10 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class CameraScript : MonoBehaviour
 {
     private Rigidbody2D rig;
-    private bool hasRig = false;
     private Transform pos;
     public float Speed;
     public float AngularSpeed;
@@ -17,10 +17,7 @@ public class CameraScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (TryGetComponent(out rig))
-        {
-            hasRig = true;
-        }
+        rig = GetComponent<Rigidbody2D>();
         pos = GetComponent<Transform>();
         buttons = new int[Enum.GetValues(typeof(Directions)).Length];
     }
@@ -33,10 +30,7 @@ public class CameraScript : MonoBehaviour
             (Input.GetKey(KeyCode.LeftArrow) ? -1 : 0) +
             (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
         */
-        if (hasRig)
-        {
-            rig.angularVelocity = AngularSpeed * buttons[(int)Directions.clock];
-            pos.localPosition = new Vector3(0, 0, pos.localPosition.z);
-        }
+        rig.angularVelocity = AngularSpeed * buttons[(int)Directions.clock];
+        pos.localPosition = new Vector3(0, 0, pos.localPosition.z);
     }
 }
