@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 1139965258396255873}
   - component: {fileID: 1139965258396255887}
   - component: {fileID: 1139965258396255884}
+  - component: {fileID: 7806338999290182248}
   m_Layer: 7
   m_Name: MarioDab
   m_TagString: Untagged
@@ -352,4 +353,17 @@ MonoBehaviour:
   speedFactor: 1
   jumpFactor:
     value: 1
+  IsSpaceDrifting: 0
   spaceDriftMaxTime: 4
+--- !u!114 &7806338999290182248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139965258396255876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99da86e9536e8b9a09dcd82af81772f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
