@@ -183,7 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   order: 1
   targetSelect: 0
   isInverted: 0

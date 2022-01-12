@@ -123,6 +123,117 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &29777713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 29777714}
+  - component: {fileID: 29777716}
+  - component: {fileID: 29777717}
+  - component: {fileID: 29777715}
+  m_Layer: 0
+  m_Name: Monitor Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &29777714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29777713}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.290001, y: -1.5800004, z: -50}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1728304833}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &29777715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29777713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde9a5930f005b24e95408e9829e867c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 3
+  AngularSpeed: 40
+--- !u!20 &29777716
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29777713}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 10
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 7
+  m_TargetEye: 0
+  m_HDR: 1
+  m_AllowMSAA: 0
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 0
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!50 &29777717
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29777713}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &36723565 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3832035937032951252, guid: ad0007d05d892024fa8d7272c9675138, type: 3}
@@ -147,7 +258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   order: 1
   targetSelect: 0
   isInverted: 0
@@ -473,7 +584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   order: 0
   targetSelect: 1
   isInverted: 0
@@ -1215,7 +1326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   order: 1
   targetSelect: 0
   isInverted: 0
@@ -1364,7 +1475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   order: 1
   targetSelect: 0
   isInverted: 0
@@ -1431,7 +1542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   order: 0
   targetSelect: 1
   isInverted: 1
@@ -1880,7 +1991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   order: 1
   targetSelect: 0
   isInverted: 0
@@ -2032,7 +2143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   order: 0
   targetSelect: 1
   isInverted: 0
@@ -2179,7 +2290,7 @@ GameObject:
   - component: {fileID: 1728304837}
   - component: {fileID: 1728304838}
   - component: {fileID: 1728304839}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: mal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2245,10 +2356,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728304831}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.023596, y: 7.918231, z: 0}
+  m_LocalPosition: {x: -30.023596, y: 6.168232, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1298900423}
+  - {fileID: 29777714}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2273,10 +2385,10 @@ MonoBehaviour:
     m_Bits: 64
   gravityFactor: 20
   gravityFactor0: 0
-  gravityTypeSet: 1
+  gravityTypeSet: 4
   seeGravityType: 0
   doesRotateSet: 1
-  allowGravityChangeSet: 0
+  allowGravityChangeSet: 1
   seeGravityStack: []
 --- !u!50 &1728304835
 Rigidbody2D:
