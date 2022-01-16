@@ -42,3 +42,7 @@ extern "C"
 		delete[] k;
 	}
 }
+
+// Compile Settings
+// g++ -c -o Functions.o Functions.cpp
+// g++ -shared -o Functions.so Functions.o
