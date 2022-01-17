@@ -2,13 +2,12 @@ using System.Runtime.InteropServices;
 
 public static class DLL
 {
-
-#if UNITY_EDITOR_LINUX||UNITY_STANDALONE_LINUX
+#if UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
     //COMPILE FROM Functions.cpp
     public const string DLLPath = "Functions.so";
 #elif UNITY_STANDALONE_WIN
-    //WARNING: CHANGE DLL PLACE IN THE FUTURE. TEMPORARY SOLUTION TO EASY WORK WITH UNITY EDITOR.
-    public const string DLLPath = "../DLLTeste/x64/Release/DLLTeste.dll";
+    //COMPILE WITH VISUAL STUDIO
+    public const string DLLPath = "Functions.dll";
 #endif
 
     [DllImport(DLLPath, CallingConvention = CallingConvention.Cdecl)]
