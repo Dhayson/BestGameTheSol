@@ -37,6 +37,7 @@ public class SaveGame : MonoBehaviour
         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
         File.WriteAllText(path, json);
         data.exists = true;
+        Debug.Log("saved");
     }
 
     public void DeleteSave()
