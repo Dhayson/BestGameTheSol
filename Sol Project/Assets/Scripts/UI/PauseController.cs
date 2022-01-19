@@ -35,7 +35,7 @@ public class PauseController : MonoBehaviour
     {
         foreach (Text text in display)
         {
-            text.enabled = enable;
+            text.gameObject.SetActive(enable);
         }
         Cursor.visible = enable;
     }

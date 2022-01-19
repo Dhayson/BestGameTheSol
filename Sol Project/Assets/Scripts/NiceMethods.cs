@@ -117,4 +117,13 @@ static public class NiceMethods
     }
 
     public enum Order { First, Last }
+
+    /// <summary>
+    /// Return the Raycast of the current mouse position
+    /// </summary>
+    static public RaycastHit2D MouseClick(Camera camera)
+    {
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        return Physics2D.Raycast(ray.origin, ray.direction);
+    }
 }

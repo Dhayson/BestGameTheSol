@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Text))]
-public class ClickText : Click, IPointerEnterHandler, IPointerExitHandler
+public class ClickText : Click
 {
     private Color @default;
     private Text text;
@@ -15,13 +15,17 @@ public class ClickText : Click, IPointerEnterHandler, IPointerExitHandler
         @default = text.color;
         base.Start();
     }
-    public void OnPointerEnter(PointerEventData eventData)
+    new void Update()
     {
-        text.color = Color.white;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        text.color = @default;
+        base.Update();
+        RaycastHit2D hit = NiceMethods.MouseClick(Camera.main);
+        if (hit && hit.collider.gameObject == gameObject && gameObject.activeInHierarchy)
+        {
+            text.color = Color.white;
+        }
+        else
+        {
+            text.color = @default;
+        }
     }
 }
