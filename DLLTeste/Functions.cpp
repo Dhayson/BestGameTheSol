@@ -2,7 +2,7 @@
 #include <math.h>
 #include <iostream>
 
-#ifdef __WIN32__
+#ifdef _WIN32
 #define Functions _declspec(dllexport) // Windows
 #else
 #define Functions // Linux
