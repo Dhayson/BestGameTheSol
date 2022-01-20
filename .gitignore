@@ -514,3 +514,6 @@ Sol Project/Functions.so
 
 .prettierrc
 package-lock.json
+.prettierignore
+
+Sol Project backup.7z

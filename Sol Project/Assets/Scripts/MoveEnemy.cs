@@ -47,7 +47,7 @@ public class MoveEnemy : MonoBehaviour
     void FixedUpdate()
     {
         Collider2D[] orbitings = orbit.InGravityField;
-        if(orbitings.Length == 1)
+        if (orbitings.Length == 1)
         {
             float speedx = this.speedx * stats.speedFactor;
             Rigidbody2D target = orbitings[0].GetComponentInParent<Rigidbody2D>();
@@ -63,7 +63,7 @@ public class MoveEnemy : MonoBehaviour
                 rig.AddForce(Rotation(new Vector2(-1, 0), rig.rotation) * accelerationx);
             }
 
-            if(Mathf.Abs(relativeVelRotX) > Mathf.Abs(speedx))
+            if (Mathf.Abs(relativeVelRotX) > Mathf.Abs(speedx))
             {
                 rig.AddForce(Rotation(new Vector2(UnRotation(relativeVelocity, rig.rotation).x, 0), rig.rotation) * passiveDecelerationx);
             }

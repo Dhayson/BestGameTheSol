@@ -22,7 +22,7 @@ public class SaveGame : MonoBehaviour
 
         if (File.Exists(path))
         {
-            StreamReader sr = new StreamReader(path);
+            StreamReader sr = new(path);
             string json = sr.ReadToEnd();
             data = JsonConvert.DeserializeObject<Data>(json);
             sr.Close();

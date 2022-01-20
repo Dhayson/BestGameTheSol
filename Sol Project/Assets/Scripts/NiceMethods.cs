@@ -14,7 +14,7 @@ static public class NiceMethods
     static public unsafe Vector2 Rotation(Vector2 v, float angle)
     {
         float* values = DLL.Rotation(v.x, v.y, angle);
-        Vector2 toReturn = new Vector2(*values, *(values + 1));
+        Vector2 toReturn = new(*values, *(values + 1));
         DLL.DeleteArrayF(ref values);
         return toReturn;
     }
@@ -22,7 +22,7 @@ static public class NiceMethods
     static public unsafe Vector2 UnRotation(Vector2 v, float angle)
     {
         float* values = DLL.UnRotation(v.x, v.y, angle);
-        Vector2 toReturn = new Vector2(*values, *(values + 1));
+        Vector2 toReturn = new(*values, *(values + 1));
         DLL.DeleteArrayF(ref values);
         return toReturn;
     }
@@ -71,7 +71,7 @@ static public class NiceMethods
 
     static public void DamageOnContact(Collider2D col, LayerMask layer, int damage)
     {
-        List<Collider2D> allContacts = new List<Collider2D>();
+        List<Collider2D> allContacts = new();
         Physics2D.OverlapCollider(col, new ContactFilter2D().NoFilter(), allContacts);
         foreach (Collider2D c in allContacts)
         {
@@ -86,19 +86,19 @@ static public class NiceMethods
     static public bool TryGetComponentInChildren<t>(this GameObject g, out t c, bool includeInactive = false) where t : Component
     {
         c = g.GetComponentInChildren<t>(includeInactive);
-        return !(c is null);
+        return c is not null;
     }
 
     static public bool TryGetComponentInParent<t>(this GameObject g, out t c, bool includeInactive = false) where t : Component
     {
         c = g.GetComponentInParent<t>(includeInactive);
-        return !(c is null);
+        return c is not null;
     }
 
     static public bool TryGetComponentInParent<t>(this Component g, out t c) where t : Component
     {
         c = g.GetComponentInParent<t>();
-        return !(c is null);
+        return c is not null;
     }
 
     /// <summary>

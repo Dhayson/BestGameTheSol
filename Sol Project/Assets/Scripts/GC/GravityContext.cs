@@ -30,7 +30,7 @@ abstract public class GravityContext : MonoBehaviour
     private void TriggerAll(Action<Collider2D> Trigger)
     {
         Collider2D thisCol = GetComponent<Collider2D>();
-        List<Collider2D> Colliders = new List<Collider2D>();
+        List<Collider2D> Colliders = new();
         thisCol.OverlapCollider(new ContactFilter2D().NoFilter(), Colliders);
         foreach (Collider2D Collider in Colliders)
         {

@@ -101,7 +101,7 @@ public class Orbit : MonoBehaviour
                 }
                 catch (NullReferenceException) { seeGravityStack[i] = null; }
             }
-            while (!(Node is null))
+            while (Node is not null)
             {
                 seeGravityStack.Add(Node.Value.target);
                 Node = Node.Previous;
@@ -152,7 +152,7 @@ public class Orbit : MonoBehaviour
     /// </summary>
     void GravityFormula0(ref Rigidbody2D selfRig, List<GameObject> targets, Vector2 selfPos, float gravFactor)
     {
-        Vector2 addedForces = new Vector2(0, 0);
+        Vector2 addedForces = new(0, 0);
         for (int i = 0; i < targets.Count; i++)
         {
             if (targets[i] == null || !targets[i].activeSelf) { Debug.LogWarning("missing object", gameObject); continue; }
@@ -173,7 +173,7 @@ public class Orbit : MonoBehaviour
     /// </summary>
     void GravityFormula1(ref Rigidbody2D selfRig, List<GameObject> targets, Vector2 selfPos, float gravFactor)
     {
-        Vector2 addedForces = new Vector2(0, 0);
+        Vector2 addedForces = new(0, 0);
         for (int i = 0; i < targets.Count; i++)
         {
             if (targets[i] == null || !targets[i].activeSelf) { Debug.LogWarning("missing object", gameObject); continue; }
@@ -199,7 +199,7 @@ public class Orbit : MonoBehaviour
     /// </summary>
     void GravityFormula2(ref Rigidbody2D rig, GameObject target, GravityContext gravCTX, float gravFactor)
     {
-        if (target == null || !target.activeSelf || !(gravCTX is GravityContext2 Rule)) { Debug.LogWarning("missing object/incorrect script", gameObject); return; }
+        if (target == null || !target.activeSelf || gravCTX is not GravityContext2 Rule) { Debug.LogWarning("missing object/incorrect script", gameObject); return; }
 
         if (!rig.isKinematic) rig.AddForce((Rule.isInverted ? -1 : 1) * rig.mass * gravFactor * Rule.direction);
         else Debug.Log("look here");
