@@ -72,8 +72,10 @@ public class Stats : MonoBehaviour
         }
     }
 
-    void Kill()
+    public void Kill()
     {
         Debug.Log($"kill {gameObject}");
+        //uncomment to inactivate objects when they die.
+        //gameObject.SetActive(false);
     }
 }
