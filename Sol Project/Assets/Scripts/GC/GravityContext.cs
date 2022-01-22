@@ -8,18 +8,20 @@ using static NiceMethods;
 [RequireComponent(typeof(Collider2D))]
 abstract public class GravityContext : MonoBehaviour
 {
-    enum TargetOption { parent, self }
+    enum TargetOption { parent, self, manual }
     public LayerMask player;
     [SerializeField] private Order order;
     [SerializeField] private TargetOption targetSelect;
     public bool isInverted;
     abstract public byte GravityType { get; }
     protected GameObject target;
+    [SerializeField] private GameObject manualTargetSet;
 
     public virtual void Start()
     {
         if (targetSelect == TargetOption.parent) target = GetComponent<Transform>().parent.gameObject;
         else if (targetSelect == TargetOption.self) target = gameObject;
+        else if (targetSelect == TargetOption.manual) target = manualTargetSet;
     }
 
     public void OnDisable()
