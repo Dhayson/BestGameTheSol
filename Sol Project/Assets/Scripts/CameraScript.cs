@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class CameraScript : MonoBehaviour
 {
+    [SerializeField] private Transform follow;
     private Rigidbody2D rig;
     private Transform pos;
     public float Speed;
@@ -31,6 +32,6 @@ public class CameraScript : MonoBehaviour
             (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
         */
         rig.angularVelocity = AngularSpeed * buttons[(int)Directions.clock];
-        pos.localPosition = new Vector3(0, 0, pos.localPosition.z);
+        pos.position = new Vector3(follow.position.x, follow.position.y, pos.position.z);
     }
 }
