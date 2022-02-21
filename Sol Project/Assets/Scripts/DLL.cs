@@ -9,12 +9,13 @@ public static class DLL
     //COMPILE WITH VISUAL STUDIO
     public const string DLLPath = "Functions.dll";
 #endif
-
-    [DllImport(DLLPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern float Distance(float x1, float y1, float x2, float y2);
-
-    [DllImport(DLLPath, CallingConvention = CallingConvention.Cdecl)]
-    public static unsafe extern float* Rotation(float vx, float vy, float angle);
+    public struct Vec2
+    {
+        public float x;
+        public float y;
+    }
+    [DllImport("librusttest.so", CallingConvention = CallingConvention.Cdecl)]
+    public static extern Vec2 Rotation(float vx, float vy, float angle);
 
     [DllImport(DLLPath, CallingConvention = CallingConvention.Cdecl)]
     public static unsafe extern float* UnRotation(float vx, float vy, float angle);

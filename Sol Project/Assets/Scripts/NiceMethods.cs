@@ -13,9 +13,9 @@ static public class NiceMethods
 
     static public unsafe Vector2 Rotation(Vector2 v, float angle)
     {
-        float* values = DLL.Rotation(v.x, v.y, angle);
-        Vector2 toReturn = new(*values, *(values + 1));
-        DLL.DeleteArrayF(ref values);
+        var values = DLL.Rotation(v.x, v.y, angle);
+        Vector2 toReturn = new(values.x, values.y);
+        //DLL.DeleteArrayF(ref values);
         return toReturn;
     }
 

@@ -1,0 +1,17 @@
+[package]
+name = "rustteste"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "rusttest" 
+path = "src/lib.rs"
+crate-type = ["cdylib"] 
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[build-dependencies]
+cbindgen = "0.20.0"
+rust2 = {path = "../../rust2"}
